@@ -79,7 +79,7 @@ def get_python_launch_file_paths(*, path):
     python_launch_file_paths = []
     for root, dirs, files in os.walk(path):
         for file_name in files:
-            if file_name.endswith('.launch.py'):
+            if file_name.endswith('launch.py'):
                 python_launch_file_paths.append(os.path.join(root, file_name))
     return python_launch_file_paths
 
@@ -119,7 +119,7 @@ def print_arguments_of_launch_description(*, launch_description):
 def print_arguments_of_python_launch_file(*, python_launch_file_path):
     """Print the arguments of a Python launch file to the console."""
     launch_description = get_launch_description_from_python_launch_file(python_launch_file_path)
-    print_arguments_of_launch_description(launch_description)
+    print_arguments_of_launch_description(launch_description=launch_description)
 
 
 def parse_launch_arguments(launch_arguments: List[Text]) -> List[Tuple[Text, Text]]:
