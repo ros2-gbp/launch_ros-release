@@ -2,6 +2,9 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.8.3 (2019-05-29)
+------------------
+
 0.8.2 (2019-05-20)
 ------------------
 * fix calling of print_arguments_of_launch_description() (`#27 <https://github.com/ros2/launch_ros/issues/27>`_)
