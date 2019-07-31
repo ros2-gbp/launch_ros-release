@@ -1,0 +1,12 @@
+Source: ros-dashing-launch-ros
+Section: misc
+Priority: extra
+Maintainer: William Woodall <william@osrfoundation.org>
+Build-Depends: debhelper (>= 9.0.0), python3-pytest, python3-yaml, ros-dashing-ament-copyright, ros-dashing-ament-flake8, ros-dashing-ament-index-python, ros-dashing-ament-pep257, ros-dashing-composition-interfaces, ros-dashing-launch, ros-dashing-lifecycle-msgs, ros-dashing-osrf-pycommon, ros-dashing-rclpy, ros-dashing-ros-workspace, python3-all, python3-setuptools
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-dashing-launch-ros
+Architecture: any
+Depends: ${python3:Depends}, ${misc:Depends}, python3-yaml, ros-dashing-ament-index-python, ros-dashing-composition-interfaces, ros-dashing-launch, ros-dashing-lifecycle-msgs, ros-dashing-osrf-pycommon, ros-dashing-rclpy, ros-dashing-ros-workspace
+Description: ROS specific extensions to the launch tool.
