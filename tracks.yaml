@@ -1,4 +1,4 @@
-release_repo_url: git@github.com:ros2-gbp/launch_ros-release.git
+release_repo_url: git@github.com:ros2-gbp/launch_ros-release
 tracks:
   dashing:
     actions:
