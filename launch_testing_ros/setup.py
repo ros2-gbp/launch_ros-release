@@ -5,13 +5,20 @@ from setuptools import setup
 
 setup(
     name='launch_testing_ros',
-    version='0.8.6',
+    version='0.9.1',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/ament_index/resource_index/packages', ['resource/launch_testing_ros']),
-        ('lib/launch_testing_ros', glob.glob('example_nodes/**')),
-        ('share/launch_testing_ros/examples', glob.glob('examples/[!_]**')),
+        ('share/launch_testing_ros', ['package.xml']),
+        ('share/launch_testing_ros/examples', glob.glob('test/examples/[!_]*.*')),
     ],
+    entry_points={
+        'console_scripts': [
+            'example_talker = launch_testing_ros.examples.talker:main',
+            'example_listener = launch_testing_ros.examples.listener:main'
+        ],
+        'pytest11': ['launch_ros = launch_testing_ros.pytest.hooks'],
+    },
     install_requires=['setuptools'],
     zip_safe=True,
     author='Pete Baughman',

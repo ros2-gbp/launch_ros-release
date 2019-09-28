@@ -2,11 +2,18 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.8.6 (2019-09-06)
+0.9.1 (2019-09-28)
 ------------------
+* Make launch_testing_ros examples standalone. (`#80 <https://github.com/ros2/launch_ros/issues/80>`_)
+* Contributors: Michel Hidalgo
 
-0.8.5 (2019-07-31)
+0.9.0 (2019-09-25)
 ------------------
+* install package manifest (`#71 <https://github.com/ros2/launch_ros/issues/71>`_)
+* Do not import rclpy nor launch_ros at module level. (`#69 <https://github.com/ros2/launch_ros/issues/69>`_)
+* Unindent setup.cfg options. (`#66 <https://github.com/ros2/launch_ros/issues/66>`_)
+* Support launch_ros test runner in pytest (`#54 <https://github.com/ros2/launch_ros/issues/54>`_)
+* Contributors: Dirk Thomas, Michel Hidalgo
 
 0.8.4 (2019-05-30)
 ------------------
