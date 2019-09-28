@@ -1,0 +1,53 @@
+ros-eloquent-launch-testing-ros (0.9.1-1bionic) bionic; urgency=high
+
+  * Make launch_testing_ros examples standalone. (#80 <https://github.com/ros2/launch_ros/issues/80>)
+  * Contributors: Michel Hidalgo
+
+ -- Pete Baughman <pete.baughman@apex.ai>  Sat, 28 Sep 2019 00:00:00 -0000
+
+ros-eloquent-launch-testing-ros (0.9.0-1bionic) bionic; urgency=high
+
+  * install package manifest (#71 <https://github.com/ros2/launch_ros/issues/71>)
+  * Do not import rclpy nor launch_ros at module level. (#69 <https://github.com/ros2/launch_ros/issues/69>)
+  * Unindent setup.cfg options. (#66 <https://github.com/ros2/launch_ros/issues/66>)
+  * Support launch_ros test runner in pytest (#54 <https://github.com/ros2/launch_ros/issues/54>)
+  * Contributors: Dirk Thomas, Michel Hidalgo
+
+ -- Pete Baughman <pete.baughman@apex.ai>  Wed, 25 Sep 2019 00:00:00 -0000
+
+ros-eloquent-launch-testing-ros (0.8.4-1bionic) bionic; urgency=high
+
+
+
+ -- Pete Baughman <pete.baughman@apex.ai>  Thu, 30 May 2019 00:00:00 -0000
+
+ros-eloquent-launch-testing-ros (0.8.3-1bionic) bionic; urgency=high
+
+
+
+ -- Pete Baughman <pete.baughman@apex.ai>  Wed, 29 May 2019 00:00:00 -0000
+
+ros-eloquent-launch-testing-ros (0.8.2-1bionic) bionic; urgency=high
+
+  * fix example test logic (#28 <https://github.com/ros2/launch_ros/issues/28>)
+  * Add custom LaunchTestRunner with ROS specific preamble (#26 <https://github.com/ros2/launch_ros/issues/26>)
+  * Fix deprecation warnings (#25 <https://github.com/ros2/launch_ros/issues/25>)
+  * Contributors: Dirk Thomas, Jacob Perron, Michel Hidalgo
+
+ -- Pete Baughman <pete.baughman@apex.ai>  Mon, 20 May 2019 00:00:00 -0000
+
+ros-eloquent-launch-testing-ros (0.8.1-1bionic) bionic; urgency=high
+
+  * try local import (#20 <https://github.com/ros2/launch_ros/issues/20>)
+  * Merge apex_launchtest_ros functionality into launch_testing_ros (#8 <https://github.com/ros2/launch_ros/issues/8>)
+  * Contributors: Dirk Thomas, Michel Hidalgo
+
+ -- Pete Baughman <pete.baughman@apex.ai>  Wed, 08 May 2019 00:00:00 -0000
+
+ros-eloquent-launch-testing-ros (0.8.0-1bionic) bionic; urgency=high
+
+
+
+ -- Pete Baughman <pete.baughman@apex.ai>  Sun, 14 Apr 2019 00:00:00 -0000
+
+
