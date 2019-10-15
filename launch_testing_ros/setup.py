@@ -5,11 +5,12 @@ from setuptools import setup
 
 setup(
     name='launch_testing_ros',
-    version='0.8.6',
+    version='0.8.7',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/ament_index/resource_index/packages', ['resource/launch_testing_ros']),
         ('lib/launch_testing_ros', glob.glob('example_nodes/**')),
+        ('share/launch_testing_ros', ['package.xml']),
         ('share/launch_testing_ros/examples', glob.glob('examples/[!_]**')),
     ],
     install_requires=['setuptools'],
