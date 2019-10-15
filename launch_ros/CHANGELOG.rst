@@ -2,27 +2,20 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.9.1 (2019-09-28)
+0.8.7 (2019-10-14)
 ------------------
 
-0.9.0 (2019-09-25)
+0.8.6 (2019-09-06)
 ------------------
-* Refactor Node parse() function. (`#73 <https://github.com/ros2/launch_ros/issues/73>`_)
-* Handle zero-width string parameters. (`#72 <https://github.com/ros2/launch_ros/issues/72>`_)
-* Promote special CLI rules to flags (`#68 <https://github.com/ros2/launch_ros/issues/68>`_)
-* Add substitution for finding package share directory (`#57 <https://github.com/ros2/launch_ros/issues/57>`_)
-* Use of -r/--remap flags where appropriate. (`#59 <https://github.com/ros2/launch_ros/issues/59>`_)
-* install package marker and manifest (`#62 <https://github.com/ros2/launch_ros/issues/62>`_)
-* Adapt to '--ros-args ... [--]'-based ROS args extraction (`#52 <https://github.com/ros2/launch_ros/issues/52>`_)
-* Use node namespace if no other was specified (`#51 <https://github.com/ros2/launch_ros/issues/51>`_)
-* [launch frontend] Rename some tag attributes (`#47 <https://github.com/ros2/launch_ros/issues/47>`_)
-* Fix PushRosNamespace action (`#44 <https://github.com/ros2/launch_ros/issues/44>`_)
-* Add PushRosNamespace action (`#42 <https://github.com/ros2/launch_ros/issues/42>`_)
-* Add frontend parsing methods for Node, ExecutableInPackage and FindPackage substitution (`#23 <https://github.com/ros2/launch_ros/issues/23>`_)
-* Restrict yaml loading in evaluate_parameters (`#33 <https://github.com/ros2/launch_ros/issues/33>`_)
-* Fix typo
-* Use wildcard syntax in generated parameter YAML files (`#35 <https://github.com/ros2/launch_ros/issues/35>`_)
-* Contributors: Dan Rose, Dirk Thomas, Jacob Perron, Michel Hidalgo, Scott K Logan, ivanpauno
+* Additional fixes for Python 3.5. (`#67 <https://github.com/ros2/launch_ros/issues/67>`_)
+* Restore Python 3.5 support. (`#65 <https://github.com/ros2/launch_ros/issues/65>`_)
+* Install package marker and manifest. (`#62 <https://github.com/ros2/launch_ros/issues/62>`_) (`#63 <https://github.com/ros2/launch_ros/issues/63>`_)
+* Contributors: Dirk Thomas, Steven! Ragnarök
+
+0.8.5 (2019-07-31)
+------------------
+* Use wildcard syntax in generated parameter YAML files (`#48 <https://github.com/ros2/launch_ros/issues/48>`_)
+* Contributors: Scott K Logan
 
 0.8.4 (2019-05-30)
 ------------------
