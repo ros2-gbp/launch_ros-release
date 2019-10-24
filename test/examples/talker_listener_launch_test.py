@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
+import sys
 import time
 import unittest
 import uuid
@@ -19,6 +21,7 @@ import uuid
 import launch
 import launch_ros
 import launch_ros.actions
+import launch_testing.actions
 import launch_testing_ros
 
 import pytest
@@ -27,21 +30,23 @@ import std_msgs.msg
 
 
 @pytest.mark.rostest
-def generate_test_description(ready_fn):
+def generate_test_description():
     # Normally, talker publishes on the 'chatter' topic and listener listens on the
     # 'chatter' topic, but we want to show how to use remappings to munge the data so we
     # will remap these topics when we launch the nodes and insert our own node that can
     # change the data as it passes through
+    path_to_test = os.path.dirname(__file__)
+
     talker_node = launch_ros.actions.Node(
-        package='launch_testing_ros',
-        node_executable='example_talker',
+        node_executable=sys.executable,
+        arguments=[os.path.join(path_to_test, 'talker.py')],
         additional_env={'PYTHONUNBUFFERED': '1'},
         remappings=[('chatter', 'talker_chatter')]
     )
 
     listener_node = launch_ros.actions.Node(
-        package='launch_testing_ros',
-        node_executable='example_listener',
+        node_executable=sys.executable,
+        arguments=[os.path.join(path_to_test, 'listener.py')],
         additional_env={'PYTHONUNBUFFERED': '1'},
         remappings=[('chatter', 'listener_chatter')]
     )
@@ -51,7 +56,7 @@ def generate_test_description(ready_fn):
             talker_node,
             listener_node,
             # Start tests right away - no need to wait for anything
-            launch.actions.OpaqueFunction(function=lambda context: ready_fn()),
+            launch_testing.actions.ReadyToTest(),
         ]),
         {
             'talker': talker_node,
@@ -62,7 +67,7 @@ def generate_test_description(ready_fn):
 
 class TestTalkerListenerLink(unittest.TestCase):
 
-    def test_talker_transmits(self, launch_service, talker):
+    def test_talker_transmits(self, launch_service, talker, proc_output):
         # Get launch context ROS node
         launch_context = launch_service.context
         node = launch_context.locals.launch_ros_node
@@ -88,13 +93,13 @@ class TestTalkerListenerLink(unittest.TestCase):
 
             # Make sure the talker also output the same data via stdout
             for msg in msgs_rx:
-                self.proc_output.assertWaitFor(
+                proc_output.assertWaitFor(
                     expected_output=msg.data, process=talker
                 )
         finally:
             node.destroy_subscription(sub)
 
-    def test_listener_receives(self, launch_service, listener):
+    def test_listener_receives(self, launch_service, listener, proc_output):
         # Get launch context ROS node
         launch_context = launch_service.context
         node = launch_context.locals.launch_ros_node
@@ -111,7 +116,7 @@ class TestTalkerListenerLink(unittest.TestCase):
             msg.data = str(uuid.uuid4())
             for _ in range(10):
                 pub.publish(msg)
-                success = self.proc_output.waitFor(
+                success = proc_output.waitFor(
                     expected_output=msg.data,
                     process=listener,
                     timeout=1.0,
@@ -122,7 +127,7 @@ class TestTalkerListenerLink(unittest.TestCase):
         finally:
             node.destroy_publisher(pub)
 
-    def test_fuzzy_data(self, launch_service, listener):
+    def test_fuzzy_data(self, launch_service, listener, proc_output):
         # Get launch context ROS node
         launch_context = launch_service.context
         node = launch_context.locals.launch_ros_node
@@ -151,10 +156,10 @@ class TestTalkerListenerLink(unittest.TestCase):
             self.assertGreater(republisher.get_num_republished(), 2)
 
             # Sanity check that we're changing 'Hello World'
-            self.proc_output.assertWaitFor('Aloha World')
+            proc_output.assertWaitFor('Aloha World')
 
             # Check for the actual messages we sent
             for msg in republisher.get_republished():
-                self.proc_output.assertWaitFor(msg.data, listener)
+                proc_output.assertWaitFor(msg.data, listener)
         finally:
             republisher.shutdown()
