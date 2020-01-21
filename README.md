@@ -1,3 +1,32 @@
+## launch_ros (eloquent) - 0.9.5-1
+
+The packages in the `launch_ros` repository were released into the `eloquent` distro by running `/usr/bin/bloom-release -e --rosdistro eloquent --track eloquent launch_ros` on `Tue, 21 Jan 2020 21:41:52 -0000`
+
+These packages were released:
+- `launch_ros`
+- `launch_testing_ros`
+- `ros2launch`
+
+These packages were explicitly ignored:
+- `test_launch_ros`
+
+Version of package(s) in repository `launch_ros`:
+
+- upstream repository: https://github.com/ros2/launch_ros.git
+- release repository: https://github.com/ros2-gbp/launch_ros-release.git
+- rosdistro version: `0.9.4-1`
+- old version: `0.9.4-1`
+- new version: `0.9.5-1`
+
+Versions of tools used:
+
+- bloom version: `0.9.0`
+- catkin_pkg version: `0.4.15`
+- rosdep version: `0.18.0`
+- rosdistro version: `0.8.0`
+- vcstools version: `0.1.42`
+
+
 ## launch_ros (eloquent) - 0.9.4-1
 
 The packages in the `launch_ros` repository were released into the `eloquent` distro by running `/home/mjcarroll/.local/bin/bloom-release --ros-distro eloquent launch_ros` on `Wed, 20 Nov 2019 05:40:08 -0000`
