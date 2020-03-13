@@ -14,16 +14,18 @@
 
 from argparse import REMAINDER
 import os
+import sys
 
 from ament_index_python.packages import get_package_prefix
 from ament_index_python.packages import PackageNotFoundError
 from ros2cli.command import CommandExtension
 from ros2launch.api import get_share_file_path_from_package
-from ros2launch.api import launch_a_launch_file
+from ros2launch.api import InvalidPythonLaunchFileError
+from ros2launch.api import launch_a_python_launch_file
 from ros2launch.api import LaunchFileNameCompleter
 from ros2launch.api import MultipleLaunchFilesError
-from ros2launch.api import print_a_launch_file
-from ros2launch.api import print_arguments_of_launch_file
+from ros2launch.api import print_a_python_launch_file
+from ros2launch.api import print_arguments_of_python_launch_file
 from ros2pkg.api import package_name_completer
 
 
@@ -61,6 +63,9 @@ class LaunchCommand(CommandExtension):
             nargs='*',
             help="Arguments to the launch file; '<name>:=<value>' (for duplicates, last one wins)")
         arg.completer = LaunchFileNameCompleter()
+        parser.add_argument(
+            'argv', nargs=REMAINDER,
+            help='Pass arbitrary arguments to the launch file')
 
     def main(self, *, parser, args):
         """Entry point for CLI program."""
@@ -104,15 +109,33 @@ class LaunchCommand(CommandExtension):
         else:
             raise RuntimeError('unexpected mode')
         launch_arguments.extend(args.launch_arguments)
-        if args.show_all_subprocesses_output:
-            os.environ['OVERRIDE_LAUNCH_PROCESS_OUTPUT'] = 'both'
-        if args.print:
-            return print_a_launch_file(launch_file_path=path)
-        elif args.show_args:
-            return print_arguments_of_launch_file(launch_file_path=path)
-        else:
-            return launch_a_launch_file(
-                launch_file_path=path,
-                launch_file_arguments=launch_arguments,
-                debug=args.debug
-            )
+        try:
+            if args.show_all_subprocesses_output:
+                os.environ['OVERRIDE_LAUNCH_PROCESS_OUTPUT'] = 'both'
+            if args.print:
+                return print_a_python_launch_file(python_launch_file_path=path)
+            elif args.show_args:
+                return print_arguments_of_python_launch_file(python_launch_file_path=path)
+            else:
+                return launch_a_python_launch_file(
+                    python_launch_file_path=path,
+                    launch_file_arguments=launch_arguments,
+                    debug=args.debug
+                )
+        except SyntaxError:
+            print("""
+Notice: SyntaxError (or related errors) can occur if your launch file ('{}') is not a Python file.
+""".format(path), file=sys.stderr)
+            raise  # raise so the user can see the traceback in useful SyntaxError's
+        except ValueError as exc:
+            print("""
+Notice: ValueError can occur if your launch file ('{}') is a binary file and not a Python file.
+""".format(path), file=sys.stderr)
+            raise RuntimeError('ValueError: {}'.format(str(exc)))
+        except InvalidPythonLaunchFileError as exc:
+            # TODO(wjwwood): refactor this after we deprecate and then remove the old launch
+            print("""
+Notice: Your launch file may have been designed to be used with an older version of ROS 2.
+Or that the file you specified is Python code, but not a launch file.
+""", file=sys.stderr)
+            raise RuntimeError('InvalidPythonLaunchFileError: {}'.format(str(exc)))

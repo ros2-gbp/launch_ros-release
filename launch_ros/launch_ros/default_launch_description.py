@@ -14,7 +14,6 @@
 
 """Module containing the default LaunchDescription for ROS."""
 
-import os
 import threading
 
 import launch
@@ -28,12 +27,11 @@ from rclpy.executors import SingleThreadedExecutor
 class ROSSpecificLaunchStartup(launch.actions.OpaqueFunction):
     """Does ROS specific launch startup."""
 
-    def __init__(self, rclpy_context=None, argv=None):
-        """Create a ROSSpecificLaunchStartup opaque function."""
+    def __init__(self, rclpy_context=None):
+        """Constructor."""
         super().__init__(function=self._function)
         self.__shutting_down = False
         self.__rclpy_context = rclpy_context
-        self.__argv = None
 
     def _shutdown(self, event: launch.Event, context: launch.LaunchContext):
         self.__shutting_down = True
@@ -58,14 +56,12 @@ class ROSSpecificLaunchStartup(launch.actions.OpaqueFunction):
         try:
             if self.__rclpy_context is None:
                 # Initialize the default global context
-                rclpy.init(args=self.__argv)
+                rclpy.init(args=context.argv)
         except RuntimeError as exc:
             if 'rcl_init called while already initialized' in str(exc):
                 pass
             raise
-        self.__launch_ros_node = rclpy.create_node(
-            'launch_ros_{}'.format(os.getpid()),
-            context=self.__rclpy_context)
+        self.__launch_ros_node = rclpy.create_node('launch_ros', context=self.__rclpy_context)
         context.extend_globals({
             'ros_startup_action': self,
             'launch_ros_node': self.__launch_ros_node

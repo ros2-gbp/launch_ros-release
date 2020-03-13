@@ -2,35 +2,19 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.9.5 (2020-01-21)
+0.8.8 (2020-03-13)
 ------------------
 
-0.9.4 (2019-11-19)
+0.8.7 (2019-10-14)
 ------------------
-* fix new linter warnings as of flake8-comprehensions 3.1.0 (`#94 <https://github.com/ros2/launch_ros/issues/94>`_)
+* Install package manifest. (`#71 <https://github.com/ros2/launch_ros/issues/71>`_) (`#86 <https://github.com/ros2/launch_ros/issues/86>`_)
 * Contributors: Dirk Thomas
 
-0.9.3 (2019-11-13)
+0.8.6 (2019-09-06)
 ------------------
 
-0.9.2 (2019-10-23)
+0.8.5 (2019-07-31)
 ------------------
-* Remove self.proc_output and ready_fn (`#90 <https://github.com/ros2/launch_ros/issues/90>`_)
-* Add support for launching nodes not in a package (`#82 <https://github.com/ros2/launch_ros/issues/82>`_)
-* Contributors: Michel Hidalgo, Peter Baughman
-
-0.9.1 (2019-09-28)
-------------------
-* Make launch_testing_ros examples standalone. (`#80 <https://github.com/ros2/launch_ros/issues/80>`_)
-* Contributors: Michel Hidalgo
-
-0.9.0 (2019-09-25)
-------------------
-* install package manifest (`#71 <https://github.com/ros2/launch_ros/issues/71>`_)
-* Do not import rclpy nor launch_ros at module level. (`#69 <https://github.com/ros2/launch_ros/issues/69>`_)
-* Unindent setup.cfg options. (`#66 <https://github.com/ros2/launch_ros/issues/66>`_)
-* Support launch_ros test runner in pytest (`#54 <https://github.com/ros2/launch_ros/issues/54>`_)
-* Contributors: Dirk Thomas, Michel Hidalgo
 
 0.8.4 (2019-05-30)
 ------------------

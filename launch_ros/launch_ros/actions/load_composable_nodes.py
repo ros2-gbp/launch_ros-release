@@ -40,7 +40,7 @@ class LoadComposableNodes(Action):
         *,
         composable_node_descriptions: List[ComposableNode],
         target_container: ComposableNodeContainer,
-        **kwargs,
+        **kwargs
     ) -> None:
         """
         Construct a LoadComposableNodes action.
@@ -167,5 +167,9 @@ class LoadComposableNodes(Action):
                 self.__target_container.node_name
             )
         )
-        # Assume user has configured `LoadComposableNodes` to happen after container action
-        self._load_in_sequence(self.__composable_node_descriptions, context)
+
+        context.add_completion_future(
+            context.asyncio_loop.run_in_executor(
+                None, self._load_in_sequence, self.__composable_node_descriptions, context
+            )
+        )
