@@ -23,7 +23,6 @@ import launch
 import launch.actions
 import launch.events
 
-from launch_ros import get_default_launch_description
 import launch_ros.actions
 import launch_ros.events
 import launch_ros.events.lifecycle
@@ -32,13 +31,13 @@ import lifecycle_msgs.msg
 
 
 def main(argv=sys.argv[1:]):
-    """Main."""
+    """Run lifecycle nodes via launch."""
     ld = launch.LaunchDescription()
 
     # Prepare the talker node.
     talker_node = launch_ros.actions.LifecycleNode(
         node_name='talker',
-        package='lifecycle', node_executable='lifecycle_talker', output='screen')
+        package='lifecycle', executable='lifecycle_talker', output='screen')
 
     # When the talker reaches the 'inactive' state, make it take the 'activate' transition.
     register_event_handler_for_talker_reaches_inactive_state = launch.actions.RegisterEventHandler(
@@ -64,7 +63,7 @@ def main(argv=sys.argv[1:]):
                     msg="node 'talker' reached the 'active' state, launching 'listener'."),
                 launch_ros.actions.LifecycleNode(
                     node_name='listener',
-                    package='lifecycle', node_executable='lifecycle_listener', output='screen'),
+                    package='lifecycle', executable='lifecycle_listener', output='screen'),
             ],
         )
     )
@@ -95,7 +94,6 @@ def main(argv=sys.argv[1:]):
 
     # ls = launch.LaunchService(argv=argv, debug=True)
     ls = launch.LaunchService(argv=argv)
-    ls.include_launch_description(get_default_launch_description())
     ls.include_launch_description(ld)
     return ls.run()
 

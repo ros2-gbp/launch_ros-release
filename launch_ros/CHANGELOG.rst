@@ -2,25 +2,62 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.8.8 (2020-03-13)
-------------------
-* Fix LoadComposableNodes action so that loading happens asynchronously. (`#131 <https://github.com/ros2/launch_ros/issues/131>`_)
-* Contributors: Jacob Perron
+0.10.0 (2020-04-29)
+-------------------
+* Avoid using sys.argv in rclpy.init (`#144 <https://github.com/ros2/launch_ros/issues/144>`_)
+* Deprecated 'node_executable' parameter and replace with 'executable' (`#140 <https://github.com/ros2/launch_ros/issues/140>`_)
+* Bump node_name warning stacklevel (`#138 <https://github.com/ros2/launch_ros/issues/138>`_)
+* More verbose test_flake8 error messages (same as `ros2/launch_ros#135 <https://github.com/ros2/launch_ros/issues/135>`_)
+* Enable implicit ROS startup by launch_ros actions  (`#128 <https://github.com/ros2/launch_ros/issues/128>`_)
+* Add warning message when launching Non-Uniquely Named Nodes (`#127 <https://github.com/ros2/launch_ros/issues/127>`_)
+* Rename node-related parameters (`#122 <https://github.com/ros2/launch_ros/issues/122>`_)
+* Fix LoadComposableNodes action so that loading happens asynchronously (`#113 <https://github.com/ros2/launch_ros/issues/113>`_)
+* Fix frontend topic remapping (`#111 <https://github.com/ros2/launch_ros/issues/111>`_)
+* Check for shutdown while waiting for a service response to avoid hang during shutdown (`#104 <https://github.com/ros2/launch_ros/issues/104>`_)
+* Fix misleading deprecated warnings when using launch arguments (`#106 <https://github.com/ros2/launch_ros/issues/106>`_)
+* Use imperative mood in constructor docstrings (`#103 <https://github.com/ros2/launch_ros/issues/103>`_)
+* Maintain order of parameters regarding name and from (`#99 <https://github.com/ros2/launch_ros/issues/99>`_)
+* Allow separate launch composition (`#77 <https://github.com/ros2/launch_ros/issues/77>`_)
+* Fix push-ros-namespace in xml/yaml launch files (`#100 <https://github.com/ros2/launch_ros/issues/100>`_)
+* Pass the node-name attribute through the substitution parser (`#101 <https://github.com/ros2/launch_ros/issues/101>`_)
+* Add pid to launch_ros node name as suffix (`#98 <https://github.com/ros2/launch_ros/issues/98>`_)
+* Contributors: Brian Ezequiel Marchi, Brian Marchi, Dirk Thomas, Eric Fang, Grey, Ivan Santiago Paunovic, Jacob Perron, Miaofei Mei, Michel Hidalgo, Shane Loretz, Steven! Ragnarök, William Woodall
 
-0.8.7 (2019-10-14)
+0.9.4 (2019-11-19)
+------------------
+* fix new linter warnings as of flake8-comprehensions 3.1.0 (`#94 <https://github.com/ros2/launch_ros/issues/94>`_)
+* Contributors: Dirk Thomas
+
+0.9.3 (2019-11-13)
 ------------------
 
-0.8.6 (2019-09-06)
+0.9.2 (2019-10-23)
 ------------------
-* Additional fixes for Python 3.5. (`#67 <https://github.com/ros2/launch_ros/issues/67>`_)
-* Restore Python 3.5 support. (`#65 <https://github.com/ros2/launch_ros/issues/65>`_)
-* Install package marker and manifest. (`#62 <https://github.com/ros2/launch_ros/issues/62>`_) (`#63 <https://github.com/ros2/launch_ros/issues/63>`_)
-* Contributors: Dirk Thomas, Steven! Ragnarök
+* Fix launch_ros.actions.Node parsing function (`#83 <https://github.com/ros2/launch_ros/issues/83>`_)
+* Add support for launching nodes not in a package (`#82 <https://github.com/ros2/launch_ros/issues/82>`_)
+* Contributors: Michel Hidalgo
 
-0.8.5 (2019-07-31)
+0.9.1 (2019-09-28)
 ------------------
-* Use wildcard syntax in generated parameter YAML files (`#48 <https://github.com/ros2/launch_ros/issues/48>`_)
-* Contributors: Scott K Logan
+
+0.9.0 (2019-09-25)
+------------------
+* Refactor Node parse() function. (`#73 <https://github.com/ros2/launch_ros/issues/73>`_)
+* Handle zero-width string parameters. (`#72 <https://github.com/ros2/launch_ros/issues/72>`_)
+* Promote special CLI rules to flags (`#68 <https://github.com/ros2/launch_ros/issues/68>`_)
+* Add substitution for finding package share directory (`#57 <https://github.com/ros2/launch_ros/issues/57>`_)
+* Use of -r/--remap flags where appropriate. (`#59 <https://github.com/ros2/launch_ros/issues/59>`_)
+* install package marker and manifest (`#62 <https://github.com/ros2/launch_ros/issues/62>`_)
+* Adapt to '--ros-args ... [--]'-based ROS args extraction (`#52 <https://github.com/ros2/launch_ros/issues/52>`_)
+* Use node namespace if no other was specified (`#51 <https://github.com/ros2/launch_ros/issues/51>`_)
+* [launch frontend] Rename some tag attributes (`#47 <https://github.com/ros2/launch_ros/issues/47>`_)
+* Fix PushRosNamespace action (`#44 <https://github.com/ros2/launch_ros/issues/44>`_)
+* Add PushRosNamespace action (`#42 <https://github.com/ros2/launch_ros/issues/42>`_)
+* Add frontend parsing methods for Node, ExecutableInPackage and FindPackage substitution (`#23 <https://github.com/ros2/launch_ros/issues/23>`_)
+* Restrict yaml loading in evaluate_parameters (`#33 <https://github.com/ros2/launch_ros/issues/33>`_)
+* Fix typo
+* Use wildcard syntax in generated parameter YAML files (`#35 <https://github.com/ros2/launch_ros/issues/35>`_)
+* Contributors: Dan Rose, Dirk Thomas, Jacob Perron, Michel Hidalgo, Scott K Logan, ivanpauno
 
 0.8.4 (2019-05-30)
 ------------------

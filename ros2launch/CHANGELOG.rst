@@ -2,19 +2,36 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.8.8 (2020-03-13)
+0.10.0 (2020-04-29)
+-------------------
+* Deprecated 'node_executable' parameter and replace with 'executable' (`#140 <https://github.com/ros2/launch_ros/issues/140>`_)
+* More verbose test_flake8 error messages (same as `ros2/launch_ros#135 <https://github.com/ros2/launch_ros/issues/135>`_)
+* Enable implicit ROS startup by launch_ros actions  (`#128 <https://github.com/ros2/launch_ros/issues/128>`_)
+* Rename node-related parameters (`#122 <https://github.com/ros2/launch_ros/issues/122>`_)
+* Legal tab completion of launch files (`#126 <https://github.com/ros2/launch_ros/issues/126>`_)
+* Fix linter by removing unused import (`#110 <https://github.com/ros2/launch_ros/issues/110>`_)
+* Fix misleading deprecated warnings when using launch arguments (`#106 <https://github.com/ros2/launch_ros/issues/106>`_)
+* Use imperative mood in constructor docstrings (`#103 <https://github.com/ros2/launch_ros/issues/103>`_)
+* Contributors: Dirk Thomas, Emerson Knapp, Ivan Santiago Paunovic, Jacob Perron, Michel Hidalgo, Shane Loretz, Steven! Ragnarök
+
+0.9.4 (2019-11-19)
 ------------------
 
-0.8.7 (2019-10-14)
-------------------
-* Install resource marker file for package. (`#78 <https://github.com/ros2/launch_ros/issues/78>`_) (`#87 <https://github.com/ros2/launch_ros/issues/87>`_)
-* Contributors: Dirk Thomas
-
-0.8.6 (2019-09-06)
+0.9.3 (2019-11-13)
 ------------------
 
-0.8.5 (2019-07-31)
+0.9.2 (2019-10-23)
 ------------------
+
+0.9.1 (2019-09-28)
+------------------
+
+0.9.0 (2019-09-25)
+------------------
+* install resource marker file for package (`#78 <https://github.com/ros2/launch_ros/issues/78>`_)
+* install package manifest (`#71 <https://github.com/ros2/launch_ros/issues/71>`_)
+* Support xml and yaml files in ros2launch (`#40 <https://github.com/ros2/launch_ros/issues/40>`_)
+* Contributors: Dirk Thomas, ivanpauno
 
 0.8.4 (2019-05-30)
 ------------------
