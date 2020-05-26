@@ -2,6 +2,9 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.10.2 (2020-05-26)
+-------------------
+
 0.10.1 (2020-05-13)
 -------------------
 * Fix new flake8 errors (`#148 <https://github.com/ros2/launch_ros/issues/148>`_)
