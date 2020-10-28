@@ -1,3 +1,32 @@
+## launch_ros (foxy) - 0.11.0-1
+
+The packages in the `launch_ros` repository were released into the `foxy` distro by running `/usr/bin/bloom-release -r foxy -t foxy launch_ros` on `Wed, 28 Oct 2020 17:36:47 -0000`
+
+These packages were released:
+- `launch_ros`
+- `launch_testing_ros`
+- `ros2launch`
+
+These packages were explicitly ignored:
+- `test_launch_ros`
+
+Version of package(s) in repository `launch_ros`:
+
+- upstream repository: https://github.com/ros2/launch_ros.git
+- release repository: https://github.com/ros2-gbp/launch_ros-release.git
+- rosdistro version: `0.10.3-1`
+- old version: `0.10.3-1`
+- new version: `0.11.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.9.8`
+- catkin_pkg version: `0.4.22`
+- rosdep version: `0.19.0`
+- rosdistro version: `0.8.2`
+- vcstools version: `0.1.42`
+
+
 ## launch_ros (foxy) - 0.10.3-1
 
 The packages in the `launch_ros` repository were released into the `foxy` distro by running `/usr/bin/bloom-release -r foxy launch_ros` on `Wed, 07 Oct 2020 17:38:30 -0000`
