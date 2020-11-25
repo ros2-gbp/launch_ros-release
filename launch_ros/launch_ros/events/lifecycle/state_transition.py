@@ -37,7 +37,7 @@ class StateTransition(Event):
         msg: lifecycle_msgs.msg.TransitionEvent
     ) -> None:
         """
-        Create a StateTransition event.
+        Constructor.
 
         :param: action the instance of class::`LifecycleNode` that generated this event
         :param: msg the instance of the ROS message TransitionEvent that generated this event

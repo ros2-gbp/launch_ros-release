@@ -17,15 +17,12 @@
 import os
 import pathlib
 import unittest
-import warnings
 
-from launch import LaunchContext
 from launch import LaunchDescription
 from launch import LaunchService
 from launch.actions import Shutdown
 from launch.substitutions import EnvironmentVariable
 import launch_ros.actions.node
-import pytest
 import yaml
 
 
@@ -33,21 +30,22 @@ class TestNode(unittest.TestCase):
 
     def _assert_launch_errors(self, actions):
         ld = LaunchDescription(actions)
-        ls = LaunchService(debug=True)
+        ls = LaunchService()
         ls.include_launch_description(ld)
         assert 0 != ls.run()
 
     def _assert_launch_no_errors(self, actions):
         ld = LaunchDescription(actions)
-        ls = LaunchService(debug=True)
+        ls = LaunchService()
         ls.include_launch_description(ld)
         assert 0 == ls.run()
 
     def _create_node(self, *, parameters=None, remappings=None):
         return launch_ros.actions.Node(
-            package='demo_nodes_py', executable='talker_qos', output='screen',
-            name='my_node', namespace='my_ns',
-            exec_name='my_node_process',
+            package='demo_nodes_py', node_executable='talker_qos', output='screen',
+            # The node name is required for parameter dicts.
+            # See https://github.com/ros2/launch/issues/139.
+            node_name='my_node', node_namespace='my_ns',
             arguments=['--number_of_cycles', '1'],
             parameters=parameters,
             remappings=remappings,
@@ -60,7 +58,7 @@ class TestNode(unittest.TestCase):
     def test_launch_invalid_node(self):
         """Test launching an invalid node."""
         node_action = launch_ros.actions.Node(
-            package='nonexistent_package', executable='node', output='screen')
+            package='nonexistent_package', node_executable='node', output='screen')
         self._assert_launch_errors([node_action])
 
     def test_launch_node(self):
@@ -91,8 +89,8 @@ class TestNode(unittest.TestCase):
     def test_launch_required_node(self):
         # This node will never exit on its own, it'll keep publishing forever.
         long_running_node = launch_ros.actions.Node(
-            package='demo_nodes_py', executable='talker_qos', output='screen',
-            namespace='my_ns',
+            package='demo_nodes_py', node_executable='talker_qos', output='screen',
+            node_namespace='my_ns',
         )
 
         # This node will exit after publishing a single message. It is required, so we
@@ -100,8 +98,8 @@ class TestNode(unittest.TestCase):
         # bring down the whole launched system, including the above node that will never
         # exit on its own.
         required_node = launch_ros.actions.Node(
-            package='demo_nodes_py', executable='talker_qos', output='screen',
-            namespace='my_ns2', arguments=['--number_of_cycles', '1'],
+            package='demo_nodes_py', node_executable='talker_qos', output='screen',
+            node_namespace='my_ns2', arguments=['--number_of_cycles', '1'],
             on_exit=Shutdown()
         )
 
@@ -153,8 +151,7 @@ class TestNode(unittest.TestCase):
                     'param_group2': {
                         (EnvironmentVariable('PARAM2'), '_values'): ['param2_value'],
                     }
-                },
-                'param3': ''
+                }
             }],
         )
         self._assert_launch_no_errors([node_action])
@@ -163,13 +160,12 @@ class TestNode(unittest.TestCase):
         expanded_parameter_files = node_action._Node__expanded_parameter_files
         assert len(expanded_parameter_files) == 1
         with open(expanded_parameter_files[0], 'r') as h:
-            expanded_parameters_dict = yaml.load(h, Loader=yaml.FullLoader)
+            expanded_parameters_dict = yaml.load(h)
             assert expanded_parameters_dict == {
-                '/my_ns/my_node': {
+                '/**': {
                     'ros__parameters': {
                         'param1': 'param1_value',
                         'param2': 'param2_value',
-                        'param3': '',
                         'param_group1.list_params': (1.2, 3.4),
                         'param_group1.param_group2.param2_values': ('param2_value',),
                     }
@@ -187,60 +183,11 @@ class TestNode(unittest.TestCase):
 
         # If a parameter dictionary is specified, the node name is no longer required.
         node_action = launch_ros.actions.Node(
-            package='demo_nodes_py', executable='talker_qos', output='screen',
+            package='demo_nodes_py', node_executable='talker_qos', output='screen',
             arguments=['--number_of_cycles', '1'],
             parameters=[{'my_param': 'value'}],
         )
         self._assert_launch_no_errors([node_action])
-
-    def test_deprecated_node_parameters(self):
-        """Test that using deprecated parameters will warn/error."""
-        # Note that the following tests are expected to break when the deprecated
-        # parameters are eventually removed and should be updated accordingly.
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter('always')
-            node_action = launch_ros.actions.Node(
-                package='demo_nodes_py', node_executable='talker_qos', output='screen',
-                node_name='my_node', node_namespace='my_ns'
-            )
-            self._assert_launch_no_errors([node_action])
-            self.assertEqual(len(w), 3)
-            self.assertTrue(issubclass(w[0].category, UserWarning))
-            self.assertTrue(issubclass(w[1].category, UserWarning))
-            self.assertTrue(issubclass(w[2].category, UserWarning))
-
-        # Providing both 'node_executable' and 'executable' should throw
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter('always')
-            with self.assertRaises(RuntimeError):
-                launch_ros.actions.Node(
-                    package='demo_nodes_py', node_executable='talker_qos', executable='talker_qos',
-                    output='screen', name='my_node', namespace='my_ns'
-                )
-            self.assertEqual(len(w), 1)
-            self.assertTrue(issubclass(w[0].category, UserWarning))
-
-        # Providing both 'node_name' and 'name' should throw
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter('always')
-            with self.assertRaises(RuntimeError):
-                launch_ros.actions.Node(
-                    package='demo_nodes_py', executable='talker_qos', output='screen',
-                    node_name='my_node', name='my_node', namespace='my_ns'
-                )
-            self.assertEqual(len(w), 1)
-            self.assertTrue(issubclass(w[0].category, UserWarning))
-
-        # Providing both 'node_namespace' and 'namespace' should throw
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter('always')
-            with self.assertRaises(RuntimeError):
-                launch_ros.actions.Node(
-                    package='demo_nodes_py', executable='talker_qos', output='screen',
-                    name='my_node', node_namespace='my_ns', namespace='my_ns'
-                )
-            self.assertEqual(len(w), 1)
-            self.assertTrue(issubclass(w[0].category, UserWarning))
 
     def test_launch_node_with_invalid_parameter_dicts(self):
         """Test launching a node with invalid parameter dicts."""
@@ -300,46 +247,3 @@ class TestNode(unittest.TestCase):
                     },
                 },
             }])
-
-
-def get_test_node_name_parameters():
-    return [
-        pytest.param(
-            launch_ros.actions.Node(
-                package='asd',
-                executable='bsd',
-                name='my_node',
-            ),
-            False,
-            id='Node without namespace'
-        ),
-        pytest.param(
-            launch_ros.actions.Node(
-                package='asd',
-                executable='bsd',
-                namespace='my_ns',
-            ),
-            False,
-            id='Node without name'
-        ),
-        pytest.param(
-            launch_ros.actions.Node(
-                package='asd',
-                executable='bsd',
-                name='my_node',
-                namespace='my_ns',
-            ),
-            True,
-            id='Node with fully qualified name'
-        ),
-    ]
-
-
-@pytest.mark.parametrize(
-    'node_object, expected_result',
-    get_test_node_name_parameters()
-)
-def test_node_name(node_object, expected_result):
-    lc = LaunchContext()
-    node_object._perform_substitutions(lc)
-    assert node_object.is_node_name_fully_specified() is expected_result

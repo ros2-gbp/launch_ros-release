@@ -19,25 +19,26 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))  # noqa
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'launch'))  # noqa
 
-import launch  # noqa: E402
-import launch.actions  # noqa: E402
-import launch.events  # noqa: E402
+import launch
+import launch.actions
+import launch.events
 
-import launch_ros.actions  # noqa: E402
-import launch_ros.events  # noqa: E402
-import launch_ros.events.lifecycle  # noqa: E402
+from launch_ros import get_default_launch_description
+import launch_ros.actions
+import launch_ros.events
+import launch_ros.events.lifecycle
 
-import lifecycle_msgs.msg  # noqa: E402
+import lifecycle_msgs.msg
 
 
 def main(argv=sys.argv[1:]):
-    """Run lifecycle nodes via launch."""
+    """Main."""
     ld = launch.LaunchDescription()
 
     # Prepare the talker node.
     talker_node = launch_ros.actions.LifecycleNode(
-        name='talker',
-        package='lifecycle', executable='lifecycle_talker', output='screen')
+        node_name='talker',
+        package='lifecycle', node_executable='lifecycle_talker', output='screen')
 
     # When the talker reaches the 'inactive' state, make it take the 'activate' transition.
     register_event_handler_for_talker_reaches_inactive_state = launch.actions.RegisterEventHandler(
@@ -62,8 +63,8 @@ def main(argv=sys.argv[1:]):
                 launch.actions.LogInfo(
                     msg="node 'talker' reached the 'active' state, launching 'listener'."),
                 launch_ros.actions.LifecycleNode(
-                    name='listener',
-                    package='lifecycle', executable='lifecycle_listener', output='screen'),
+                    node_name='listener',
+                    package='lifecycle', node_executable='lifecycle_listener', output='screen'),
             ],
         )
     )
@@ -94,6 +95,7 @@ def main(argv=sys.argv[1:]):
 
     # ls = launch.LaunchService(argv=argv, debug=True)
     ls = launch.LaunchService(argv=argv)
+    ls.include_launch_description(get_default_launch_description())
     ls.include_launch_description(ld)
     return ls.run()
 
