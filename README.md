@@ -1,3 +1,32 @@
+## launch_ros (dashing) - 0.8.9-1
+
+The packages in the `launch_ros` repository were released into the `dashing` distro by running `/home/steven/.local/bin/bloom-release -r dashing launch_ros` on `Wed, 25 Nov 2020 01:32:56 -0000`
+
+These packages were released:
+- `launch_ros`
+- `launch_testing_ros`
+- `ros2launch`
+
+These packages were explicitly ignored:
+- `test_launch_ros`
+
+Version of package(s) in repository `launch_ros`:
+
+- upstream repository: https://github.com/ros2/launch_ros.git
+- release repository: https://github.com/ros2-gbp/launch_ros-release.git
+- rosdistro version: `0.8.8-1`
+- old version: `0.8.8-1`
+- new version: `0.8.9-1`
+
+Versions of tools used:
+
+- bloom version: `0.10.0`
+- catkin_pkg version: `0.4.16`
+- rosdep version: `0.18.0`
+- rosdistro version: `0.8.0`
+- vcstools version: `0.1.42`
+
+
 ## launch_ros (foxy) - 0.11.0-1
 
 The packages in the `launch_ros` repository were released into the `foxy` distro by running `/usr/bin/bloom-release -r foxy -t foxy launch_ros` on `Wed, 28 Oct 2020 17:36:47 -0000`
