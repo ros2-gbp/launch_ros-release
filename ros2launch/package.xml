@@ -4,12 +4,14 @@
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>ros2launch</name>
-  <version>0.9.5</version>
+  <version>0.9.6</version>
   <description>
     The launch command for ROS 2 command line tools.
   </description>
-  <maintainer email="william@osrfoundation.org">William Woodall</maintainer>
+  <maintainer email="jacob@openrobotics.org">Jacob Perron</maintainer>
+  <maintainer email="michael.jeronimo@openrobotics.org">Michael Jeronimo</maintainer>
   <license>Apache License 2.0</license>
+  <author email="william@osrfoundation.org">William Woodall</author>
 
   <depend>ament_index_python</depend>
   <depend>launch</depend>
