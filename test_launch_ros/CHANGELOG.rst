@@ -2,24 +2,47 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.8.9 (2020-11-24)
+0.9.6 (2020-12-04)
 ------------------
-* Update maintainers for Dashing. (`#192 <https://github.com/ros2/launch_ros/issues/192>`_)
+* Update maintainer list for Eloquent (`#193 <https://github.com/ros2/launch_ros/issues/193>`_)
 * Contributors: Michael Jeronimo
 
-0.8.8 (2020-03-13)
+0.9.5 (2020-01-21)
+------------------
+* Fix remapping rules when using xml/yaml launch files (`#111 <https://github.com/ros2/launch_ros/issues/111>`_)
+* Maintain order of parameters regarding name and from (`#99 <https://github.com/ros2/launch_ros/issues/99>`_)
+* Fix push-ros-namespace in xml/yaml launch files (`#100 <https://github.com/ros2/launch_ros/issues/100>`_)
+* Contributors: Brian Marchi, Ivan Santiago Paunovic, Jacob Perron
+
+0.9.4 (2019-11-19)
 ------------------
 
-0.8.7 (2019-10-14)
+0.9.3 (2019-11-13)
+------------------
+* Install package.xml (`#92 <https://github.com/ros2/launch_ros/issues/92>`_)
+* Contributors: Gaël Écorchard
+
+0.9.2 (2019-10-23)
+------------------
+* Fix launch_ros.actions.Node parsing function (`#83 <https://github.com/ros2/launch_ros/issues/83>`_)
+* Contributors: Michel Hidalgo
+
+0.9.1 (2019-09-28)
 ------------------
 
-0.8.6 (2019-09-06)
+0.9.0 (2019-09-25)
 ------------------
-
-0.8.5 (2019-07-31)
-------------------
-* Use wildcard syntax in generated parameter YAML files (`#48 <https://github.com/ros2/launch_ros/issues/48>`_)
-* Contributors: Scott K Logan
+* Handle zero-width string parameters. (`#72 <https://github.com/ros2/launch_ros/issues/72>`_)
+* Add substitution for finding package share directory (`#57 <https://github.com/ros2/launch_ros/issues/57>`_)
+* Adapt to '--ros-args ... [--]'-based ROS args extraction (`#52 <https://github.com/ros2/launch_ros/issues/52>`_)
+* Use node namespace if no other was specified (`#51 <https://github.com/ros2/launch_ros/issues/51>`_)
+* [launch frontend] Rename some tag attributes (`#47 <https://github.com/ros2/launch_ros/issues/47>`_)
+* Fix PushRosNamespace action (`#44 <https://github.com/ros2/launch_ros/issues/44>`_)
+* Add PushRosNamespace action (`#42 <https://github.com/ros2/launch_ros/issues/42>`_)
+* Add frontend parsing methods for Node, ExecutableInPackage and FindPackage substitution (`#23 <https://github.com/ros2/launch_ros/issues/23>`_)
+* Restrict yaml loading in evaluate_parameters (`#33 <https://github.com/ros2/launch_ros/issues/33>`_)
+* Use wildcard syntax in generated parameter YAML files (`#35 <https://github.com/ros2/launch_ros/issues/35>`_)
+* Contributors: Jacob Perron, Michel Hidalgo, Scott K Logan, ivanpauno
 
 0.8.4 (2019-05-30)
 ------------------

@@ -5,7 +5,7 @@ package_name = 'launch_ros'
 
 setup(
     name=package_name,
-    version='0.8.9',
+    version='0.9.6',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/' + package_name, ['package.xml']),
@@ -39,4 +39,9 @@ setup(
     ),
     license='Apache License, Version 2.0',
     tests_require=['pytest'],
+    entry_points={
+        'launch.frontend.launch_extension': [
+            'launch_ros = launch_ros',
+        ],
+    }
 )

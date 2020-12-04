@@ -1,9 +1,11 @@
 from setuptools import find_packages
 from setuptools import setup
 
+package_name = 'test_launch_ros'
+
 setup(
-    name='test_launch_ros',
-    version='0.8.9',
+    name=package_name,
+    version='0.9.6',
     packages=find_packages(exclude=['test']),
     install_requires=[
         'setuptools',
@@ -12,6 +14,9 @@ setup(
         'pyyaml',
     ],
     zip_safe=True,
+    data_files=[
+        ('share/' + package_name, ['package.xml']),
+    ],
     author='William Woodall',
     author_email='william@osrfoundation.org',
     maintainer='William Woodall',
