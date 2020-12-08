@@ -48,7 +48,7 @@ def _launch(launch_description):
     ls = LaunchService()
     ls.include_launch_description(launch_description)
     launch_task = loop.create_task(ls.run_async())
-    loop.run_until_complete(asyncio.sleep(5, loop=loop))
+    loop.run_until_complete(asyncio.sleep(5))
     if not launch_task.done():
         loop.create_task(ls.shutdown())
         loop.run_until_complete(launch_task)
@@ -93,7 +93,7 @@ def test_launch_node_with_name_without_namespace():
     ld = LaunchDescription([node])
     context = _launch(ld)
     assert get_node_name_count(context, f'{TEST_NODE_NAMESPACE}/{TEST_NODE_NAME}') == 0
-    assert get_node_name_count(context, f'/{TEST_NODE_NAME}') == 1
+    assert get_node_name_count(context, f'/{TEST_NODE_NAME}') == 0
 
 
 def test_launch_composable_node_with_names(pytestconfig):
