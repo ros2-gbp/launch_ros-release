@@ -2,17 +2,33 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.9.6 (2020-12-04)
-------------------
-* Update maintainer list for Eloquent (`#193 <https://github.com/ros2/launch_ros/issues/193>`_)
-* Fix linter by removing unused import (`#110 <https://github.com/ros2/launch_ros/issues/110>`_) (`#117 <https://github.com/ros2/launch_ros/issues/117>`_)
-* Contributors: Michael Jeronimo, Zachary Michaels
+0.12.0 (2020-12-08)
+-------------------
+* Merge pull request `#183 <https://github.com/ros2/launch_ros/issues/183>`_ from ros2/update-maintainers
+* Move previous maintainer to <author>
+* Update the package.xml files with the latest Open Robotics maintainers
+* Add pytest.ini so local tests don't display warning (`#152 <https://github.com/ros2/launch_ros/issues/152>`_)
+* Contributors: Chris Lalancette, Michael Jeronimo
 
-0.9.5 (2020-01-21)
-------------------
+0.10.2 (2020-05-26)
+-------------------
+
+0.10.1 (2020-05-13)
+-------------------
+* argcomplete is optional (`#147 <https://github.com/ros2/launch_ros/issues/147>`_)
+* Contributors: Alejandro Hernández Cordero
+
+0.10.0 (2020-04-29)
+-------------------
+* Deprecated 'node_executable' parameter and replace with 'executable' (`#140 <https://github.com/ros2/launch_ros/issues/140>`_)
+* More verbose test_flake8 error messages (same as `ros2/launch_ros#135 <https://github.com/ros2/launch_ros/issues/135>`_)
+* Enable implicit ROS startup by launch_ros actions  (`#128 <https://github.com/ros2/launch_ros/issues/128>`_)
+* Rename node-related parameters (`#122 <https://github.com/ros2/launch_ros/issues/122>`_)
+* Legal tab completion of launch files (`#126 <https://github.com/ros2/launch_ros/issues/126>`_)
+* Fix linter by removing unused import (`#110 <https://github.com/ros2/launch_ros/issues/110>`_)
 * Fix misleading deprecated warnings when using launch arguments (`#106 <https://github.com/ros2/launch_ros/issues/106>`_)
-* Use imperative mood in constructor docstrings. (`#103 <https://github.com/ros2/launch_ros/issues/103>`_)
-* Contributors: Ivan Santiago Paunovic, Steven! Ragnarök
+* Use imperative mood in constructor docstrings (`#103 <https://github.com/ros2/launch_ros/issues/103>`_)
+* Contributors: Dirk Thomas, Emerson Knapp, Ivan Santiago Paunovic, Jacob Perron, Michel Hidalgo, Shane Loretz, Steven! Ragnarök
 
 0.9.4 (2019-11-19)
 ------------------

@@ -19,9 +19,9 @@ import threading
 from typing import cast
 from typing import List
 from typing import Optional
-from typing import Text
 
 import launch
+from launch import SomeSubstitutionsType
 from launch.action import Action
 import launch.logging
 
@@ -32,11 +32,19 @@ from .node import Node
 from ..events.lifecycle import ChangeState
 from ..events.lifecycle import StateTransition
 
+from ..ros_adapters import get_ros_node
+
 
 class LifecycleNode(Node):
     """Action that executes a ROS lifecycle node."""
 
-    def __init__(self, *, node_name: Text, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        name: SomeSubstitutionsType,
+        namespace: SomeSubstitutionsType,
+        **kwargs
+    ) -> None:
         """
         Construct a LifecycleNode action.
 
@@ -49,7 +57,7 @@ class LifecycleNode(Node):
         - :class:`launch.events.lifecycle.StateTransition`:
 
             - this event is emitted when a message is published to the
-              "/<node_name>/transition_event" topic, indicating the lifecycle
+              "/<name>/transition_event" topic, indicating the lifecycle
               node represented by this action changed state
 
         This action also handles some events related to lifecycle:
@@ -59,8 +67,12 @@ class LifecycleNode(Node):
           - this event can be targeted to a single lifecycle node, or more than
             one, or even all lifecycle nodes, and it requests the targeted nodes
             to change state, see its documentation for more details.
+
+        :param name: The name of the lifecycle node.
+          Although it defaults to None it is a required parameter and the default will be removed
+          in a future release.
         """
-        super().__init__(node_name=node_name, **kwargs)
+        super().__init__(name=name, namespace=namespace, **kwargs)
         self.__logger = launch.logging.get_logger(__name__)
         self.__rclpy_subscription = None
         self.__current_state = \
@@ -133,14 +145,15 @@ class LifecycleNode(Node):
         self._perform_substitutions(context)  # ensure self.node_name is expanded
         if '<node_name_unspecified>' in self.node_name:
             raise RuntimeError('node_name unexpectedly incomplete for lifecycle node')
+        node = get_ros_node(context)
         # Create a subscription to monitor the state changes of the subprocess.
-        self.__rclpy_subscription = context.locals.launch_ros_node.create_subscription(
+        self.__rclpy_subscription = node.create_subscription(
             lifecycle_msgs.msg.TransitionEvent,
             '{}/transition_event'.format(self.node_name),
             functools.partial(self._on_transition_event, context),
             10)
         # Create a service client to change state on demand.
-        self.__rclpy_change_state_client = context.locals.launch_ros_node.create_client(
+        self.__rclpy_change_state_client = node.create_client(
             lifecycle_msgs.srv.ChangeState,
             '{}/change_state'.format(self.node_name))
         # Register an event handler to change states on a ChangeState lifecycle event.

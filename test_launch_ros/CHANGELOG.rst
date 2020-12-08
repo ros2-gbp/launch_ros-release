@@ -2,17 +2,53 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.9.6 (2020-12-04)
-------------------
-* Update maintainer list for Eloquent (`#193 <https://github.com/ros2/launch_ros/issues/193>`_)
-* Contributors: Michael Jeronimo
+0.12.0 (2020-12-08)
+-------------------
+* Increase test_composable_node_container timeout (`#195 <https://github.com/ros2/launch_ros/issues/195>`_)
+* Remove constructors arguments deprecated since Foxy (`#190 <https://github.com/ros2/launch_ros/issues/190>`_)
+* Merge pull request `#183 <https://github.com/ros2/launch_ros/issues/183>`_ from ros2/update-maintainers
+* Move previous maintainer to <author>
+* Update the package.xml files with the latest Open Robotics maintainers
+* Handle any substitution types for SetParameter name argument (`#182 <https://github.com/ros2/launch_ros/issues/182>`_)
+* Address security bug in yaml loading (`#175 <https://github.com/ros2/launch_ros/issues/175>`_)
+* Resolve TODO in test (`#172 <https://github.com/ros2/launch_ros/issues/172>`_)
+* Fix case where list of composable nodes is zero (`#173 <https://github.com/ros2/launch_ros/issues/173>`_)
+* Do not use event handler for loading composable nodes (`#170 <https://github.com/ros2/launch_ros/issues/170>`_)
+* Fix race with launch context changes when loading composable nodes (`#166 <https://github.com/ros2/launch_ros/issues/166>`_)
+* Substitutions in parameter files (`#168 <https://github.com/ros2/launch_ros/issues/168>`_)
+* Fix problems when parsing a `Command` `Substitution` as a parameter value (`#137 <https://github.com/ros2/launch_ros/issues/137>`_)
+* Drop double single-quoted params. (`#164 <https://github.com/ros2/launch_ros/issues/164>`_)
+* Add a way to set remapping rules for all nodes in the same scope (`#163 <https://github.com/ros2/launch_ros/issues/163>`_)
+* Fix ComposableNode ignoring PushRosNamespace actions (`#162 <https://github.com/ros2/launch_ros/issues/162>`_)
+* Add a SetParameter action that sets a parameter to all nodes in the same scope (`#158 <https://github.com/ros2/launch_ros/issues/158>`_)
+* Make namespace parameter mandatory in LifecycleNode constructor (`#157 <https://github.com/ros2/launch_ros/issues/157>`_)
+* Avoid using a wildcard to specify parameters if possible (`#154 <https://github.com/ros2/launch_ros/issues/154>`_)
+* Remove the loop parameter from async.sleep. (`#155 <https://github.com/ros2/launch_ros/issues/155>`_)
+* Fix no specified namespace (`#153 <https://github.com/ros2/launch_ros/issues/153>`_)
+* Fix test_node_frontend (`#146 <https://github.com/ros2/launch_ros/issues/146>`_)
+* Add pytest.ini so local tests don't display warning (`#152 <https://github.com/ros2/launch_ros/issues/152>`_)
+* Contributors: Chris Lalancette, Dan Rose, Ivan Santiago Paunovic, Jacob Perron, Michael Jeronimo, Michel Hidalgo, Víctor Mayoral Vilches
 
-0.9.5 (2020-01-21)
-------------------
-* Fix remapping rules when using xml/yaml launch files (`#111 <https://github.com/ros2/launch_ros/issues/111>`_)
+0.10.2 (2020-05-26)
+-------------------
+
+0.10.1 (2020-05-13)
+-------------------
+* Clean up various pytest warnings (`#143 <https://github.com/ros2/launch_ros/issues/143>`_)
+* Contributors: Michael Carroll
+
+0.10.0 (2020-04-29)
+-------------------
+* Deprecated 'node_executable' parameter and replace with 'executable' (`#140 <https://github.com/ros2/launch_ros/issues/140>`_)
+* More verbose test_flake8 error messages (same as `ros2/launch_ros#135 <https://github.com/ros2/launch_ros/issues/135>`_)
+* Enable implicit ROS startup by launch_ros actions.  (`#128 <https://github.com/ros2/launch_ros/issues/128>`_)
+* Fix flake8 linter errors (`#130 <https://github.com/ros2/launch_ros/issues/130>`_)
+* Add warning message when launching Non-Uniquely Named Nodes (`#127 <https://github.com/ros2/launch_ros/issues/127>`_)
+* Rename node-related parameters (`#122 <https://github.com/ros2/launch_ros/issues/122>`_)
+* Fix frontend topic remapping (`#111 <https://github.com/ros2/launch_ros/issues/111>`_)
 * Maintain order of parameters regarding name and from (`#99 <https://github.com/ros2/launch_ros/issues/99>`_)
 * Fix push-ros-namespace in xml/yaml launch files (`#100 <https://github.com/ros2/launch_ros/issues/100>`_)
-* Contributors: Brian Marchi, Ivan Santiago Paunovic, Jacob Perron
+* Contributors: Brian Marchi, Dirk Thomas, Ivan Santiago Paunovic, Jacob Perron, Miaofei Mei, Michel Hidalgo
 
 0.9.4 (2019-11-19)
 ------------------

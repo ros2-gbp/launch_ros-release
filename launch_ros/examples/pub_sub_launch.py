@@ -19,22 +19,21 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))  # noqa
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'launch'))  # noqa
 
-from launch import LaunchDescription
-from launch import LaunchIntrospector
-from launch import LaunchService
+from launch import LaunchDescription  # noqa: E402
+from launch import LaunchIntrospector  # noqa: E402
+from launch import LaunchService  # noqa: E402
 
-from launch_ros import get_default_launch_description
-import launch_ros.actions
+import launch_ros.actions  # noqa: E402
 
 
 def main(argv=sys.argv[1:]):
     """Run demo nodes via launch."""
     ld = LaunchDescription([
         launch_ros.actions.Node(
-            package='demo_nodes_cpp', node_executable='talker', output='screen',
+            package='demo_nodes_cpp', executable='talker', output='screen',
             remappings=[('chatter', 'my_chatter')]),
         launch_ros.actions.Node(
-            package='demo_nodes_cpp', node_executable='listener', output='screen',
+            package='demo_nodes_cpp', executable='listener', output='screen',
             remappings=[('chatter', 'my_chatter')]),
     ])
 
@@ -49,7 +48,6 @@ def main(argv=sys.argv[1:]):
 
     # ls = LaunchService(debug=True)
     ls = LaunchService()
-    ls.include_launch_description(get_default_launch_description())
     ls.include_launch_description(ld)
     return ls.run()
 

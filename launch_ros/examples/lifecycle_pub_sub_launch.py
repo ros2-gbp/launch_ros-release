@@ -19,16 +19,15 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))  # noqa
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'launch'))  # noqa
 
-import launch
-import launch.actions
-import launch.events
+import launch  # noqa: E402
+import launch.actions  # noqa: E402
+import launch.events  # noqa: E402
 
-from launch_ros import get_default_launch_description
-import launch_ros.actions
-import launch_ros.events
-import launch_ros.events.lifecycle
+import launch_ros.actions  # noqa: E402
+import launch_ros.events  # noqa: E402
+import launch_ros.events.lifecycle  # noqa: E402
 
-import lifecycle_msgs.msg
+import lifecycle_msgs.msg  # noqa: E402
 
 
 def main(argv=sys.argv[1:]):
@@ -37,8 +36,8 @@ def main(argv=sys.argv[1:]):
 
     # Prepare the talker node.
     talker_node = launch_ros.actions.LifecycleNode(
-        node_name='talker',
-        package='lifecycle', node_executable='lifecycle_talker', output='screen')
+        name='talker', namespace='',
+        package='lifecycle', executable='lifecycle_talker', output='screen')
 
     # When the talker reaches the 'inactive' state, make it take the 'activate' transition.
     register_event_handler_for_talker_reaches_inactive_state = launch.actions.RegisterEventHandler(
@@ -63,8 +62,8 @@ def main(argv=sys.argv[1:]):
                 launch.actions.LogInfo(
                     msg="node 'talker' reached the 'active' state, launching 'listener'."),
                 launch_ros.actions.LifecycleNode(
-                    node_name='listener',
-                    package='lifecycle', node_executable='lifecycle_listener', output='screen'),
+                    name='listener', namespace='',
+                    package='lifecycle', executable='lifecycle_listener', output='screen'),
             ],
         )
     )
@@ -95,7 +94,6 @@ def main(argv=sys.argv[1:]):
 
     # ls = launch.LaunchService(argv=argv, debug=True)
     ls = launch.LaunchService(argv=argv)
-    ls.include_launch_description(get_default_launch_description())
     ls.include_launch_description(ld)
     return ls.run()
 

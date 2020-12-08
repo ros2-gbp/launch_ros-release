@@ -2,23 +2,64 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.9.6 (2020-12-04)
-------------------
-* Update maintainer list for Eloquent (`#193 <https://github.com/ros2/launch_ros/issues/193>`_)
-* Fix LoadComposableNodes action so that loading happens asynchronously (`#113 <https://github.com/ros2/launch_ros/issues/113>`_) (`#132 <https://github.com/ros2/launch_ros/issues/132>`_)
-* Contributors: Jacob Perron, Michael Jeronimo
+0.12.0 (2020-12-08)
+-------------------
+* Fix docblock in LoadComposableNodes (`#207 <https://github.com/ros2/launch_ros/issues/207>`_)
+* Validate complex attributes of 'node' action (`#198 <https://github.com/ros2/launch_ros/issues/198>`_)
+* Node.__init_\_() executable and ComposableNode.__init_\_() plugin arguments aren't optional (`#197 <https://github.com/ros2/launch_ros/issues/197>`_)
+* Remove constructors arguments deprecated since Foxy (`#190 <https://github.com/ros2/launch_ros/issues/190>`_)
+* Make name and namespace mandatory in ComposableNodeContainer, remove deprecated alternatives (`#189 <https://github.com/ros2/launch_ros/issues/189>`_)
+* Merge pull request `#183 <https://github.com/ros2/launch_ros/issues/183>`_ from ros2/update-maintainers
+  Update the package.xml files with the latest Open Robotics maintainers
+* Move previous maintainer to <author>
+* Update the package.xml files with the latest Open Robotics maintainers
+* Fix AttributeError when accessing component container name (`#177 <https://github.com/ros2/launch_ros/issues/177>`_)
+* Handle any substitution types for SetParameter name argument (`#182 <https://github.com/ros2/launch_ros/issues/182>`_)
+* Asynchronously wait for load node service response (`#174 <https://github.com/ros2/launch_ros/issues/174>`_)
+* Fix case where list of composable nodes is zero (`#173 <https://github.com/ros2/launch_ros/issues/173>`_)
+* Do not use event handler for loading composable nodes (`#170 <https://github.com/ros2/launch_ros/issues/170>`_)
+* Fix race with launch context changes when loading composable nodes (`#166 <https://github.com/ros2/launch_ros/issues/166>`_)
+* Substitutions in parameter files (`#168 <https://github.com/ros2/launch_ros/issues/168>`_)
+* Fix documentation typo (`#167 <https://github.com/ros2/launch_ros/issues/167>`_)
+* Fix problems when parsing a `Command` `Substitution` as a parameter value (`#137 <https://github.com/ros2/launch_ros/issues/137>`_)
+* Add a way to set remapping rules for all nodes in the same scope (`#163 <https://github.com/ros2/launch_ros/issues/163>`_)
+* Resolve libyaml warning when loading parameters from file (`#161 <https://github.com/ros2/launch_ros/issues/161>`_)
+* Fix ComposableNode ignoring PushRosNamespace actions (`#162 <https://github.com/ros2/launch_ros/issues/162>`_)
+* Add a SetParameter action that sets a parameter to all nodes in the same scope (`#158 <https://github.com/ros2/launch_ros/issues/158>`_)
+* Make namespace parameter mandatory in LifecycleNode constructor (`#157 <https://github.com/ros2/launch_ros/issues/157>`_)
+* Avoid using a wildcard to specify parameters if possible (`#154 <https://github.com/ros2/launch_ros/issues/154>`_)
+* Fix no specified namespace (`#153 <https://github.com/ros2/launch_ros/issues/153>`_)
+* Add pytest.ini so local tests don't display warning (`#152 <https://github.com/ros2/launch_ros/issues/152>`_)
+* Contributors: Chris Lalancette, Dereck Wonnacott, Ivan Santiago Paunovic, Jacob Perron, Michael Jeronimo
 
-0.9.5 (2020-01-21)
-------------------
-* Fix remapping rules when using xml/yaml launch files (`#111 <https://github.com/ros2/launch_ros/issues/111>`_)
+0.10.2 (2020-05-26)
+-------------------
+
+0.10.1 (2020-05-13)
+-------------------
+* Fix new flake8 errors (`#148 <https://github.com/ros2/launch_ros/issues/148>`_)
+* Contributors: Michel Hidalgo
+
+0.10.0 (2020-04-29)
+-------------------
+* Avoid using sys.argv in rclpy.init (`#144 <https://github.com/ros2/launch_ros/issues/144>`_)
+* Deprecated 'node_executable' parameter and replace with 'executable' (`#140 <https://github.com/ros2/launch_ros/issues/140>`_)
+* Bump node_name warning stacklevel (`#138 <https://github.com/ros2/launch_ros/issues/138>`_)
+* More verbose test_flake8 error messages (same as `ros2/launch_ros#135 <https://github.com/ros2/launch_ros/issues/135>`_)
+* Enable implicit ROS startup by launch_ros actions  (`#128 <https://github.com/ros2/launch_ros/issues/128>`_)
+* Add warning message when launching Non-Uniquely Named Nodes (`#127 <https://github.com/ros2/launch_ros/issues/127>`_)
+* Rename node-related parameters (`#122 <https://github.com/ros2/launch_ros/issues/122>`_)
+* Fix LoadComposableNodes action so that loading happens asynchronously (`#113 <https://github.com/ros2/launch_ros/issues/113>`_)
+* Fix frontend topic remapping (`#111 <https://github.com/ros2/launch_ros/issues/111>`_)
 * Check for shutdown while waiting for a service response to avoid hang during shutdown (`#104 <https://github.com/ros2/launch_ros/issues/104>`_)
 * Fix misleading deprecated warnings when using launch arguments (`#106 <https://github.com/ros2/launch_ros/issues/106>`_)
-* Use imperative mood in constructor docstrings. (`#103 <https://github.com/ros2/launch_ros/issues/103>`_)
+* Use imperative mood in constructor docstrings (`#103 <https://github.com/ros2/launch_ros/issues/103>`_)
 * Maintain order of parameters regarding name and from (`#99 <https://github.com/ros2/launch_ros/issues/99>`_)
+* Allow separate launch composition (`#77 <https://github.com/ros2/launch_ros/issues/77>`_)
 * Fix push-ros-namespace in xml/yaml launch files (`#100 <https://github.com/ros2/launch_ros/issues/100>`_)
 * Pass the node-name attribute through the substitution parser (`#101 <https://github.com/ros2/launch_ros/issues/101>`_)
-* Add pid to launch_ros node name as suffix (`#98 <https://github.com/ros2/launch_ros/pull/98>`_)
-* Contributors: Brian Ezequiel Marchi, Grey, Ivan Santiago Paunovic, Jacob Perron, Steven! Ragnarök, William Woodall
+* Add pid to launch_ros node name as suffix (`#98 <https://github.com/ros2/launch_ros/issues/98>`_)
+* Contributors: Brian Ezequiel Marchi, Brian Marchi, Dirk Thomas, Eric Fang, Grey, Ivan Santiago Paunovic, Jacob Perron, Miaofei Mei, Michel Hidalgo, Shane Loretz, Steven! Ragnarök, William Woodall
 
 0.9.4 (2019-11-19)
 ------------------

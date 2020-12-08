@@ -25,9 +25,6 @@ from ament_index_python.packages import PackageNotFoundError
 import launch
 from launch.frontend import Parser
 from launch.launch_description_sources import get_launch_description_from_any_launch_file
-import launch_ros
-import rclpy
-import rclpy.context
 
 
 class MultipleLaunchFilesError(Exception):
@@ -73,16 +70,22 @@ def get_launch_file_paths(*, path):
     launch_file_paths = []
     for root, dirs, files in os.walk(path):
         for file_name in files:
-            if file_name.endswith(get_launch_file_paths.extensions):
-                launch_file_paths.append(os.path.join(root, file_name))
+            file_path = os.path.join(root, file_name)
+            if is_launch_file(path=file_path):
+                launch_file_paths.append(file_path)
     return launch_file_paths
 
 
-get_launch_file_paths.extensions = [
+def is_launch_file(path):
+    """Return True if the path is a launch file."""
+    return path.endswith(is_launch_file.extensions) and os.path.isfile(path)
+
+
+is_launch_file.extensions = [
     'launch.' + extension for extension in Parser.get_available_extensions()
 ]
-get_launch_file_paths.extensions.append('launch.py')
-get_launch_file_paths.extensions = tuple(get_launch_file_paths.extensions)
+is_launch_file.extensions.append('launch.py')
+is_launch_file.extensions = tuple(is_launch_file.extensions)
 
 
 def print_a_launch_file(*, launch_file_path):
@@ -140,13 +143,6 @@ def parse_launch_arguments(launch_arguments: List[Text]) -> List[Tuple[Text, Tex
 def launch_a_launch_file(*, launch_file_path, launch_file_arguments, debug=False):
     """Launch a given launch file (by path) and pass it the given launch file arguments."""
     launch_service = launch.LaunchService(argv=launch_file_arguments, debug=debug)
-    context = rclpy.context.Context()
-    rclpy.init(args=[], context=context)
-    launch_service.include_launch_description(
-        launch_ros.get_default_launch_description(
-            rclpy_context=context,
-        )
-    )
     parsed_launch_arguments = parse_launch_arguments(launch_file_arguments)
     # Include the user provided launch file using IncludeLaunchDescription so that the
     # location of the current launch file is set.
@@ -160,7 +156,6 @@ def launch_a_launch_file(*, launch_file_path, launch_file_arguments, debug=False
     ])
     launch_service.include_launch_description(launch_description)
     ret = launch_service.run()
-    context = rclpy.shutdown(context=context)
     return ret
 
 
