@@ -27,6 +27,9 @@ from launch.substitutions import SubstitutionFailure
 from launch.utilities import normalize_to_list_of_substitutions
 from launch.utilities import perform_substitutions
 
+from launch_ros.utilities import make_namespace_absolute
+from launch_ros.utilities import prefix_namespace
+
 from rclpy.validate_namespace import validate_namespace
 
 
@@ -36,7 +39,7 @@ class PushRosNamespace(Action):
     Action that pushes the ros namespace.
 
     It's automatically popped when used inside a scoped `GroupAction`.
-    There's not other way of popping it.
+    There's no other way of popping it.
     """
 
     def __init__(
@@ -50,32 +53,29 @@ class PushRosNamespace(Action):
 
     @classmethod
     def parse(cls, entity: Entity, parser: Parser):
-        """Return `SetLaunchConfiguration` action and kwargs for constructing it."""
+        """Return `PushRosNamespace` action and kwargs for constructing it."""
         _, kwargs = super().parse(entity, parser)
         kwargs['namespace'] = parser.parse_substitution(entity.get_attr('namespace'))
         return cls, kwargs
 
     @property
     def namespace(self) -> List[Substitution]:
-        """Getter for self.__name."""
+        """Getter for self.__namespace."""
         return self.__namespace
 
     def execute(self, context: LaunchContext):
         """Execute the action."""
         pushed_namespace = perform_substitutions(context, self.namespace)
-        previous_namespace = context.launch_configurations.get('ros_namespace', '')
-        namespace = pushed_namespace
-        if not pushed_namespace.startswith('/'):
-            namespace = previous_namespace + '/' + pushed_namespace
-        namespace = namespace.rstrip('/')
-        if namespace != '':
-            try:
-                validate_namespace(namespace)
-            except Exception:
-                raise SubstitutionFailure(
-                    'The resulting namespace is invalid:'
-                    " [previous_namespace='{}', pushed_namespace='{}']".format(
-                        previous_namespace, pushed_namespace
-                    )
+        previous_namespace = context.launch_configurations.get('ros_namespace', None)
+        namespace = make_namespace_absolute(
+            prefix_namespace(previous_namespace, pushed_namespace))
+        try:
+            validate_namespace(namespace)
+        except Exception:
+            raise SubstitutionFailure(
+                'The resulting namespace is invalid:'
+                " [previous_namespace='{}', pushed_namespace='{}']".format(
+                    previous_namespace, pushed_namespace
                 )
+            )
         context.launch_configurations['ros_namespace'] = namespace

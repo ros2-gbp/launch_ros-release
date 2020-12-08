@@ -14,6 +14,8 @@
 
 """Module for the LoadComposableNodes action."""
 
+import threading
+
 from typing import List
 from typing import Optional
 from typing import Text
@@ -38,7 +40,10 @@ from ..ros_adapters import get_ros_node
 from ..utilities import add_node_name
 from ..utilities import evaluate_parameters
 from ..utilities import get_node_name_count
+from ..utilities import make_namespace_absolute
+from ..utilities import prefix_namespace
 from ..utilities import to_parameters_list
+from ..utilities.normalize_parameters import normalize_parameter_dict
 
 
 class LoadComposableNodes(Action):
@@ -79,13 +84,13 @@ class LoadComposableNodes(Action):
 
     def _load_node(
         self,
-        composable_node_description: ComposableNode,
+        request: composition_interfaces.srv.LoadNode.Request,
         context: LaunchContext
     ) -> None:
         """
         Load node synchronously.
 
-        :param composable_node_description: description of composable node to be loaded
+        :param request: service request to load a node
         :param context: current launch context
         """
         while not self.__rclpy_load_node_client.wait_for_service(timeout_sec=1.0):
@@ -96,52 +101,48 @@ class LoadComposableNodes(Action):
                     )
                 )
                 return
-        request = composition_interfaces.srv.LoadNode.Request()
-        request.package_name = perform_substitutions(
-            context, composable_node_description.package
-        )
-        request.plugin_name = perform_substitutions(
-            context, composable_node_description.node_plugin
-        )
-        if composable_node_description.node_name is not None:
-            request.node_name = perform_substitutions(
-                context, composable_node_description.node_name
+
+        # Asynchronously wait on service call so that we can periodically check for shutdown
+        event = threading.Event()
+
+        def unblock(future):
+            nonlocal event
+            event.set()
+
+        self.__logger.debug(
+            "Calling the '{}' service with request '{}'".format(
+                self.__rclpy_load_node_client.srv_name, request
             )
-        if composable_node_description.node_namespace is not None:
-            request.node_namespace = perform_substitutions(
-                context, composable_node_description.node_namespace
-            )
-        # request.log_level = perform_substitutions(context, node_description.log_level)
-        if composable_node_description.remappings is not None:
-            for from_, to in composable_node_description.remappings:
-                request.remap_rules.append('{}:={}'.format(
-                    perform_substitutions(context, list(from_)),
-                    perform_substitutions(context, list(to)),
-                ))
-        if composable_node_description.parameters is not None:
-            request.parameters = [
-                param.to_parameter_msg() for param in to_parameters_list(
-                    context, evaluate_parameters(
-                        context, composable_node_description.parameters
-                    )
+        )
+
+        response_future = self.__rclpy_load_node_client.call_async(request)
+        response_future.add_done_callback(unblock)
+
+        while not event.wait(1.0):
+            if context.is_shutdown:
+                self.__logger.warning(
+                    "Abandoning wait for the '{}' service response, due to shutdown.".format(
+                        self.__rclpy_load_node_client.srv_name),
                 )
-            ]
-        if composable_node_description.extra_arguments is not None:
-            request.extra_arguments = [
-                param.to_parameter_msg() for param in to_parameters_list(
-                    context, evaluate_parameters(
-                        context, composable_node_description.extra_arguments
-                    )
-                )
-            ]
-        response = self.__rclpy_load_node_client.call(request)
+                response_future.cancel()
+                return
+
+        # Get response
+        if response_future.exception() is not None:
+            raise response_future.exception()
+        response = response_future.result()
+
+        self.__logger.debug("Received response '{}'".format(response))
+
         node_name = response.full_node_name if response.full_node_name else request.node_name
         if response.success:
             if node_name is not None:
                 add_node_name(context, node_name)
                 node_name_count = get_node_name_count(context, node_name)
                 if node_name_count > 1:
-                    container_logger = launch.logging.get_logger(self.__target_container.name)
+                    container_logger = launch.logging.get_logger(
+                        self.__final_target_container_name
+                    )
                     container_logger.warning(
                         'there are now at least {} nodes with the name {} created within this '
                         'launch context'.format(node_name_count, node_name)
@@ -159,22 +160,22 @@ class LoadComposableNodes(Action):
 
     def _load_in_sequence(
         self,
-        composable_node_descriptions: List[ComposableNode],
+        load_node_requests: List[composition_interfaces.srv.LoadNode.Request],
         context: LaunchContext
     ) -> None:
         """
         Load composable nodes sequentially.
 
-        :param composable_node_descriptions: descriptions of composable nodes to be loaded
+        :param load_node_requests: a list of LoadNode service requests to execute
         :param context: current launch context
         """
-        next_composable_node_description = composable_node_descriptions[0]
-        composable_node_descriptions = composable_node_descriptions[1:]
-        self._load_node(next_composable_node_description, context)
-        if len(composable_node_descriptions) > 0:
+        next_load_node_request = load_node_requests[0]
+        load_node_requests = load_node_requests[1:]
+        self._load_node(next_load_node_request, context)
+        if len(load_node_requests) > 0:
             context.add_completion_future(
                 context.asyncio_loop.run_in_executor(
-                    None, self._load_in_sequence, composable_node_descriptions, context
+                    None, self._load_in_sequence, load_node_requests, context
                 )
             )
 
@@ -203,8 +204,75 @@ class LoadComposableNodes(Action):
             )
         )
 
+        # Generate load requests before execute() exits to avoid race with context changing
+        # due to scope change (e.g. if loading nodes from within a GroupAction).
+        load_node_requests = [
+            get_composable_node_load_request(node_description, context)
+            for node_description in self.__composable_node_descriptions
+        ]
+
         context.add_completion_future(
             context.asyncio_loop.run_in_executor(
-                None, self._load_in_sequence, self.__composable_node_descriptions, context
+                None, self._load_in_sequence, load_node_requests, context
             )
         )
+
+
+def get_composable_node_load_request(
+    composable_node_description: ComposableNode,
+    context: LaunchContext
+):
+    """Get the request that will be send to the composable node container."""
+    request = composition_interfaces.srv.LoadNode.Request()
+    request.package_name = perform_substitutions(
+        context, composable_node_description.package
+    )
+    request.plugin_name = perform_substitutions(
+        context, composable_node_description.node_plugin
+    )
+    if composable_node_description.node_name is not None:
+        request.node_name = perform_substitutions(
+            context, composable_node_description.node_name
+        )
+    expanded_ns = composable_node_description.node_namespace
+    if expanded_ns is not None:
+        expanded_ns = perform_substitutions(context, expanded_ns)
+    base_ns = context.launch_configurations.get('ros_namespace', None)
+    combined_ns = make_namespace_absolute(prefix_namespace(base_ns, expanded_ns))
+    if combined_ns is not None:
+        request.node_namespace = combined_ns
+    # request.log_level = perform_substitutions(context, node_description.log_level)
+    remappings = []
+    global_remaps = context.launch_configurations.get('ros_remaps', None)
+    if global_remaps:
+        remappings.extend([f'{src}:={dst}' for src, dst in global_remaps])
+    if composable_node_description.remappings:
+        remappings.extend([
+            f'{perform_substitutions(context, src)}:={perform_substitutions(context, dst)}'
+            for src, dst in composable_node_description.remappings
+        ])
+    if remappings:
+        request.remap_rules = remappings
+    global_params = context.launch_configurations.get('ros_params', None)
+    parameters = []
+    if global_params is not None:
+        parameters.append(normalize_parameter_dict(global_params))
+    if composable_node_description.parameters is not None:
+        parameters.extend(list(composable_node_description.parameters))
+    if parameters:
+        request.parameters = [
+            param.to_parameter_msg() for param in to_parameters_list(
+                context, evaluate_parameters(
+                    context, parameters
+                )
+            )
+        ]
+    if composable_node_description.extra_arguments is not None:
+        request.extra_arguments = [
+            param.to_parameter_msg() for param in to_parameters_list(
+                context, evaluate_parameters(
+                    context, composable_node_description.extra_arguments
+                )
+            )
+        ]
+    return request
