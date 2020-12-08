@@ -31,6 +31,9 @@ from launch.utilities import perform_substitutions
 
 import yaml
 
+from ..parameter_descriptions import Parameter as ParameterDescription
+from ..parameter_descriptions import ParameterFile
+from ..parameter_descriptions import ParameterValue as ParameterValueDescription
 from ..parameters_type import EvaluatedParameters
 from ..parameters_type import EvaluatedParameterValue
 from ..parameters_type import Parameters
@@ -113,6 +116,8 @@ def evaluate_parameter_dict(
                 for i, subvalue in enumerate(value):
                     output_value.append(target_type(subvalue))
                     evaluated_value = tuple(output_value)
+        elif isinstance(value, ParameterValueDescription):
+            evaluated_value = value.evaluate(context)
         else:
             # Value is a singular type, so nothing to evaluate
             ensure_argument_type(value, (float, int, str, bool, bytes), 'value')
@@ -136,10 +141,11 @@ def evaluate_parameters(context: LaunchContext, parameters: Parameters) -> Evalu
     """
     output_params = []  # type: List[Union[pathlib.Path, Dict[str, EvaluatedParameterValue]]]
     for param in parameters:
-        # If it's a list of substitutions then evaluate them to a string and return a pathlib.Path
-        if isinstance(param, tuple) and len(param) and isinstance(param[0], Substitution):
+        if isinstance(param, ParameterFile):
             # Evaluate a list of Substitution to a file path
-            output_params.append(pathlib.Path(perform_substitutions(context, list(param))))
+            output_params.append(param.evaluate(context))
+        elif isinstance(param, ParameterDescription):
+            output_params.append(param)
         elif isinstance(param, Mapping):
             # It's a list of name/value pairs
             output_params.append(evaluate_parameter_dict(context, param))
