@@ -1,3 +1,32 @@
+## launch_ros (rolling) - 0.13.0-1
+
+The packages in the `launch_ros` repository were released into the `rolling` distro by running `/usr/bin/bloom-release --track rolling --rosdistro rolling launch_ros` on `Mon, 25 Jan 2021 16:14:14 -0000`
+
+These packages were released:
+- `launch_ros`
+- `launch_testing_ros`
+- `ros2launch`
+
+These packages were explicitly ignored:
+- `test_launch_ros`
+
+Version of package(s) in repository `launch_ros`:
+
+- upstream repository: https://github.com/ros2/launch_ros.git
+- release repository: https://github.com/ros2-gbp/launch_ros-release.git
+- rosdistro version: `0.12.0-1`
+- old version: `0.12.0-1`
+- new version: `0.13.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.10.0`
+- catkin_pkg version: `0.4.23`
+- rosdep version: `0.20.0`
+- rosdistro version: `0.8.3`
+- vcstools version: `0.1.42`
+
+
 ## launch_ros (foxy) - 0.11.1-1
 
 The packages in the `launch_ros` repository were released into the `foxy` distro by running `/usr/bin/bloom-release -r foxy launch_ros` on `Thu, 10 Dec 2020 01:57:00 -0000`
