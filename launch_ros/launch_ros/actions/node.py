@@ -25,18 +25,17 @@ from typing import Text  # noqa: F401
 from typing import Tuple  # noqa: F401
 from typing import Union
 
-import warnings
-
 from launch.action import Action
 from launch.actions import ExecuteProcess
 from launch.frontend import Entity
 from launch.frontend import expose_action
 from launch.frontend import Parser
+from launch.frontend.type_utils import get_data_type_from_identifier
+
 from launch.launch_context import LaunchContext
 import launch.logging
 from launch.some_substitutions_type import SomeSubstitutionsType
 from launch.substitutions import LocalSubstitution
-from launch.substitutions import TextSubstitution
 from launch.utilities import ensure_argument_type
 from launch.utilities import normalize_to_list_of_substitutions
 from launch.utilities import perform_substitutions
@@ -57,6 +56,9 @@ from rclpy.validate_node_name import validate_node_name
 
 import yaml
 
+from ..descriptions import Parameter
+from ..descriptions import ParameterFile
+
 
 @expose_action('node')
 class Node(ExecuteProcess):
@@ -67,13 +69,10 @@ class Node(ExecuteProcess):
 
     def __init__(
         self, *,
-        executable: Optional[SomeSubstitutionsType] = None,
-        node_executable: Optional[SomeSubstitutionsType] = None,
+        executable: SomeSubstitutionsType,
         package: Optional[SomeSubstitutionsType] = None,
         name: Optional[SomeSubstitutionsType] = None,
         namespace: Optional[SomeSubstitutionsType] = None,
-        node_name: Optional[SomeSubstitutionsType] = None,
-        node_namespace: SomeSubstitutionsType = None,
         exec_name: Optional[SomeSubstitutionsType] = None,
         parameters: Optional[SomeParameters] = None,
         remappings: Optional[SomeRemapRules] = None,
@@ -127,38 +126,19 @@ class Node(ExecuteProcess):
         passed in in order to the node (where the last definition of a
         parameter takes effect).
 
-        .. deprecated:: Foxy
-           Parameters `node_executable`, `node_name`, and `node_namespace` are deprecated.
-           Use `executable`, `name`, and `namespace` instead.
-
         :param: executable the name of the executable to find if a package
-            is provided or otherwise a path to the executable to run.
-        :param: node_executable (DEPRECATED) the name of the executable to find if a package
             is provided or otherwise a path to the executable to run.
         :param: package the package in which the node executable can be found
         :param: name the name of the node
         :param: namespace the ROS namespace for this Node
         :param: exec_name the label used to represent the process.
             Defaults to the basename of node executable.
-        :param: node_name (DEPRECATED) the name of the node
-        :param: node_namespace (DEPRECATED) the ros namespace for this Node
         :param: parameters list of names of yaml files with parameter rules,
             or dictionaries of parameters.
         :param: remappings ordered list of 'to' and 'from' string pairs to be
             passed to the node as ROS remapping rules
         :param: arguments list of extra arguments for the node
         """
-        if node_executable is not None:
-            warnings.warn(
-                "The parameter 'node_executable' is deprecated, use 'executable' instead",
-                stacklevel=2
-            )
-            if executable is not None:
-                raise RuntimeError(
-                    "Passing both 'node_executable' and 'executable' parameters. "
-                    "Only use 'executable'"
-                )
-            executable = node_executable
         if package is not None:
             cmd = [ExecutableInPackage(package=package, executable=executable)]
         else:
@@ -167,28 +147,9 @@ class Node(ExecuteProcess):
         # Reserve space for ros specific arguments.
         # The substitutions will get expanded when the action is executed.
         cmd += ['--ros-args']  # Prepend ros specific arguments with --ros-args flag
-        if node_name is not None:
-            warnings.warn(
-                "The parameter 'node_name' is deprecated, use 'name' instead",
-                stacklevel=2)
-            if name is not None:
-                raise RuntimeError(
-                    "Passing both 'node_name' and 'name' parameters. Only use 'name'."
-                )
-            cmd += ['-r', LocalSubstitution(
-                "ros_specific_arguments['name']", description='node name')]
-            name = node_name
         if name is not None:
             cmd += ['-r', LocalSubstitution(
                 "ros_specific_arguments['name']", description='node name')]
-        if node_namespace:
-            warnings.warn("The parameter 'node_namespace' is deprecated, use 'namespace' instead")
-            if namespace:
-                raise RuntimeError(
-                    "Passing both 'node_namespace' and 'namespace' parameters. "
-                    "Only use 'namespace'."
-                )
-            namespace = node_namespace
         if parameters is not None:
             ensure_argument_type(parameters, (list), 'parameters', 'Node')
             # All elements in the list are paths to files with parameters (or substitutions that
@@ -207,7 +168,7 @@ class Node(ExecuteProcess):
 
         self.__expanded_node_name = self.UNSPECIFIED_NODE_NAME
         self.__expanded_node_namespace = self.UNSPECIFIED_NODE_NAMESPACE
-        self.__expanded_parameter_files = None  # type: Optional[List[Text]]
+        self.__expanded_parameter_arguments = None  # type: Optional[List[Tuple[Text, bool]]]
         self.__final_node_name = None  # type: Optional[Text]
         self.__expanded_remappings = None  # type: Optional[List[Tuple[Text, Text]]]
 
@@ -218,27 +179,29 @@ class Node(ExecuteProcess):
     @staticmethod
     def parse_nested_parameters(params, parser):
         """Normalize parameters as expected by Node constructor argument."""
+        from ..descriptions import ParameterValue
+
         def get_nested_dictionary_from_nested_key_value_pairs(params):
             """Convert nested params in a nested dictionary."""
             param_dict = {}
             for param in params:
                 name = tuple(parser.parse_substitution(param.get_attr('name')))
-                value = param.get_attr('value', data_type=None, optional=True)
+                type_identifier = param.get_attr('type', data_type=None, optional=True)
+                data_type = None
+                if type_identifier is not None:
+                    data_type = get_data_type_from_identifier(type_identifier)
+                value = param.get_attr('value', data_type=data_type, optional=True)
                 nested_params = param.get_attr('param', data_type=List[Entity], optional=True)
+                param.assert_entity_completely_parsed()
                 if value is not None and nested_params:
-                    raise RuntimeError('param and value attributes are mutually exclusive')
+                    raise RuntimeError(
+                        'nested parameters and value attributes are mutually exclusive')
+                if data_type is not None and nested_params:
+                    raise RuntimeError(
+                        'nested parameters and type attributes are mutually exclusive')
                 elif value is not None:
-                    def normalize_scalar_value(value):
-                        if isinstance(value, str):
-                            value = parser.parse_substitution(value)
-                            if len(value) == 1 and isinstance(value[0], TextSubstitution):
-                                value = value[0].text  # python `str` are not converted like yaml
-                        return value
-                    if isinstance(value, list):
-                        value = [normalize_scalar_value(x) for x in value]
-                    else:
-                        value = normalize_scalar_value(value)
-                    param_dict[name] = value
+                    some_value = parser.parse_if_substitutions(value)
+                    param_dict[name] = ParameterValue(some_value, value_type=data_type)
                 elif nested_params:
                     param_dict.update({
                         name: get_nested_dictionary_from_nested_key_value_pairs(nested_params)
@@ -250,6 +213,7 @@ class Node(ExecuteProcess):
         normalized_params = []
         for param in params:
             from_attr = param.get_attr('from', optional=True)
+            allow_substs = param.get_attr('allow_substs', data_type=bool, optional=True)
             name = param.get_attr('name', optional=True)
             if from_attr is not None and name is not None:
                 raise RuntimeError('name and from attributes are mutually exclusive')
@@ -257,9 +221,18 @@ class Node(ExecuteProcess):
                 # 'from' attribute ignores 'name' attribute,
                 # it's not accepted to be nested,
                 # and it can not have children.
-                normalized_params.append(parser.parse_substitution(from_attr))
+                if isinstance(allow_substs, str):
+                    allow_substs = parser.parse_substitution(allow_substs)
+                else:
+                    allow_substs = bool(allow_substs)
+                param.assert_entity_completely_parsed()
+                normalized_params.append(
+                    ParameterFile(parser.parse_substitution(from_attr), allow_substs=allow_substs))
                 continue
             elif name is not None:
+                if allow_substs is not None:
+                    raise RuntimeError(
+                        "'allow_substs' can only be used together with 'from' attribute")
                 normalized_params.append(
                     get_nested_dictionary_from_nested_key_value_pairs([param]))
                 continue
@@ -298,6 +271,8 @@ class Node(ExecuteProcess):
                     parser.parse_substitution(remap.get_attr('to'))
                 ) for remap in remappings
             ]
+            for remap in remappings:
+                remap.assert_entity_completely_parsed()
         parameters = entity.get_attr('param', data_type=List[Entity], optional=True)
         if parameters is not None:
             kwargs['parameters'] = cls.parse_nested_parameters(parameters, parser)
@@ -325,7 +300,13 @@ class Node(ExecuteProcess):
             yaml.dump(param_dict, h, default_flow_style=False)
             return param_file_path
 
+    def _get_parameter_rule(self, param: 'Parameter', context: LaunchContext):
+        name, value = param.evaluate(context)
+        return f'{name}:={yaml.dump(value)}'
+
     def _perform_substitutions(self, context: LaunchContext) -> None:
+        # Here to avoid cyclic import
+        from ..descriptions import Parameter
         try:
             if self.__substitutions_performed:
                 # This function may have already been called by a subclass' `execute`, for example.
@@ -337,7 +318,7 @@ class Node(ExecuteProcess):
                 validate_node_name(self.__expanded_node_name)
             self.__expanded_node_name.lstrip('/')
             expanded_node_namespace: Optional[Text] = None
-            if self.__node_namespace:
+            if self.__node_namespace is not None:
                 expanded_node_namespace = perform_substitutions(
                     context, normalize_to_list_of_substitutions(self.__node_namespace))
             base_ns = context.launch_configurations.get('ros_namespace', None)
@@ -365,31 +346,36 @@ class Node(ExecuteProcess):
         # so they can be overriden with specific parameters of this Node
         global_params = context.launch_configurations.get('ros_params', None)
         if global_params is not None or self.__parameters is not None:
-            self.__expanded_parameter_files = []
+            self.__expanded_parameter_arguments = []
         if global_params is not None:
             param_file_path = self._create_params_file_from_dict(global_params)
-            self.__expanded_parameter_files.append(param_file_path)
+            self.__expanded_parameter_arguments.append((param_file_path, True))
             cmd_extension = ['--params-file', f'{param_file_path}']
             self.cmd.extend([normalize_to_list_of_substitutions(x) for x in cmd_extension])
             assert os.path.isfile(param_file_path)
         # expand parameters too
         if self.__parameters is not None:
             evaluated_parameters = evaluate_parameters(context, self.__parameters)
-            for i, params in enumerate(evaluated_parameters):
+            for params in evaluated_parameters:
+                is_file = False
                 if isinstance(params, dict):
-                    param_file_path = self._create_params_file_from_dict(params)
-                    assert os.path.isfile(param_file_path)
+                    param_argument = self._create_params_file_from_dict(params)
+                    is_file = True
+                    assert os.path.isfile(param_argument)
                 elif isinstance(params, pathlib.Path):
-                    param_file_path = str(params)
+                    param_argument = str(params)
+                    is_file = True
+                elif isinstance(params, Parameter):
+                    param_argument = self._get_parameter_rule(params, context)
                 else:
                     raise RuntimeError('invalid normalized parameters {}'.format(repr(params)))
-                if not os.path.isfile(param_file_path):
+                if is_file and not os.path.isfile(param_argument):
                     self.__logger.warning(
-                        'Parameter file path is not a file: {}'.format(param_file_path),
+                        'Parameter file path is not a file: {}'.format(param_argument),
                     )
                     continue
-                self.__expanded_parameter_files.append(param_file_path)
-                cmd_extension = ['--params-file', f'{param_file_path}']
+                self.__expanded_parameter_arguments.append((param_argument, is_file))
+                cmd_extension = ['--params-file' if is_file else '-p', f'{param_argument}']
                 self.cmd.extend([normalize_to_list_of_substitutions(x) for x in cmd_extension])
         # expand remappings too
         global_remaps = context.launch_configurations.get('ros_remaps', None)
