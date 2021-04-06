@@ -2,6 +2,9 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.14.0 (2021-04-06)
+-------------------
+
 0.13.0 (2021-01-25)
 -------------------
 * Re-order shutdown vs node destruction (`#213 <https://github.com/ros2/launch_ros/issues/213>`_)
