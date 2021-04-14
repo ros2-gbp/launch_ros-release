@@ -16,19 +16,15 @@
 
 import os
 import pathlib
-from typing import List
 import unittest
+import warnings
 
 from launch import LaunchContext
 from launch import LaunchDescription
 from launch import LaunchService
 from launch.actions import Shutdown
 from launch.substitutions import EnvironmentVariable
-
 import launch_ros.actions.node
-from launch_ros.descriptions import Parameter
-from launch_ros.descriptions import ParameterValue
-
 import pytest
 import yaml
 
@@ -139,63 +135,15 @@ class TestNode(unittest.TestCase):
         self._assert_launch_no_errors([node_action])
 
         # Check the expanded parameters.
-        expanded_parameter_arguments = node_action._Node__expanded_parameter_arguments
-        assert len(expanded_parameter_arguments) == 3
+        expanded_parameter_files = node_action._Node__expanded_parameter_files
+        assert len(expanded_parameter_files) == 3
         for i in range(3):
-            assert expanded_parameter_arguments[i] == (str(parameters_file_path), True)
-
-    def test_launch_node_with_parameter_descriptions(self):
-        """Test launching a node with parameters specified in a dictionary."""
-        os.environ['PARAM1_VALUE'] = 'param1_value'
-        os.environ['PARAM2'] = 'param2'
-        node_action = self._create_node(
-            parameters=[
-                Parameter(
-                    name='param1',
-                    value=EnvironmentVariable(name='PARAM1_VALUE'),
-                    value_type=str,
-                ),
-                Parameter(
-                    name=EnvironmentVariable(name='PARAM2'),
-                    value=[[EnvironmentVariable(name='PARAM2')], '_value'],
-                    value_type=List[str],
-                ),
-                Parameter(
-                    name='param_group1.list_params',
-                    value=[1.2, 3.4],
-                ),
-                Parameter(
-                    name=['param_group1.param_group2.', EnvironmentVariable('PARAM2'), '_values'],
-                    value=['param2_value'],
-                ),
-                Parameter(
-                    name='param3',
-                    value='',
-                ),
-            ],
-        )
-        self._assert_launch_no_errors([node_action])
-
-        expanded_parameter_arguments = node_action._Node__expanded_parameter_arguments
-        assert len(expanded_parameter_arguments) == 5
-        parameters = []
-        for item, is_file in expanded_parameter_arguments:
-            assert not is_file
-            name, value = item.split(':=')
-            parameters.append((name, yaml.safe_load(value)))
-        assert parameters == [
-            ('param1', 'param1_value'),
-            ('param2', ['param2', '_value']),
-            ('param_group1.list_params', [1.2, 3.4]),
-            ('param_group1.param_group2.param2_values', ['param2_value']),
-            ('param3', ''),
-        ]
+            assert expanded_parameter_files[i] == str(parameters_file_path)
 
     def test_launch_node_with_parameter_dict(self):
         """Test launching a node with parameters specified in a dictionary."""
         os.environ['PARAM1_VALUE'] = 'param1_value'
         os.environ['PARAM2'] = 'param2'
-        os.environ['PARAM4_INT'] = '100'
         node_action = self._create_node(
             parameters=[{
                 'param1': EnvironmentVariable(name='PARAM1_VALUE'),
@@ -206,18 +154,15 @@ class TestNode(unittest.TestCase):
                         (EnvironmentVariable('PARAM2'), '_values'): ['param2_value'],
                     }
                 },
-                'param3': '',
-                'param4': ParameterValue(EnvironmentVariable(name='PARAM4_INT'), value_type=int),
+                'param3': ''
             }],
         )
         self._assert_launch_no_errors([node_action])
 
         # Check the expanded parameters (will be written to a file).
-        expanded_parameter_arguments = node_action._Node__expanded_parameter_arguments
-        assert len(expanded_parameter_arguments) == 1
-        file_path, is_file = expanded_parameter_arguments[0]
-        assert is_file
-        with open(file_path, 'r') as h:
+        expanded_parameter_files = node_action._Node__expanded_parameter_files
+        assert len(expanded_parameter_files) == 1
+        with open(expanded_parameter_files[0], 'r') as h:
             expanded_parameters_dict = yaml.load(h, Loader=yaml.FullLoader)
             assert expanded_parameters_dict == {
                 '/my_ns/my_node': {
@@ -225,7 +170,6 @@ class TestNode(unittest.TestCase):
                         'param1': 'param1_value',
                         'param2': 'param2_value',
                         'param3': '',
-                        'param4': 100,
                         'param_group1.list_params': (1.2, 3.4),
                         'param_group1.param_group2.param2_values': ('param2_value',),
                     }
@@ -248,6 +192,55 @@ class TestNode(unittest.TestCase):
             parameters=[{'my_param': 'value'}],
         )
         self._assert_launch_no_errors([node_action])
+
+    def test_deprecated_node_parameters(self):
+        """Test that using deprecated parameters will warn/error."""
+        # Note that the following tests are expected to break when the deprecated
+        # parameters are eventually removed and should be updated accordingly.
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter('always')
+            node_action = launch_ros.actions.Node(
+                package='demo_nodes_py', node_executable='talker_qos', output='screen',
+                node_name='my_node', node_namespace='my_ns'
+            )
+            self._assert_launch_no_errors([node_action])
+            self.assertEqual(len(w), 3)
+            self.assertTrue(issubclass(w[0].category, UserWarning))
+            self.assertTrue(issubclass(w[1].category, UserWarning))
+            self.assertTrue(issubclass(w[2].category, UserWarning))
+
+        # Providing both 'node_executable' and 'executable' should throw
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter('always')
+            with self.assertRaises(RuntimeError):
+                launch_ros.actions.Node(
+                    package='demo_nodes_py', node_executable='talker_qos', executable='talker_qos',
+                    output='screen', name='my_node', namespace='my_ns'
+                )
+            self.assertEqual(len(w), 1)
+            self.assertTrue(issubclass(w[0].category, UserWarning))
+
+        # Providing both 'node_name' and 'name' should throw
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter('always')
+            with self.assertRaises(RuntimeError):
+                launch_ros.actions.Node(
+                    package='demo_nodes_py', executable='talker_qos', output='screen',
+                    node_name='my_node', name='my_node', namespace='my_ns'
+                )
+            self.assertEqual(len(w), 1)
+            self.assertTrue(issubclass(w[0].category, UserWarning))
+
+        # Providing both 'node_namespace' and 'namespace' should throw
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter('always')
+            with self.assertRaises(RuntimeError):
+                launch_ros.actions.Node(
+                    package='demo_nodes_py', executable='talker_qos', output='screen',
+                    name='my_node', node_namespace='my_ns', namespace='my_ns'
+                )
+            self.assertEqual(len(w), 1)
+            self.assertTrue(issubclass(w[0].category, UserWarning))
 
     def test_launch_node_with_invalid_parameter_dicts(self):
         """Test launching a node with invalid parameter dicts."""

@@ -23,7 +23,6 @@ from launch_ros.actions import Node
 from launch_ros.actions import SetParameter
 from launch_ros.actions.load_composable_nodes import get_composable_node_load_request
 from launch_ros.descriptions import ComposableNode
-from launch_ros.parameter_descriptions import ParameterValue
 
 import pytest
 import yaml
@@ -64,11 +63,6 @@ def get_set_parameter_test_parameters():
             [([TextSubstitution(text='my_param')], [TextSubstitution(text='my_value')])],
             {'my_param': 'my_value'},
             id='List of substitution types'
-        ),
-        pytest.param(
-            [('my_param', ParameterValue('my_value'))],
-            {'my_param': 'my_value'},
-            id='ParameterValue type'
         ),
     ]
 
@@ -112,20 +106,16 @@ def test_set_param_with_node():
     set_param = SetParameter(name='my_param', value='my_value')
     set_param.execute(lc)
     node._perform_substitutions(lc)
-    expanded_parameter_arguments = node._Node__expanded_parameter_arguments
-    assert len(expanded_parameter_arguments) == 2
-    param_file_path, is_file = expanded_parameter_arguments[0]
-    assert is_file
-    with open(param_file_path, 'r') as h:
+    expanded_parameter_files = node._Node__expanded_parameter_files
+    assert len(expanded_parameter_files) == 2
+    with open(expanded_parameter_files[0], 'r') as h:
         expanded_parameters_dict = yaml.load(h, Loader=yaml.FullLoader)
         assert expanded_parameters_dict == {
             '/my_ns/my_node': {
                 'ros__parameters': {'my_param': 'my_value'}
             }
         }
-    param_file_path, is_file = expanded_parameter_arguments[1]
-    assert is_file
-    with open(param_file_path, 'r') as h:
+    with open(expanded_parameter_files[1], 'r') as h:
         expanded_parameters_dict = yaml.load(h, Loader=yaml.FullLoader)
         assert expanded_parameters_dict == {
             '/my_ns/my_node': {

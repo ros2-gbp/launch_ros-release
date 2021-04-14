@@ -2,26 +2,21 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.14.1 (2021-04-12)
+0.11.2 (2021-04-14)
+-------------------
+* Support non-interactive ros2 launch executions (`#210 <https://github.com/ros2/launch_ros/issues/210>`_) (`#225 <https://github.com/ros2/launch_ros/issues/225>`_)
+* Contributors: Felix Divo, Michel Hidalgo
+
+0.11.1 (2020-12-09)
 -------------------
 
-0.14.0 (2021-04-06)
+0.11.0 (2020-10-28)
 -------------------
-* Add options extensions to ros2launch and extensibility to the node action (`#216 <https://github.com/ros2/launch_ros/issues/216>`_)
-* Contributors: Geoffrey Biggs
+* Update maintainer list for Foxy (`#194 <https://github.com/ros2/launch_ros/issues/194>`_)
+* Contributors: Michael Jeronimo
 
-0.13.0 (2021-01-25)
+0.10.3 (2020-10-07)
 -------------------
-* Support non-interactive ros2 launch executions (`#210 <https://github.com/ros2/launch_ros/issues/210>`_)
-* Contributors: Michel Hidalgo
-
-0.12.0 (2020-12-08)
--------------------
-* Merge pull request `#183 <https://github.com/ros2/launch_ros/issues/183>`_ from ros2/update-maintainers
-* Move previous maintainer to <author>
-* Update the package.xml files with the latest Open Robotics maintainers
-* Add pytest.ini so local tests don't display warning (`#152 <https://github.com/ros2/launch_ros/issues/152>`_)
-* Contributors: Chris Lalancette, Michael Jeronimo
 
 0.10.2 (2020-05-26)
 -------------------

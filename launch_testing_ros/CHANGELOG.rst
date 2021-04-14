@@ -2,22 +2,19 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.14.1 (2021-04-12)
+0.11.2 (2021-04-14)
 -------------------
 
-0.14.0 (2021-04-06)
+0.11.1 (2020-12-09)
 -------------------
 
-0.13.0 (2021-01-25)
+0.11.0 (2020-10-28)
 -------------------
+* Update maintainer list for Foxy (`#194 <https://github.com/ros2/launch_ros/issues/194>`_)
+* Contributors: Michael Jeronimo
 
-0.12.0 (2020-12-08)
+0.10.3 (2020-10-07)
 -------------------
-* Merge pull request `#183 <https://github.com/ros2/launch_ros/issues/183>`_ from ros2/update-maintainers
-* Move Pete to author, per clalancette
-* Update the package.xml files with the latest Open Robotics maintainers
-* Add pytest.ini so local tests don't display warning (`#152 <https://github.com/ros2/launch_ros/issues/152>`_)
-* Contributors: Chris Lalancette, Michael Jeronimo
 
 0.10.2 (2020-05-26)
 -------------------
