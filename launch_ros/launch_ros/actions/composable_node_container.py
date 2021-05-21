@@ -18,6 +18,8 @@ from typing import List
 from typing import Optional
 
 from launch.action import Action
+from launch.actions import RegisterEventHandler
+from launch.event_handlers.on_process_start import OnProcessStart
 from launch.launch_context import LaunchContext
 from launch.some_substitutions_type import SomeSubstitutionsType
 
@@ -32,8 +34,8 @@ class ComposableNodeContainer(Node):
     def __init__(
         self,
         *,
-        name: SomeSubstitutionsType,
-        namespace: SomeSubstitutionsType,
+        node_name: SomeSubstitutionsType,
+        node_namespace: SomeSubstitutionsType,
         composable_node_descriptions: Optional[List[ComposableNode]] = None,
         **kwargs
     ) -> None:
@@ -43,12 +45,12 @@ class ComposableNodeContainer(Node):
         Most arguments are forwarded to :class:`launch_ros.actions.Node`, so see the documentation
         of that class for further details.
 
-        :param: name the name of the node, mandatory for full container node name resolution
-        :param: namespace the ROS namespace for this Node, mandatory for full container node
-             name resolution
+        :param: node_name the name of the node, mandatory for full container node name resolution
+        :param: node_namespace the ros namespace for this Node, mandatory for full container node
+           name resolution
         :param composable_node_descriptions: optional descriptions of composable nodes to be loaded
         """
-        super().__init__(name=name, namespace=namespace, **kwargs)
+        super().__init__(node_name=node_name, node_namespace=node_namespace, **kwargs)
         self.__composable_node_descriptions = composable_node_descriptions
 
     def execute(self, context: LaunchContext) -> Optional[List[Action]]:
@@ -59,16 +61,20 @@ class ComposableNodeContainer(Node):
         composable nodes load action if it applies.
         """
         load_actions = None  # type: Optional[List[Action]]
-        if (
-            self.__composable_node_descriptions is not None and
-            len(self.__composable_node_descriptions) > 0
-        ):
+        if self.__composable_node_descriptions is not None:
             from .load_composable_nodes import LoadComposableNodes
             # Perform load action once the container has started.
             load_actions = [
-                LoadComposableNodes(
-                    composable_node_descriptions=self.__composable_node_descriptions,
-                    target_container=self
+                RegisterEventHandler(
+                    event_handler=OnProcessStart(
+                        target_action=self,
+                        on_start=[
+                            LoadComposableNodes(
+                                composable_node_descriptions=self.__composable_node_descriptions,
+                                target_container=self
+                            )
+                        ]
+                    )
                 )
             ]
         container_actions = super().execute(context)  # type: Optional[List[Action]]

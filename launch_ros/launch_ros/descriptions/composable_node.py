@@ -35,34 +35,34 @@ class ComposableNode:
     def __init__(
         self, *,
         package: SomeSubstitutionsType,
-        plugin: SomeSubstitutionsType,
-        name: Optional[SomeSubstitutionsType] = None,
-        namespace: Optional[SomeSubstitutionsType] = None,
+        node_plugin: SomeSubstitutionsType,
+        node_name: Optional[SomeSubstitutionsType] = None,
+        node_namespace: Optional[SomeSubstitutionsType] = None,
         parameters: Optional[SomeParameters] = None,
         remappings: Optional[SomeRemapRules] = None,
-        extra_arguments: Optional[SomeParameters] = None,
+        extra_arguments: Optional[SomeParameters] = None
     ) -> None:
         """
         Initialize a ComposableNode description.
 
         :param package: name of the ROS package the node plugin lives in
-        :param plugin: name of the plugin to be loaded
-        :param name: name to give to the ROS node
-        :param namespace: namespace to give to the ROS node
+        :param node_plugin: name of the plugin to be loaded
+        :param node_name: name the node should have
+        :param node_namespace: namespace the node should create topics/services/etc in
         :param parameters: list of either paths to yaml files or dictionaries of parameters
         :param remappings: list of from/to pairs for remapping names
-        :param extra_arguments: container specific arguments to be passed to the loaded node
+        :pram extra_arguments: container specific arguments to be passed to the loaded node
         """
         self.__package = normalize_to_list_of_substitutions(package)
-        self.__node_plugin = normalize_to_list_of_substitutions(plugin)
+        self.__node_plugin = normalize_to_list_of_substitutions(node_plugin)
 
         self.__node_name = None  # type: Optional[List[Substitution]]
-        if name is not None:
-            self.__node_name = normalize_to_list_of_substitutions(name)
+        if node_name is not None:
+            self.__node_name = normalize_to_list_of_substitutions(node_name)
 
         self.__node_namespace = None  # type: Optional[List[Substitution]]
-        if namespace is not None:
-            self.__node_namespace = normalize_to_list_of_substitutions(namespace)
+        if node_namespace is not None:
+            self.__node_namespace = normalize_to_list_of_substitutions(node_namespace)
 
         self.__parameters = None  # type: Optional[Parameters]
         if parameters is not None:

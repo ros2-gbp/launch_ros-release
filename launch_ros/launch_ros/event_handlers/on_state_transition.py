@@ -42,7 +42,7 @@ class OnStateTransition(EventHandler):
         **kwargs
     ) -> None:
         """
-        Create an OnStateTransition event handler.
+        Constructor.
 
         There are several matching options, each of which is compared with the
         event and must match it to have the handler handle the event.

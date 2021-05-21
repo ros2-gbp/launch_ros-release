@@ -16,6 +16,7 @@
 
 from collections.abc import Mapping
 from collections.abc import Sequence
+import pathlib
 from typing import cast
 from typing import List
 from typing import Optional
@@ -30,11 +31,7 @@ from launch.substitutions import TextSubstitution
 from launch.utilities import ensure_argument_type
 from launch.utilities import normalize_to_list_of_substitutions
 
-import yaml
-
-from ..parameter_descriptions import Parameter as ParameterDescription
-from ..parameter_descriptions import ParameterFile
-from ..parameter_descriptions import ParameterValue as ParameterValueDescription
+from ..parameters_type import ParameterFile  # noqa: F401
 from ..parameters_type import Parameters
 from ..parameters_type import ParametersDict
 from ..parameters_type import ParameterValue
@@ -77,7 +74,7 @@ def _normalize_parameter_array_value(value: SomeParameterValue) -> ParameterValu
         # all were floats or ints, so return floats
         make_mypy_happy_float = cast(List[Union[int, float]], value)
         return tuple(float(e) for e in make_mypy_happy_float)
-    elif Substitution in has_types and has_types.issubset({str, Substitution}):
+    elif Substitution in has_types and has_types.issubset({str, Substitution, tuple}):
         # make a list of substitutions forming a single string
         return tuple(normalize_to_list_of_substitutions(cast(SomeSubstitutionsType, value)))
     elif {bool} == has_types:
@@ -88,8 +85,8 @@ def _normalize_parameter_array_value(value: SomeParameterValue) -> ParameterValu
         # Normalize to a list of lists of substitutions
         new_value = []  # type: List[SomeSubstitutionsType]
         for element in value:
-            if isinstance(element, (float, int, bool, str)):
-                new_value.append(yaml.dump(element))
+            if isinstance(element, (float, int, bool)):
+                new_value.append(str(element))
             else:
                 new_value.append(element)
         return tuple(normalize_to_list_of_substitutions(e) for e in new_value)
@@ -136,7 +133,7 @@ def normalize_parameter_dict(
         if _prefix:
             # Prefix name if there is a recursive dictionary
             # weird looking logic to combine into one list to appease mypy
-            combined = list(_prefix)
+            combined = [e for e in _prefix]
             combined.append(TextSubstitution(text='.'))
             combined.extend(name)
             name = combined
@@ -146,11 +143,7 @@ def normalize_parameter_dict(
             # Flatten recursive dictionaries
             sub_dict = normalize_parameter_dict(value, _prefix=name)
             normalized.update(sub_dict)
-        elif isinstance(value, ParameterValueDescription):
-            normalized[tuple(name)] = value
-        elif isinstance(value, str):
-            normalized[tuple(name)] = tuple(normalize_to_list_of_substitutions(yaml.dump(value)))
-        elif isinstance(value, Substitution):
+        elif isinstance(value, (str, Substitution)):
             normalized[tuple(name)] = tuple(normalize_to_list_of_substitutions(value))
         elif isinstance(value, (float, bool, int)):
             # Keep some types as is
@@ -178,15 +171,14 @@ def normalize_parameters(parameters: SomeParameters) -> Parameters:
     if isinstance(parameters, str) or not isinstance(parameters, Sequence):
         raise TypeError('Expecting list of parameters, got {}'.format(parameters))
 
-    normalized_params: List[Union[ParameterFile, ParametersDict, ParameterDescription]] = []
+    normalized_params = []  # type: List[Union[ParameterFile, ParametersDict]]
     for param in parameters:
         if isinstance(param, Mapping):
             normalized_params.append(normalize_parameter_dict(param))
-        elif isinstance(param, ParameterDescription):
-            normalized_params.append(param)
-        elif isinstance(param, ParameterFile):
-            normalized_params.append(param)
         else:
-            # It's a path
-            normalized_params.append(ParameterFile(param))
+            # It's a path, normalize to a list of substitutions
+            if isinstance(param, pathlib.Path):
+                param = str(param)
+            ensure_argument_type(param, SomeSubstitutionsType_types_tuple, 'parameters')
+            normalized_params.append(tuple(normalize_to_list_of_substitutions(param)))
     return tuple(normalized_params)
