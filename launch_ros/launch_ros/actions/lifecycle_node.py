@@ -15,12 +15,14 @@
 """Module for the LifecycleNode action."""
 
 import functools
+import threading
 from typing import cast
 from typing import List
 from typing import Optional
-from typing import Text
+import warnings
 
 import launch
+from launch import SomeSubstitutionsType
 from launch.action import Action
 import launch.logging
 
@@ -31,11 +33,20 @@ from .node import Node
 from ..events.lifecycle import ChangeState
 from ..events.lifecycle import StateTransition
 
+from ..ros_adapters import get_ros_node
+
 
 class LifecycleNode(Node):
     """Action that executes a ROS lifecycle node."""
 
-    def __init__(self, *, node_name: Text, **kwargs) -> None:
+    def __init__(
+        self,
+        *,
+        name: Optional[SomeSubstitutionsType] = None,
+        namespace: Optional[SomeSubstitutionsType] = None,
+        node_name: Optional[SomeSubstitutionsType] = None,
+        **kwargs
+    ) -> None:
         """
         Construct a LifecycleNode action.
 
@@ -48,7 +59,7 @@ class LifecycleNode(Node):
         - :class:`launch.events.lifecycle.StateTransition`:
 
             - this event is emitted when a message is published to the
-              "/<node_name>/transition_event" topic, indicating the lifecycle
+              "/<name>/transition_event" topic, indicating the lifecycle
               node represented by this action changed state
 
         This action also handles some events related to lifecycle:
@@ -58,8 +69,30 @@ class LifecycleNode(Node):
           - this event can be targeted to a single lifecycle node, or more than
             one, or even all lifecycle nodes, and it requests the targeted nodes
             to change state, see its documentation for more details.
+
+        .. deprecated:: Foxy
+           The parameter `node_name` is deprecated, use `name` instead.
+
+        :param name: The name of the lifecycle node.
+          Although it defaults to None it is a required parameter and the default will be removed
+          in a future release.
+        :param namespace: Namespace of the node.
+          If no namespace if provided, the global namespace is used.
+        :param node_name: (DEPRECATED) The name fo the lifecycle node.
         """
-        super().__init__(node_name=node_name, **kwargs)
+        if node_name is not None:
+            warnings.warn("The parameter 'node_name' is deprecated, use 'name' instead")
+            if name is not None:
+                raise RuntimeError(
+                    "Passing both 'node_name' and 'name' parameters. Only use 'name'."
+                )
+            name = node_name
+        # TODO(jacobperron): Remove default value and this check when deprecated API is removed
+        if name is None:
+            raise RuntimeError("'name' must not be None.'")
+        if not namespace:
+            namespace = ''
+        super().__init__(name=name, namespace=namespace, **kwargs)
         self.__logger = launch.logging.get_logger(__name__)
         self.__rclpy_subscription = None
         self.__current_state = \
@@ -77,12 +110,35 @@ class LifecycleNode(Node):
     def _call_change_state(self, request, context: launch.LaunchContext):
         while not self.__rclpy_change_state_client.wait_for_service(timeout_sec=1.0):
             if context.is_shutdown:
-                self.___logger.warning(
+                self.__logger.warning(
                     "Abandoning wait for the '{}' service, due to shutdown.".format(
                         self.__rclpy_change_state_client.srv_name),
                 )
                 return
-        response = self.__rclpy_change_state_client.call(request)
+
+        # Asynchronously wait so that we can periodically check for shutdown.
+        event = threading.Event()
+
+        def unblock(future):
+            nonlocal event
+            event.set()
+
+        response_future = self.__rclpy_change_state_client.call_async(request)
+        response_future.add_done_callback(unblock)
+
+        while not event.wait(1.0):
+            if context.is_shutdown:
+                self.__logger.warning(
+                    "Abandoning wait for the '{}' service response, due to shutdown.".format(
+                        self.__rclpy_change_state_client.srv_name),
+                )
+                response_future.cancel()
+                return
+
+        if response_future.exception() is not None:
+            raise response_future.exception()
+        response = response_future.result()
+
         if not response.success:
             self.__logger.error(
                 "Failed to make transition '{}' for LifecycleNode '{}'".format(
@@ -109,14 +165,15 @@ class LifecycleNode(Node):
         self._perform_substitutions(context)  # ensure self.node_name is expanded
         if '<node_name_unspecified>' in self.node_name:
             raise RuntimeError('node_name unexpectedly incomplete for lifecycle node')
+        node = get_ros_node(context)
         # Create a subscription to monitor the state changes of the subprocess.
-        self.__rclpy_subscription = context.locals.launch_ros_node.create_subscription(
+        self.__rclpy_subscription = node.create_subscription(
             lifecycle_msgs.msg.TransitionEvent,
             '{}/transition_event'.format(self.node_name),
             functools.partial(self._on_transition_event, context),
             10)
         # Create a service client to change state on demand.
-        self.__rclpy_change_state_client = context.locals.launch_ros_node.create_client(
+        self.__rclpy_change_state_client = node.create_client(
             lifecycle_msgs.srv.ChangeState,
             '{}/change_state'.format(self.node_name))
         # Register an event handler to change states on a ChangeState lifecycle event.

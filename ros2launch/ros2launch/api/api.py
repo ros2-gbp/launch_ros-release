@@ -23,24 +23,15 @@ from typing import Tuple
 from ament_index_python.packages import get_package_share_directory
 from ament_index_python.packages import PackageNotFoundError
 import launch
-from launch.launch_description_sources import get_launch_description_from_python_launch_file
-from launch.launch_description_sources import InvalidPythonLaunchFileError
-from launch.launch_description_sources import load_python_launch_file_as_module
-import launch_ros
-import rclpy
-import rclpy.context
-
-# forward functions into this module's default namespace (useful for some autocompletion tools)
-get_launch_description_from_python_launch_file = get_launch_description_from_python_launch_file
-InvalidPythonLaunchFileError = InvalidPythonLaunchFileError
-load_python_launch_file_as_module = load_python_launch_file_as_module
+from launch.frontend import Parser
+from launch.launch_description_sources import get_launch_description_from_any_launch_file
 
 
 class MultipleLaunchFilesError(Exception):
     """Exception raised when multiple candidate launch files are found in a package."""
 
     def __init__(self, msg, paths):
-        """Constructor."""
+        """Create a MultipleLaunchFilesError."""
         super().__init__(msg)
         self.paths = paths
 
@@ -74,19 +65,32 @@ def get_share_file_path_from_package(*, package_name, file_name):
     return matching_file_paths[0]
 
 
-def get_python_launch_file_paths(*, path):
-    """Return a list of paths to Python launch files within a given path."""
-    python_launch_file_paths = []
+def get_launch_file_paths(*, path):
+    """Return a list of paths to launch files within a given path."""
+    launch_file_paths = []
     for root, dirs, files in os.walk(path):
         for file_name in files:
-            if file_name.endswith('launch.py'):
-                python_launch_file_paths.append(os.path.join(root, file_name))
-    return python_launch_file_paths
+            file_path = os.path.join(root, file_name)
+            if is_launch_file(path=file_path):
+                launch_file_paths.append(file_path)
+    return launch_file_paths
 
 
-def print_a_python_launch_file(*, python_launch_file_path):
-    """Print the description of a Python launch file to the console."""
-    launch_description = get_launch_description_from_python_launch_file(python_launch_file_path)
+def is_launch_file(path):
+    """Return True if the path is a launch file."""
+    return path.endswith(is_launch_file.extensions) and os.path.isfile(path)
+
+
+is_launch_file.extensions = [
+    'launch.' + extension for extension in Parser.get_available_extensions()
+]
+is_launch_file.extensions.append('launch.py')
+is_launch_file.extensions = tuple(is_launch_file.extensions)
+
+
+def print_a_launch_file(*, launch_file_path):
+    """Print the description of a launch file to the console."""
+    launch_description = get_launch_description_from_any_launch_file(launch_file_path)
     print(launch.LaunchIntrospector().format_launch_description(launch_description))
 
 
@@ -116,9 +120,9 @@ def print_arguments_of_launch_description(*, launch_description):
         print('\n  No arguments.')
 
 
-def print_arguments_of_python_launch_file(*, python_launch_file_path):
-    """Print the arguments of a Python launch file to the console."""
-    launch_description = get_launch_description_from_python_launch_file(python_launch_file_path)
+def print_arguments_of_launch_file(*, launch_file_path):
+    """Print the arguments of a launch file to the console."""
+    launch_description = get_launch_description_from_any_launch_file(launch_file_path)
     print_arguments_of_launch_description(launch_description=launch_description)
 
 
@@ -136,30 +140,31 @@ def parse_launch_arguments(launch_arguments: List[Text]) -> List[Tuple[Text, Tex
     return parsed_launch_arguments.items()
 
 
-def launch_a_python_launch_file(*, python_launch_file_path, launch_file_arguments, debug=False):
-    """Launch a given Python launch file (by path) and pass it the given launch file arguments."""
-    launch_service = launch.LaunchService(argv=launch_file_arguments, debug=debug)
-    context = rclpy.context.Context()
-    rclpy.init(args=launch_file_arguments, context=context)
-    launch_service.include_launch_description(
-        launch_ros.get_default_launch_description(
-            rclpy_context=context,
-        )
-    )
+def launch_a_launch_file(
+    *,
+    launch_file_path,
+    launch_file_arguments,
+    noninteractive=False,
+    debug=False
+):
+    """Launch a given launch file (by path) and pass it the given launch file arguments."""
+    launch_service = launch.LaunchService(
+        argv=launch_file_arguments,
+        noninteractive=noninteractive,
+        debug=debug)
     parsed_launch_arguments = parse_launch_arguments(launch_file_arguments)
     # Include the user provided launch file using IncludeLaunchDescription so that the
     # location of the current launch file is set.
     launch_description = launch.LaunchDescription([
         launch.actions.IncludeLaunchDescription(
-            launch.launch_description_sources.PythonLaunchDescriptionSource(
-                python_launch_file_path
+            launch.launch_description_sources.AnyLaunchDescriptionSource(
+                launch_file_path
             ),
             launch_arguments=parsed_launch_arguments,
         ),
     ])
     launch_service.include_launch_description(launch_description)
     ret = launch_service.run()
-    context = rclpy.shutdown(context=context)
     return ret
 
 
@@ -167,7 +172,7 @@ class LaunchFileNameCompleter:
     """Callable returning a list of launch file names within a package's share directory."""
 
     def __init__(self, *, package_name_key=None):
-        """Constructor."""
+        """Create LaunchFileNameCompleter."""
         self.package_name_key = 'package_name' if package_name_key is None else package_name_key
 
     def __call__(self, prefix, parsed_args, **kwargs):
@@ -175,7 +180,7 @@ class LaunchFileNameCompleter:
         package_name = getattr(parsed_args, self.package_name_key)
         try:
             package_share_directory = get_package_share_directory(package_name)
-            paths = get_python_launch_file_paths(path=package_share_directory)
+            paths = get_launch_file_paths(path=package_share_directory)
         except PackageNotFoundError:
             return []
         return [os.path.basename(p) for p in paths]
