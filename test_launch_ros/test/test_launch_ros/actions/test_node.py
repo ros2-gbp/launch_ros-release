@@ -47,11 +47,12 @@ class TestNode(unittest.TestCase):
         ls.include_launch_description(ld)
         assert 0 == ls.run()
 
-    def _create_node(self, *, parameters=None, remappings=None):
+    def _create_node(self, *, parameters=None, remappings=None, ros_arguments=None):
         return launch_ros.actions.Node(
             package='demo_nodes_py', executable='talker_qos', output='screen',
             name='my_node', namespace='my_ns',
             exec_name='my_node_process',
+            ros_arguments=ros_arguments,
             arguments=['--number_of_cycles', '1'],
             parameters=parameters,
             remappings=remappings,
@@ -92,6 +93,13 @@ class TestNode(unittest.TestCase):
         for i in range(2):
             assert expanded_remappings[i] == ('chatter', 'new_chatter')
 
+    def test_launch_node_with_ros_arguments(self):
+        node_action = self._create_node(ros_arguments=['--log-level', 'debug'])
+        self._assert_launch_no_errors([node_action])
+
+        cmd_string = ' '.join(node_action.process_details['cmd'])
+        assert '--ros-args --log-level debug' in cmd_string
+
     def test_launch_required_node(self):
         # This node will never exit on its own, it'll keep publishing forever.
         long_running_node = launch_ros.actions.Node(
@@ -125,7 +133,7 @@ class TestNode(unittest.TestCase):
     def test_launch_node_with_parameter_files(self):
         """Test launching a node with parameters specified in yaml files."""
         parameters_file_dir = pathlib.Path(__file__).resolve().parent
-        parameters_file_path = parameters_file_dir / 'example_parameters.yaml'
+        parameters_file_path = parameters_file_dir / 'example_parameters_0.yaml'
         # Pass parameter files to node in a variety of forms.
         # It is redundant to pass the same file, but the goal is to test different parameter types.
         os.environ['FILE_PATH'] = str(parameters_file_dir)
@@ -133,7 +141,7 @@ class TestNode(unittest.TestCase):
             parameters=[
                 parameters_file_path,
                 str(parameters_file_path),
-                [EnvironmentVariable(name='FILE_PATH'), os.sep, 'example_parameters.yaml'],
+                [EnvironmentVariable(name='FILE_PATH'), os.sep, 'example_parameters_0.yaml'],
             ],
         )
         self._assert_launch_no_errors([node_action])
@@ -237,7 +245,7 @@ class TestNode(unittest.TestCase):
         self._assert_type_error_creating_node(parameters=[5.0])  # Invalid list values.
         self._assert_type_error_creating_node(parameters={'a': 5})  # Valid dict, not in a list.
 
-        parameter_file_path = pathlib.Path(__file__).resolve().parent / 'example_parameters.yaml'
+        parameter_file_path = pathlib.Path(__file__).resolve().parent / 'example_parameters_0.yaml'
         self._assert_type_error_creating_node(
             parameters=str(parameter_file_path))  # Valid path, but not in a list.
 
