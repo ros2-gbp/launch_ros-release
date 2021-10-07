@@ -1,4 +1,4 @@
-# Copyright 2019 Apex.AI, Inc.
+# Copyright 2021 Open Source Robotics Foundation, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,17 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import rclpy
+from rclpy.node import Node
 
-from . import tools
-from .data_republisher import DataRepublisher
-from .message_pump import MessagePump
-from .test_runner import LaunchTestRunner
-from . wait_for_topics import WaitForTopics
 
-__all__ = [
-    'DataRepublisher',
-    'LaunchTestRunner',
-    'MessagePump',
-    'tools',
-    'WaitForTopics',
-]
+class TestNode(Node):
+
+    def __init__(self):
+        super().__init__('parameter_blackboard')
+        self.declare_parameter('demo_parameter_1', False)
+
+
+def main(args=None):
+    rclpy.init(args=args)
+
+    node = TestNode()
+
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
