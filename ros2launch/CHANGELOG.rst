@@ -2,29 +2,37 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.11.4 (2021-10-05)
+0.15.0 (2021-10-07)
 -------------------
-* Simplify logic for mode switch (`#245 <https://github.com/ros2/launch_ros/issues/245>`_)
-* Contributors: rob-clarke
+* Add regex filter for selective launch-prefix application (`#261 <https://github.com/ros2/launch_ros/issues/261>`_)
+* Resolves `#37 <https://github.com/ros2/launch_ros/issues/37>`_ - Added --launch-prefix argument for 'ros2 launch' command (`#254 <https://github.com/ros2/launch_ros/issues/254>`_)
+* Use sets of file extensions provided by parser extensions (`#252 <https://github.com/ros2/launch_ros/issues/252>`_)
+* Simplify logic to fix absolute paths (`#230 <https://github.com/ros2/launch_ros/issues/230>`_)
+* Contributors: Cameron Miller, Christophe Bedard, rob-clarke
 
-0.11.3 (2021-08-31)
--------------------
-
-0.11.2 (2021-04-14)
--------------------
-* Support non-interactive ros2 launch executions (`#210 <https://github.com/ros2/launch_ros/issues/210>`_) (`#225 <https://github.com/ros2/launch_ros/issues/225>`_)
-* Contributors: Felix Divo, Michel Hidalgo
-
-0.11.1 (2020-12-09)
+0.14.2 (2021-04-26)
 -------------------
 
-0.11.0 (2020-10-28)
+0.14.1 (2021-04-12)
 -------------------
-* Update maintainer list for Foxy (`#194 <https://github.com/ros2/launch_ros/issues/194>`_)
-* Contributors: Michael Jeronimo
 
-0.10.3 (2020-10-07)
+0.14.0 (2021-04-06)
 -------------------
+* Add options extensions to ros2launch and extensibility to the node action (`#216 <https://github.com/ros2/launch_ros/issues/216>`_)
+* Contributors: Geoffrey Biggs
+
+0.13.0 (2021-01-25)
+-------------------
+* Support non-interactive ros2 launch executions (`#210 <https://github.com/ros2/launch_ros/issues/210>`_)
+* Contributors: Michel Hidalgo
+
+0.12.0 (2020-12-08)
+-------------------
+* Merge pull request `#183 <https://github.com/ros2/launch_ros/issues/183>`_ from ros2/update-maintainers
+* Move previous maintainer to <author>
+* Update the package.xml files with the latest Open Robotics maintainers
+* Add pytest.ini so local tests don't display warning (`#152 <https://github.com/ros2/launch_ros/issues/152>`_)
+* Contributors: Chris Lalancette, Michael Jeronimo
 
 0.10.2 (2020-05-26)
 -------------------

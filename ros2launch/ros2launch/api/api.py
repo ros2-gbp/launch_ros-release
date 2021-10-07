@@ -81,10 +81,8 @@ def is_launch_file(path):
     return path.endswith(is_launch_file.extensions) and os.path.isfile(path)
 
 
-is_launch_file.extensions = [
-    'launch.' + extension for extension in Parser.get_available_extensions()
-]
-is_launch_file.extensions.append('launch.py')
+is_launch_file.extensions = Parser.get_file_extensions_from_parsers()
+is_launch_file.extensions.add('launch.py')
 is_launch_file.extensions = tuple(is_launch_file.extensions)
 
 
@@ -145,13 +143,27 @@ def launch_a_launch_file(
     launch_file_path,
     launch_file_arguments,
     noninteractive=False,
+    args=None,
+    option_extensions={},
     debug=False
 ):
     """Launch a given launch file (by path) and pass it the given launch file arguments."""
+    for name in sorted(option_extensions.keys()):
+        option_extensions[name].prestart(args)
+
+    # If 'launch-prefix' launch file argument is also provided in the user input,
+    # the 'launch-prefix' option is applied since the last duplicate argument is used
+    if args and args.launch_prefix:
+        launch_file_arguments.append(f'launch-prefix:={args.launch_prefix}')
+
+    if args and args.launch_prefix_filter:
+        launch_file_arguments.append(f'launch-prefix-filter:={args.launch_prefix_filter}')
+
     launch_service = launch.LaunchService(
         argv=launch_file_arguments,
         noninteractive=noninteractive,
         debug=debug)
+
     parsed_launch_arguments = parse_launch_arguments(launch_file_arguments)
     # Include the user provided launch file using IncludeLaunchDescription so that the
     # location of the current launch file is set.
@@ -163,8 +175,16 @@ def launch_a_launch_file(
             launch_arguments=parsed_launch_arguments,
         ),
     ])
+    for name in sorted(option_extensions.keys()):
+        result = option_extensions[name].prelaunch(
+            launch_description,
+            args
+        )
+        launch_description = result[0]
     launch_service.include_launch_description(launch_description)
     ret = launch_service.run()
+    for name in sorted(option_extensions.keys()):
+        option_extensions[name].postlaunch(ret, args)
     return ret
 
 
