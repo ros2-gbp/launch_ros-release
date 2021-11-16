@@ -24,9 +24,6 @@ from typing import Union
 import composition_interfaces.srv
 
 from launch.action import Action
-from launch.frontend import Entity
-from launch.frontend import expose_action
-from launch.frontend import Parser
 from launch.launch_context import LaunchContext
 import launch.logging
 from launch.some_substitutions_type import SomeSubstitutionsType
@@ -49,7 +46,6 @@ from ..utilities import to_parameters_list
 from ..utilities.normalize_parameters import normalize_parameter_dict
 
 
-@expose_action('load_composable_node')
 class LoadComposableNodes(Action):
     """Action that loads composable ROS nodes into a running container."""
 
@@ -85,23 +81,6 @@ class LoadComposableNodes(Action):
         self.__target_container = target_container
         self.__final_target_container_name = None  # type: Optional[Text]
         self.__logger = launch.logging.get_logger(__name__)
-
-    @classmethod
-    def parse(cls, entity: Entity, parser: Parser):
-        """Parse load_composable_node."""
-        _, kwargs = super().parse(entity, parser)
-
-        kwargs['target_container'] = parser.parse_substitution(
-            entity.get_attr('target', data_type=str))
-
-        composable_nodes = entity.get_attr('composable_node', data_type=List[Entity])
-        kwargs['composable_node_descriptions'] = []
-        for entity in composable_nodes:
-            composable_node_cls, composable_node_kwargs = ComposableNode.parse(parser, entity)
-            kwargs['composable_node_descriptions'].append(
-                composable_node_cls(**composable_node_kwargs))
-
-        return cls, kwargs
 
     def _load_node(
         self,
@@ -274,13 +253,10 @@ def get_composable_node_load_request(
         ])
     if remappings:
         request.remap_rules = remappings
-    params_container = context.launch_configurations.get('global_params', None)
+    global_params = context.launch_configurations.get('ros_params', None)
     parameters = []
-    if params_container is not None:
-        for param in params_container:
-            if isinstance(param, tuple):
-                subs = normalize_parameter_dict({param[0]: param[1]})
-                parameters.append(subs)
+    if global_params is not None:
+        parameters.append(normalize_parameter_dict(global_params))
     if composable_node_description.parameters is not None:
         parameters.extend(list(composable_node_description.parameters))
     if parameters:

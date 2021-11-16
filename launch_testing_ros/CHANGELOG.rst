@@ -2,35 +2,28 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.15.0 (2021-10-07)
--------------------
-* Add WaitForTopics utility for waiting on publishers (`#274 <https://github.com/ros2/launch_ros/issues/274>`_)
-* Remove unused code, Future.result() already raises (`#270 <https://github.com/ros2/launch_ros/issues/270>`_)
-* Add timeout to wait for service response in example (`#271 <https://github.com/ros2/launch_ros/issues/271>`_)
-* Add examples (`#263 <https://github.com/ros2/launch_ros/issues/263>`_)
-* Contributors: Aditya Pande, Shane Loretz
-
-0.14.2 (2021-04-26)
--------------------
-* Use underscores in setup.cfg instead of dashes. (`#227 <https://github.com/ros2/launch_ros/issues/227>`_)
-* Contributors: Mike Purvis
-
-0.14.1 (2021-04-12)
+0.11.5 (2021-11-16)
 -------------------
 
-0.14.0 (2021-04-06)
+0.11.4 (2021-10-05)
 -------------------
 
-0.13.0 (2021-01-25)
+0.11.3 (2021-08-31)
 -------------------
 
-0.12.0 (2020-12-08)
+0.11.2 (2021-04-14)
 -------------------
-* Merge pull request `#183 <https://github.com/ros2/launch_ros/issues/183>`_ from ros2/update-maintainers
-* Move Pete to author, per clalancette
-* Update the package.xml files with the latest Open Robotics maintainers
-* Add pytest.ini so local tests don't display warning (`#152 <https://github.com/ros2/launch_ros/issues/152>`_)
-* Contributors: Chris Lalancette, Michael Jeronimo
+
+0.11.1 (2020-12-09)
+-------------------
+
+0.11.0 (2020-10-28)
+-------------------
+* Update maintainer list for Foxy (`#194 <https://github.com/ros2/launch_ros/issues/194>`_)
+* Contributors: Michael Jeronimo
+
+0.10.3 (2020-10-07)
+-------------------
 
 0.10.2 (2020-05-26)
 -------------------

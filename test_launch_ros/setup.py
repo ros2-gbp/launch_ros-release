@@ -5,7 +5,7 @@ package_name = 'test_launch_ros'
 
 setup(
     name=package_name,
-    version='0.15.0',
+    version='0.11.5',
     packages=find_packages(exclude=['test']),
     install_requires=[
         'setuptools',
@@ -16,8 +16,6 @@ setup(
     zip_safe=True,
     data_files=[
         ('share/' + package_name, ['package.xml']),
-        ('share/ament_index/resource_index/packages',
-            ['resource/' + package_name]),
     ],
     author='William Woodall',
     author_email='william@osrfoundation.org',
