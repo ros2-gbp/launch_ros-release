@@ -14,6 +14,7 @@
 
 """Module for the LoadComposableNodes action."""
 
+from pathlib import Path
 import threading
 
 from typing import List
@@ -35,6 +36,7 @@ from launch.utilities import ensure_argument_type
 from launch.utilities import is_a_subclass
 from launch.utilities import normalize_to_list_of_substitutions
 from launch.utilities import perform_substitutions
+from launch_ros.parameter_descriptions import ParameterFile
 
 from .composable_node_container import ComposableNodeContainer
 
@@ -243,7 +245,7 @@ def get_composable_node_load_request(
     composable_node_description: ComposableNode,
     context: LaunchContext
 ):
-    """Get the request that will be send to the composable node container."""
+    """Get the request that will be sent to the composable node container."""
     request = composition_interfaces.srv.LoadNode.Request()
     request.package_name = perform_substitutions(
         context, composable_node_description.package
@@ -281,12 +283,18 @@ def get_composable_node_load_request(
             if isinstance(param, tuple):
                 subs = normalize_parameter_dict({param[0]: param[1]})
                 parameters.append(subs)
+            else:
+                param_file_path = Path(param).resolve()
+                assert param_file_path.is_file()
+                subs = ParameterFile(param_file_path)
+                parameters.append(subs)
     if composable_node_description.parameters is not None:
         parameters.extend(list(composable_node_description.parameters))
     if parameters:
         request.parameters = [
             param.to_parameter_msg() for param in to_parameters_list(
-                context, evaluate_parameters(
+                context, request.node_name, expanded_ns,
+                evaluate_parameters(
                     context, parameters
                 )
             )
@@ -294,7 +302,8 @@ def get_composable_node_load_request(
     if composable_node_description.extra_arguments is not None:
         request.extra_arguments = [
             param.to_parameter_msg() for param in to_parameters_list(
-                context, evaluate_parameters(
+                context, request.node_name, expanded_ns,
+                evaluate_parameters(
                     context, composable_node_description.extra_arguments
                 )
             )
