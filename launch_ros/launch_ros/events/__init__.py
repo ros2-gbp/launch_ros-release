@@ -15,7 +15,9 @@
 """events Module."""
 
 from . import lifecycle
+from .matchers import matches_node_name
 
 __all__ = [
     'lifecycle',
+    'matches_node_name',
 ]

@@ -2,47 +2,70 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.11.5 (2021-11-16)
+0.16.0 (2021-11-29)
 -------------------
+* More Helpful Error Messages (`#275 <https://github.com/ros2/launch_ros/issues/275>`_)
+* Update maintainers in setup.py (`#287 <https://github.com/ros2/launch_ros/issues/287>`_)
+* Set parameters from file for composable nodes (`#281 <https://github.com/ros2/launch_ros/issues/281>`_)
+* Update package maintainers (`#284 <https://github.com/ros2/launch_ros/issues/284>`_)
+* Update node name matcher (`#282 <https://github.com/ros2/launch_ros/issues/282>`_)
+* Support both parameter file configurations for composable nodes (`#259 <https://github.com/ros2/launch_ros/issues/259>`_)
+* Contributors: Aditya Pande, Audrow Nash, David V. Lu!!, Jacob Perron, Michel Hidalgo, Rebecca Butler
+
+0.15.0 (2021-10-07)
+-------------------
+* Shutdown context after test (`#267 <https://github.com/ros2/launch_ros/issues/267>`_)
+* Handle substitutions in RosTimer (`#264 <https://github.com/ros2/launch_ros/issues/264>`_)
+* Add SetParametersFromFile action (`#260 <https://github.com/ros2/launch_ros/issues/260>`_)
+* Properly support ros_args attribute through launch frontends (`#253 <https://github.com/ros2/launch_ros/issues/253>`_)
+* Add 'push_ros_namespace' alias to 'push-ros-namespace' (`#250 <https://github.com/ros2/launch_ros/issues/250>`_)
+* Add ros_arguments option to Node action (`#249 <https://github.com/ros2/launch_ros/issues/249>`_)
+* ROS Timer Action (`#244 <https://github.com/ros2/launch_ros/issues/244>`_)
+* Support container in frontend (`#235 <https://github.com/ros2/launch_ros/issues/235>`_)
+* Contributors: Aditya Pande, Christophe Bedard, Jacob Perron, Kenji Miyake, Rebecca Butler
+
+0.14.2 (2021-04-26)
+-------------------
+
+0.14.1 (2021-04-12)
+-------------------
+* Add a package marker to test_launch_ros. (`#226 <https://github.com/ros2/launch_ros/issues/226>`_)
+* Contributors: Chris Lalancette
+
+0.14.0 (2021-04-06)
+-------------------
+
+0.13.0 (2021-01-25)
+-------------------
+* Re-order shutdown vs node destruction (`#213 <https://github.com/ros2/launch_ros/issues/213>`_)
+* Contributors: Scott K Logan
+
+0.12.0 (2020-12-08)
+-------------------
+* Increase test_composable_node_container timeout (`#195 <https://github.com/ros2/launch_ros/issues/195>`_)
+* Remove constructors arguments deprecated since Foxy (`#190 <https://github.com/ros2/launch_ros/issues/190>`_)
+* Merge pull request `#183 <https://github.com/ros2/launch_ros/issues/183>`_ from ros2/update-maintainers
+* Move previous maintainer to <author>
+* Update the package.xml files with the latest Open Robotics maintainers
+* Handle any substitution types for SetParameter name argument (`#182 <https://github.com/ros2/launch_ros/issues/182>`_)
 * Address security bug in yaml loading (`#175 <https://github.com/ros2/launch_ros/issues/175>`_)
-* Fix problems when parsing a ``Command`` ``Substitution`` as a parameter value (`#137 <https://github.com/ros2/launch_ros/issues/137>`_)
-* Drop double single-quoted params (`#164 <https://github.com/ros2/launch_ros/issues/164>`_)
+* Resolve TODO in test (`#172 <https://github.com/ros2/launch_ros/issues/172>`_)
+* Fix case where list of composable nodes is zero (`#173 <https://github.com/ros2/launch_ros/issues/173>`_)
+* Do not use event handler for loading composable nodes (`#170 <https://github.com/ros2/launch_ros/issues/170>`_)
+* Fix race with launch context changes when loading composable nodes (`#166 <https://github.com/ros2/launch_ros/issues/166>`_)
+* Substitutions in parameter files (`#168 <https://github.com/ros2/launch_ros/issues/168>`_)
+* Fix problems when parsing a `Command` `Substitution` as a parameter value (`#137 <https://github.com/ros2/launch_ros/issues/137>`_)
+* Drop double single-quoted params. (`#164 <https://github.com/ros2/launch_ros/issues/164>`_)
+* Add a way to set remapping rules for all nodes in the same scope (`#163 <https://github.com/ros2/launch_ros/issues/163>`_)
+* Fix ComposableNode ignoring PushRosNamespace actions (`#162 <https://github.com/ros2/launch_ros/issues/162>`_)
+* Add a SetParameter action that sets a parameter to all nodes in the same scope (`#158 <https://github.com/ros2/launch_ros/issues/158>`_)
+* Make namespace parameter mandatory in LifecycleNode constructor (`#157 <https://github.com/ros2/launch_ros/issues/157>`_)
+* Avoid using a wildcard to specify parameters if possible (`#154 <https://github.com/ros2/launch_ros/issues/154>`_)
+* Remove the loop parameter from async.sleep. (`#155 <https://github.com/ros2/launch_ros/issues/155>`_)
+* Fix no specified namespace (`#153 <https://github.com/ros2/launch_ros/issues/153>`_)
 * Fix test_node_frontend (`#146 <https://github.com/ros2/launch_ros/issues/146>`_)
-* Re-order shutdown vs node destruction (`#213 <https://github.com/ros2/launch_ros/issues/213>`_) (`#279 <https://github.com/ros2/launch_ros/issues/279>`_)
-* Contributors: Dan Rose, Ivan Santiago Paunovic, Michel Hidalgo, Víctor Mayoral Vilches
-
-0.11.4 (2021-10-05)
--------------------
-
-0.11.3 (2021-08-31)
--------------------
-
-0.11.2 (2021-04-14)
--------------------
-* Handle any substitution types for SetParameter name argument (`#182 <https://github.com/ros2/launch_ros/issues/182>`_) (`#218 <https://github.com/ros2/launch_ros/issues/218>`_)
-* Contributors: Jacob Perron, Michael Jeronimo
-
-0.11.1 (2020-12-09)
--------------------
-* Fix case where list of composable nodes is zero (`#173 <https://github.com/ros2/launch_ros/issues/173>`_) (`#209 <https://github.com/ros2/launch_ros/issues/209>`_)
-* Do not use event handler for loading composable nodes (`#170 <https://github.com/ros2/launch_ros/issues/170>`_) (`#208 <https://github.com/ros2/launch_ros/issues/208>`_)
-* Fix race with launch context changes when loading composable nodes (`#166 <https://github.com/ros2/launch_ros/issues/166>`_) (`#206 <https://github.com/ros2/launch_ros/issues/206>`_)
-* Add a way to set remapping rules for all nodes in the same scope (`#163 <https://github.com/ros2/launch_ros/issues/163>`_) (`#203 <https://github.com/ros2/launch_ros/issues/203>`_)
-* Fix ComposableNode ignoring PushRosNamespace actions (`#162 <https://github.com/ros2/launch_ros/issues/162>`_) (`#201 <https://github.com/ros2/launch_ros/issues/201>`_)
-* Remove the loop parameter from async.sleep (`#155 <https://github.com/ros2/launch_ros/issues/155>`_) (`#200 <https://github.com/ros2/launch_ros/issues/200>`_)
-* Contributors: Chris Lalancette, Ivan Santiago Paunovic, Jacob Perron
-
-0.11.0 (2020-10-28)
--------------------
-* Update maintainer list for Foxy (`#194 <https://github.com/ros2/launch_ros/issues/194>`_)
-* Add a SetParameter action that sets a parameter to all nodes in the same scope (`#158 <https://github.com/ros2/launch_ros/issues/158>`_) (`#187 <https://github.com/ros2/launch_ros/issues/187>`_)
-* Avoid using a wildcard to specify parameters if possible (`#154 <https://github.com/ros2/launch_ros/issues/154>`_) (`#188 <https://github.com/ros2/launch_ros/issues/188>`_)
-* Contributors: Ivan Santiago Paunovic, Jacob Perron, Michael Jeronimo
-
-0.10.3 (2020-10-07)
--------------------
-* Fix no specified namespace (`#153 <https://github.com/ros2/launch_ros/issues/153>`_, `#157 <https://github.com/ros2/launch_ros/issues/157>`_) (`#179 <https://github.com/ros2/launch_ros/issues/179>`_)
-* Contributors: Ivan Santiago Paunovic, Jacob Perron
+* Add pytest.ini so local tests don't display warning (`#152 <https://github.com/ros2/launch_ros/issues/152>`_)
+* Contributors: Chris Lalancette, Dan Rose, Ivan Santiago Paunovic, Jacob Perron, Michael Jeronimo, Michel Hidalgo, Víctor Mayoral Vilches
 
 0.10.2 (2020-05-26)
 -------------------
