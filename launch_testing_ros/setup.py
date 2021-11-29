@@ -5,22 +5,23 @@ from setuptools import setup
 
 setup(
     name='launch_testing_ros',
-    version='0.15.0',
+    version='0.16.0',
     packages=find_packages(exclude=['test']),
+    py_modules=['launch_testing_ros_pytest_entrypoint'],
     data_files=[
         ('share/ament_index/resource_index/packages', ['resource/launch_testing_ros']),
         ('share/launch_testing_ros', ['package.xml']),
         ('share/launch_testing_ros/examples', glob.glob('test/examples/[!_]*.*')),
     ],
     entry_points={
-        'pytest11': ['launch_ros = launch_testing_ros.pytest.hooks'],
+        'pytest11': ['launch_ros = launch_testing_ros_pytest_entrypoint'],
     },
     install_requires=['setuptools'],
     zip_safe=True,
     author='Pete Baughman',
     author_email='pete.baughman@apex.ai',
-    maintainer='Pete Baughman',
-    maintainer_email='pete.baughman@apex.ai',
+    maintainer='Aditya Pande, Jacob Perron, Michel Hidalgo',
+    maintainer_email='aditya.pande@openrobotics.org, jacob@openrobotics.org, michel@ekumenlabs.com',  # noqa: E501
     url='https://github.com/ros2/launch_ros',
     download_url='https://github.com/ros2/launch_ros/releases',
     keywords=['ROS'],
