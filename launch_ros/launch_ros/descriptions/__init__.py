@@ -16,13 +16,11 @@
 
 from .composable_node import ComposableNode
 from ..parameter_descriptions import Parameter
-from ..parameter_descriptions import ParameterFile
 from ..parameter_descriptions import ParameterValue
 
 
 __all__ = [
     'ComposableNode',
     'Parameter',
-    'ParameterFile',
     'ParameterValue',
 ]
