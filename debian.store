@@ -1,1 +1,1 @@
-{"base": "fd0ce1b", "parent": "debian/rolling/launch_ros", "previous": "412fcea", "trim": "", "trimbase": ""}
+{"base": "f1637f1", "parent": "debian/humble/launch_ros", "previous": "1bce015", "trim": "", "trimbase": ""}
