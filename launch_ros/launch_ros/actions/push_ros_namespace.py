@@ -33,7 +33,6 @@ from launch_ros.utilities import prefix_namespace
 from rclpy.validate_namespace import validate_namespace
 
 
-@expose_action('push_ros_namespace')
 @expose_action('push-ros-namespace')
 class PushRosNamespace(Action):
     """

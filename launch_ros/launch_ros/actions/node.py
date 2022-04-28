@@ -125,7 +125,6 @@ class Node(ExecuteProcess):
         exec_name: Optional[SomeSubstitutionsType] = None,
         parameters: Optional[SomeParameters] = None,
         remappings: Optional[SomeRemapRules] = None,
-        ros_arguments: Optional[Iterable[SomeSubstitutionsType]] = None,
         arguments: Optional[Iterable[SomeSubstitutionsType]] = None,
         **kwargs
     ) -> None:
@@ -144,7 +143,7 @@ class Node(ExecuteProcess):
 
         The launch_ros.substitutions.ExecutableInPackage substitution is used
         to find the executable at runtime, so this Action also raise the
-        exceptions that substitution can raise when the package or executable
+        exceptions that substituion can raise when the package or executable
         are not found.
 
         If the name is not given (or is None) then no name is passed to
@@ -172,17 +171,9 @@ class Node(ExecuteProcess):
         A yaml file with the resulting parameters from the dictionary will be
         written to a temporary file, the path to which will be passed to the
         node.
-        Multiple parameter dictionaries/files can be passed: each file path
-        will be passed in in order to the node (where the last definition of
-        a parameter takes effect).
-        However, fully qualified node names override wildcards even when
-        specified earlier.
-        If `namespace` is not specified, dictionaries are prefixed by a
-        wildcard namespace (`/**`) and other specific parameter declarations
-        may overwrite it.
-
-        Using `ros_arguments` is equivalent to using `arguments` with a
-        prepended '--ros-args' item.
+        Multiple dictionaries/files can be passed: each file path will be
+        passed in in order to the node (where the last definition of a
+        parameter takes effect).
 
         :param: executable the name of the executable to find if a package
             is provided or otherwise a path to the executable to run.
@@ -195,7 +186,6 @@ class Node(ExecuteProcess):
             or dictionaries of parameters.
         :param: remappings ordered list of 'to' and 'from' string pairs to be
             passed to the node as ROS remapping rules
-        :param: ros_arguments list of ROS arguments for the node
         :param: arguments list of extra arguments for the node
         """
         if package is not None:
@@ -203,7 +193,6 @@ class Node(ExecuteProcess):
         else:
             cmd = [executable]
         cmd += [] if arguments is None else arguments
-        cmd += [] if ros_arguments is None else ['--ros-args'] + ros_arguments
         # Reserve space for ros specific arguments.
         # The substitutions will get expanded when the action is executed.
         cmd += ['--ros-args']  # Prepend ros specific arguments with --ros-args flag
@@ -224,7 +213,6 @@ class Node(ExecuteProcess):
         self.__node_namespace = namespace
         self.__parameters = [] if parameters is None else normalized_params
         self.__remappings = [] if remappings is None else list(normalize_remap_rules(remappings))
-        self.__ros_arguments = ros_arguments
         self.__arguments = arguments
 
         self.__expanded_node_name = self.UNSPECIFIED_NODE_NAME
@@ -310,9 +298,6 @@ class Node(ExecuteProcess):
         args = entity.get_attr('args', optional=True)
         if args is not None:
             kwargs['arguments'] = super()._parse_cmdline(args, parser)
-        ros_args = entity.get_attr('ros_args', optional=True)
-        if ros_args is not None:
-            kwargs['ros_arguments'] = super()._parse_cmdline(ros_args, parser)
         node_name = entity.get_attr('node-name', optional=True)
         if node_name is not None:
             kwargs['node_name'] = parser.parse_substitution(node_name)
@@ -419,27 +404,17 @@ class Node(ExecuteProcess):
         self.__final_node_name = prefix_namespace(
             self.__expanded_node_namespace, self.__expanded_node_name)
 
-        # Expand global parameters first,
-        # so they can be overridden with specific parameters of this Node
-        # The params_container list is expected to contain name-value pairs (tuples)
-        # and/or strings representing paths to parameter files.
-        params_container = context.launch_configurations.get('global_params', None)
-
-        if any(x is not None for x in (params_container, self.__parameters)):
+        # expand global parameters first,
+        # so they can be overriden with specific parameters of this Node
+        global_params = context.launch_configurations.get('ros_params', None)
+        if global_params is not None or self.__parameters is not None:
             self.__expanded_parameter_arguments = []
-        if params_container is not None:
-            for param in params_container:
-                if isinstance(param, tuple):
-                    name, value = param
-                    cmd_extension = ['-p', f'{name}:={value}']
-                    self.cmd.extend([normalize_to_list_of_substitutions(x) for x in cmd_extension])
-                else:
-                    param_file_path = os.path.abspath(param)
-                    self.__expanded_parameter_arguments.append((param_file_path, True))
-                    cmd_extension = ['--params-file', f'{param_file_path}']
-                    assert os.path.isfile(param_file_path)
-                    self.cmd.extend([normalize_to_list_of_substitutions(x) for x in cmd_extension])
-
+        if global_params is not None:
+            param_file_path = self._create_params_file_from_dict(global_params)
+            self.__expanded_parameter_arguments.append((param_file_path, True))
+            cmd_extension = ['--params-file', f'{param_file_path}']
+            self.cmd.extend([normalize_to_list_of_substitutions(x) for x in cmd_extension])
+            assert os.path.isfile(param_file_path)
         # expand parameters too
         if self.__parameters is not None:
             evaluated_parameters = evaluate_parameters(context, self.__parameters)
@@ -561,20 +536,15 @@ def instantiate_extension(
 
 def get_extensions(logger):
     group_name = 'launch_ros.node_action'
-    entry_points_impl = importlib_metadata.entry_points()
-    if hasattr(entry_points_impl, 'select'):
-        groups = entry_points_impl.select(group=group_name)
-    else:
-        groups = entry_points_impl.get(group_name, [])
     entry_points = {}
-    for entry_point in groups:
+    for entry_point in importlib_metadata.entry_points().get(group_name, []):
         entry_points[entry_point.name] = entry_point
     extension_types = {}
     for entry_point in entry_points:
         try:
             extension_type = entry_points[entry_point].load()
         except Exception as e:  # noqa: F841
-            logger.warning(f"Failed to load entry point '{entry_points[entry_point].name}': {e}")
+            logger.warning(f"Failed to load entry point '{entry_point.name}': {e}")
             continue
         extension_types[entry_points[entry_point].name] = extension_type
 

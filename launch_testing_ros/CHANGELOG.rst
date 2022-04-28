@@ -2,41 +2,8 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.19.2 (2022-04-08)
+0.14.3 (2022-04-28)
 -------------------
-* Add `hz` param to `talker.py` to fix wait_for_topic_launch_test (`#309 <https://github.com/ros2/launch_ros/issues/309>`_)
-* Contributors: Shane Loretz
-
-0.19.1 (2022-04-05)
--------------------
-
-0.19.0 (2022-03-24)
--------------------
-
-0.18.0 (2022-03-01)
--------------------
-
-0.17.0 (2021-12-14)
--------------------
-* Revert WaitForTopics (`#288 <https://github.com/ros2/launch_ros/issues/288>`_)
-* Contributors: Jacob Perron
-
-0.16.0 (2021-11-29)
--------------------
-* Update maintainers in setup.py (`#287 <https://github.com/ros2/launch_ros/issues/287>`_)
-* Move pytest entrypoints to own module (`#278 <https://github.com/ros2/launch_ros/issues/278>`_)
-* Update package maintainers (`#284 <https://github.com/ros2/launch_ros/issues/284>`_)
-* Check that future is done, and always call rclpy.shutdown (`#273 <https://github.com/ros2/launch_ros/issues/273>`_)
-* Revert "launch testing : Wait for topics to publish (`#274 <https://github.com/ros2/launch_ros/issues/274>`_)" (`#276 <https://github.com/ros2/launch_ros/issues/276>`_)
-* Contributors: Audrow Nash, Jorge Perez, Michel Hidalgo, Shane Loretz
-
-0.15.0 (2021-10-07)
--------------------
-* Add WaitForTopics utility for waiting on publishers (`#274 <https://github.com/ros2/launch_ros/issues/274>`_)
-* Remove unused code, Future.result() already raises (`#270 <https://github.com/ros2/launch_ros/issues/270>`_)
-* Add timeout to wait for service response in example (`#271 <https://github.com/ros2/launch_ros/issues/271>`_)
-* Add examples (`#263 <https://github.com/ros2/launch_ros/issues/263>`_)
-* Contributors: Aditya Pande, Shane Loretz
 
 0.14.2 (2021-04-26)
 -------------------
