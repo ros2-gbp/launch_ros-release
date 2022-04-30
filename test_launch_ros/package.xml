@@ -4,16 +4,19 @@
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>test_launch_ros</name>
-  <version>0.14.3</version>
+  <version>0.20.0</version>
   <description>Tests for ROS specific extensions to the launch tool.</description>
+  <maintainer email="aditya.pande@osrfoundation.org">Aditya Pande</maintainer>
   <maintainer email="jacob@openrobotics.org">Jacob Perron</maintainer>
-  <maintainer email="michael.jeronimo@openrobotics.org">Michael Jeronimo</maintainer>
+  <maintainer email="michel@ekumenlabs.com">Michel Hidalgo</maintainer>
   <license>Apache License 2.0</license>
   <author email="william@osrfoundation.org">William Woodall</author>
+  <author email="michael.jeronimo@openrobotics.org">Michael Jeronimo</author>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>
+  <test_depend>builtin_interfaces</test_depend>
   <test_depend>composition</test_depend>
   <test_depend>demo_nodes_py</test_depend>
   <test_depend>launch_ros</test_depend>
@@ -24,6 +27,8 @@
   <test_depend>python3-pytest</test_depend>
   <test_depend>python3-yaml</test_depend>
   <test_depend>rclcpp_components</test_depend>
+  <test_depend>rclpy</test_depend>
+  <test_depend>rosgraph_msgs</test_depend>
 
   <export>
     <build_type>ament_python</build_type>

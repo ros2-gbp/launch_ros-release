@@ -91,6 +91,17 @@ class LaunchCommand(CommandExtension):
             help=("Show all launched subprocesses' output by overriding their output"
                   ' configuration using the OVERRIDE_LAUNCH_PROCESS_OUTPUT envvar.')
         )
+        parser.add_argument(
+            '--launch-prefix',
+            help='Prefix command, which should go before all executables. '
+                 'Command must be wrapped in quotes if it contains spaces '
+                 "(e.g. --launch-prefix 'xterm -e gdb -ex run --args')."
+        )
+        parser.add_argument(
+            '--launch-prefix-filter',
+            help=('Regex pattern for filtering which executables the --launch-prefix is applied '
+                  'to by matching the executable name.')
+        )
         arg = parser.add_argument(
             'package_name',
             help='Name of the ROS package which contains the launch file')
@@ -146,6 +157,10 @@ class LaunchCommand(CommandExtension):
         else:
             raise RuntimeError('unexpected mode')
         launch_arguments.extend(args.launch_arguments)
+
+        if args.launch_prefix is None and args.launch_prefix_filter is not None:
+            raise RuntimeError(
+                '--launch-prefix must be specified if --launch-prefix-filter is provided')
 
         if args.show_all_subprocesses_output:
             os.environ['OVERRIDE_LAUNCH_PROCESS_OUTPUT'] = 'both'
