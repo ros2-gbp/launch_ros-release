@@ -2,6 +2,9 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.19.3 (2022-05-17)
+-------------------
+
 0.19.2 (2022-04-08)
 -------------------
 * Add `hz` param to `talker.py` to fix wait_for_topic_launch_test (`#309 <https://github.com/ros2/launch_ros/issues/309>`_)
