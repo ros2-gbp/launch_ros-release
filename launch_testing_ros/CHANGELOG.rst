@@ -2,10 +2,8 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.20.0 (2022-04-29)
+0.19.3 (2022-05-17)
 -------------------
-* Fix long wait during shutdown in WaitForTopics (`#314 <https://github.com/ros2/launch_ros/issues/314>`_)
-* Contributors: Keng12
 
 0.19.2 (2022-04-08)
 -------------------

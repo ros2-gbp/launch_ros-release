@@ -2,11 +2,10 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.20.0 (2022-04-29)
+0.19.3 (2022-05-17)
 -------------------
-* Run condition for composable nodes (`#311 <https://github.com/ros2/launch_ros/issues/311>`_)
-* Load composable nodes in sequence (`#315 <https://github.com/ros2/launch_ros/issues/315>`_)
-* Contributors: Aditya Pande, Shane Loretz
+* Load composable nodes in sequence (`#315 <https://github.com/ros2/launch_ros/issues/315>`_) (`#316 <https://github.com/ros2/launch_ros/issues/316>`_)
+* Contributors: mergify[bot]
 
 0.19.2 (2022-04-08)
 -------------------
