@@ -1,0 +1,12 @@
+Source: ros-foxy-launch-testing-ros
+Section: misc
+Priority: optional
+Maintainer: Jacob Perron <jacob@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), python3-pytest <!nocheck>, ros-foxy-ament-copyright <!nocheck>, ros-foxy-ament-flake8 <!nocheck>, ros-foxy-ament-pep257 <!nocheck>, ros-foxy-std-msgs <!nocheck>, ros-foxy-ros-workspace, python3-all, python3-setuptools, dh-python
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-foxy-launch-testing-ros
+Architecture: any
+Depends: ${python3:Depends}, ${misc:Depends}, ros-foxy-launch-ros, ros-foxy-launch-testing, ros-foxy-rclpy, ros-foxy-ros-workspace
+Description: A package providing utilities for writing ROS2 enabled launch tests.
