@@ -34,6 +34,7 @@ from ros2launch.api import LaunchFileNameCompleter
 from ros2launch.api import MultipleLaunchFilesError
 from ros2launch.api import print_a_launch_file
 from ros2launch.api import print_arguments_of_launch_file
+from ros2launch.option import get_option_extensions
 from ros2pkg.api import package_name_completer
 
 
@@ -90,6 +91,17 @@ class LaunchCommand(CommandExtension):
             help=("Show all launched subprocesses' output by overriding their output"
                   ' configuration using the OVERRIDE_LAUNCH_PROCESS_OUTPUT envvar.')
         )
+        parser.add_argument(
+            '--launch-prefix',
+            help='Prefix command, which should go before all executables. '
+                 'Command must be wrapped in quotes if it contains spaces '
+                 "(e.g. --launch-prefix 'xterm -e gdb -ex run --args')."
+        )
+        parser.add_argument(
+            '--launch-prefix-filter',
+            help=('Regex pattern for filtering which executables the --launch-prefix is applied '
+                  'to by matching the executable name.')
+        )
         arg = parser.add_argument(
             'package_name',
             help='Name of the ROS package which contains the launch file')
@@ -105,6 +117,10 @@ class LaunchCommand(CommandExtension):
             nargs='*',
             help="Arguments to the launch file; '<name>:=<value>' (for duplicates, last one wins)")
         arg.completer = SuppressCompleterWorkaround()
+
+        self._option_extensions = get_option_extensions()
+        for name in sorted(self._option_extensions.keys()):
+            self._option_extensions[name].add_arguments(parser, cli_name)
 
     def main(self, *, parser, args):
         """Entry point for CLI program."""
@@ -141,6 +157,11 @@ class LaunchCommand(CommandExtension):
         else:
             raise RuntimeError('unexpected mode')
         launch_arguments.extend(args.launch_arguments)
+
+        if args.launch_prefix is None and args.launch_prefix_filter is not None:
+            raise RuntimeError(
+                '--launch-prefix must be specified if --launch-prefix-filter is provided')
+
         if args.show_all_subprocesses_output:
             os.environ['OVERRIDE_LAUNCH_PROCESS_OUTPUT'] = 'both'
         if args.print:
@@ -152,5 +173,7 @@ class LaunchCommand(CommandExtension):
                 launch_file_path=path,
                 launch_file_arguments=launch_arguments,
                 noninteractive=args.noninteractive,
+                args=args,
+                option_extensions=self._option_extensions,
                 debug=args.debug
             )

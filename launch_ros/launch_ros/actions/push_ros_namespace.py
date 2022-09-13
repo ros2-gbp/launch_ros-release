@@ -33,13 +33,14 @@ from launch_ros.utilities import prefix_namespace
 from rclpy.validate_namespace import validate_namespace
 
 
+@expose_action('push_ros_namespace')
 @expose_action('push-ros-namespace')
 class PushRosNamespace(Action):
     """
     Action that pushes the ros namespace.
 
     It's automatically popped when used inside a scoped `GroupAction`.
-    There's not other way of popping it.
+    There's no other way of popping it.
     """
 
     def __init__(
