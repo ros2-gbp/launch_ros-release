@@ -32,7 +32,6 @@ from launch.utilities import perform_substitutions
 import yaml
 
 from ..parameter_descriptions import Parameter as ParameterDescription
-from ..parameter_descriptions import ParameterFile
 from ..parameter_descriptions import ParameterValue as ParameterValueDescription
 from ..parameters_type import EvaluatedParameters
 from ..parameters_type import EvaluatedParameterValue
@@ -154,9 +153,10 @@ def evaluate_parameters(context: LaunchContext, parameters: Parameters) -> Evalu
     """
     output_params = []  # type: List[Union[pathlib.Path, Dict[str, EvaluatedParameterValue]]]
     for param in parameters:
-        if isinstance(param, ParameterFile):
+        # If it's a list of substitutions then evaluate them to a string and return a pathlib.Path
+        if isinstance(param, tuple) and len(param) and isinstance(param[0], Substitution):
             # Evaluate a list of Substitution to a file path
-            output_params.append(param.evaluate(context))
+            output_params.append(pathlib.Path(perform_substitutions(context, list(param))))
         elif isinstance(param, ParameterDescription):
             output_params.append(param)
         elif isinstance(param, Mapping):

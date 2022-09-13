@@ -86,6 +86,6 @@ class SetParameter(Action):
     def execute(self, context: LaunchContext):
         """Execute the action."""
         eval_param_dict = evaluate_parameter_dict(context, self.__param_dict)
-        global_param_list = context.launch_configurations.get('global_params', [])
-        global_param_list.extend(eval_param_dict.items())
-        context.launch_configurations['global_params'] = global_param_list
+        global_params = context.launch_configurations.get('ros_params', {})
+        global_params.update(eval_param_dict)
+        context.launch_configurations['ros_params'] = global_params
