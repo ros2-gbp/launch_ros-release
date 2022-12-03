@@ -1,0 +1,12 @@
+Source: ros-galactic-launch-testing-ros
+Section: misc
+Priority: optional
+Maintainer: Jacob Perron <jacob@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), python3-pytest <!nocheck>, ros-galactic-ament-copyright <!nocheck>, ros-galactic-ament-flake8 <!nocheck>, ros-galactic-ament-pep257 <!nocheck>, ros-galactic-std-msgs <!nocheck>, ros-galactic-ros-workspace, python3-all, python3-setuptools, dh-python
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-galactic-launch-testing-ros
+Architecture: any
+Depends: ${python3:Depends}, ${misc:Depends}, ros-galactic-launch-ros, ros-galactic-launch-testing, ros-galactic-rclpy, ros-galactic-ros-workspace
+Description: A package providing utilities for writing ROS2 enabled launch tests.
