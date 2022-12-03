@@ -2,66 +2,14 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.22.0 (2022-11-02)
--------------------
-* RosTimer -> ROSTimer and PushRosNamespace -> PushROSNamespace, to follow PEP8 (`#326 <https://github.com/ros2/launch_ros/issues/326>`_)
-* add SetROSLogDir action (`#325 <https://github.com/ros2/launch_ros/issues/325>`_)
-* Contributors: William Woodall
-
-0.21.0 (2022-09-13)
--------------------
-* Support default values in parameter substitution (`#313 <https://github.com/ros2/launch_ros/issues/313>`_)
-* Contributors: Kenji Miyake
-
-0.20.0 (2022-04-29)
--------------------
-* Run condition for composable nodes (`#311 <https://github.com/ros2/launch_ros/issues/311>`_)
-* Load composable nodes in sequence (`#315 <https://github.com/ros2/launch_ros/issues/315>`_)
-* Contributors: Aditya Pande, Shane Loretz
-
-0.19.2 (2022-04-08)
+0.14.4 (2022-12-02)
 -------------------
 
-0.19.1 (2022-04-05)
+0.14.3 (2022-04-28)
 -------------------
-* Increase test time tolerance (`#305 <https://github.com/ros2/launch_ros/issues/305>`_)
-* Contributors: Jorge Perez
-
-0.19.0 (2022-03-24)
--------------------
-* Use correct namespace when evaluating parameter files for composable nodes (`#303 <https://github.com/ros2/launch_ros/issues/303>`_)
-* Handle empty strings when evaluating parameters (`#300 <https://github.com/ros2/launch_ros/issues/300>`_)
-* Contributors: Jacob Perron
-
-0.18.0 (2022-03-01)
--------------------
-* Add parameter substitution (`#297 <https://github.com/ros2/launch_ros/issues/297>`_)
-* Contributors: Kenji Miyake
-
-0.17.0 (2021-12-14)
--------------------
-
-0.16.0 (2021-11-29)
--------------------
-* More Helpful Error Messages (`#275 <https://github.com/ros2/launch_ros/issues/275>`_)
-* Update maintainers in setup.py (`#287 <https://github.com/ros2/launch_ros/issues/287>`_)
-* Set parameters from file for composable nodes (`#281 <https://github.com/ros2/launch_ros/issues/281>`_)
-* Update package maintainers (`#284 <https://github.com/ros2/launch_ros/issues/284>`_)
-* Update node name matcher (`#282 <https://github.com/ros2/launch_ros/issues/282>`_)
-* Support both parameter file configurations for composable nodes (`#259 <https://github.com/ros2/launch_ros/issues/259>`_)
-* Contributors: Aditya Pande, Audrow Nash, David V. Lu!!, Jacob Perron, Michel Hidalgo, Rebecca Butler
-
-0.15.0 (2021-10-07)
--------------------
-* Shutdown context after test (`#267 <https://github.com/ros2/launch_ros/issues/267>`_)
-* Handle substitutions in RosTimer (`#264 <https://github.com/ros2/launch_ros/issues/264>`_)
-* Add SetParametersFromFile action (`#260 <https://github.com/ros2/launch_ros/issues/260>`_)
-* Properly support ros_args attribute through launch frontends (`#253 <https://github.com/ros2/launch_ros/issues/253>`_)
-* Add 'push_ros_namespace' alias to 'push-ros-namespace' (`#250 <https://github.com/ros2/launch_ros/issues/250>`_)
-* Add ros_arguments option to Node action (`#249 <https://github.com/ros2/launch_ros/issues/249>`_)
-* ROS Timer Action (`#244 <https://github.com/ros2/launch_ros/issues/244>`_)
-* Support container in frontend (`#235 <https://github.com/ros2/launch_ros/issues/235>`_)
-* Contributors: Aditya Pande, Christophe Bedard, Jacob Perron, Kenji Miyake, Rebecca Butler
+* Handle empty strings when evaluating parameters (`#300 <https://github.com/ros2/launch_ros/issues/300>`_) (`#301 <https://github.com/ros2/launch_ros/issues/301>`_)
+* More Helpful Error Messages (`#275 <https://github.com/ros2/launch_ros/issues/275>`_) (`#290 <https://github.com/ros2/launch_ros/issues/290>`_)
+* Contributors: Jacob Perron, mergify[bot]
 
 0.14.2 (2021-04-26)
 -------------------
@@ -175,7 +123,7 @@ Changelog for package test_launch_ros
 0.8.0 (2019-04-14)
 ------------------
 * Added normalize_parameters and evaluate_paramters. (`#192 <https://github.com/ros2/launch/issues/192>`_)
-* Added normalize_remap_rule and types. (`launch #173 <https://github.com/ros2/launch/issues/173>`_)
+* Added normalize_remap_rule and types. (`#173 <https://github.com/ros2/launch/issues/173>`_)
 * Added support for required nodes. (`#179 <https://github.com/ros2/launch/issues/179>`_)
 * Contributors: Kyle Fazzari, Shane Loretz
 
@@ -187,15 +135,15 @@ Changelog for package test_launch_ros
 
 0.7.1 (2018-11-16)
 ------------------
-* Fixed setup.py versions (`launch #155 <https://github.com/ros2/launch/issues/155>`_)
+* Fixed setup.py versions (`#155 <https://github.com/ros2/launch/issues/155>`_)
 * Contributors: Steven! Ragnarök
 
 0.7.0 (2018-11-16)
 ------------------
-* Fixed a bug to ensure that shutdown event is handled correctly (`launch #154 <https://github.com/ros2/launch/issues/154>`_)
+* Fixed a bug to ensure that shutdown event is handled correctly (`#154 <https://github.com/ros2/launch/issues/154>`_)
   * There was a potential race condition in between when the shutdown event is emitted and the rest of the shutdown handling code.
   * This introduces an additional await to ensure that the event is emitted before proceeding.
 * Added support for passing parameters as a dictionary to a Node (`#138 <https://github.com/ros2/launch/issues/138>`_)
-* Made various fixes and added tests for remappings passed to Node actions (`launch #137 <https://github.com/ros2/launch/issues/137>`_)
+* Made various fixes and added tests for remappings passed to Node actions (`#137 <https://github.com/ros2/launch/issues/137>`_)
 * Added ability to pass parameter files to Node actions (`#135 <https://github.com/ros2/launch/issues/135>`_)
 * Contributors: Michael Carroll, dhood

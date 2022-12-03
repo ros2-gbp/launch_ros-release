@@ -18,9 +18,6 @@ from typing import List
 from typing import Optional
 
 from launch.action import Action
-from launch.frontend import Entity
-from launch.frontend import expose_action
-from launch.frontend import Parser
 from launch.launch_context import LaunchContext
 from launch.some_substitutions_type import SomeSubstitutionsType
 
@@ -29,7 +26,6 @@ from .node import Node
 from ..descriptions import ComposableNode
 
 
-@expose_action('node_container')
 class ComposableNodeContainer(Node):
     """Action that executes a container ROS node for composable ROS nodes."""
 
@@ -55,22 +51,6 @@ class ComposableNodeContainer(Node):
         super().__init__(name=name, namespace=namespace, **kwargs)
         self.__composable_node_descriptions = composable_node_descriptions
 
-    @classmethod
-    def parse(cls, entity: Entity, parser: Parser):
-        """Parse node_container."""
-        _, kwargs = super().parse(entity, parser)
-
-        composable_nodes = entity.get_attr(
-            'composable_node', data_type=List[Entity], optional=True)
-        if composable_nodes is not None:
-            kwargs['composable_node_descriptions'] = []
-            for entity in composable_nodes:
-                composable_node_cls, composable_node_kwargs = ComposableNode.parse(parser, entity)
-                kwargs['composable_node_descriptions'].append(
-                    composable_node_cls(**composable_node_kwargs))
-
-        return cls, kwargs
-
     def execute(self, context: LaunchContext) -> Optional[List[Action]]:
         """
         Execute the action.
@@ -79,19 +59,15 @@ class ComposableNodeContainer(Node):
         composable nodes load action if it applies.
         """
         load_actions = None  # type: Optional[List[Action]]
-        valid_composable_nodes = []
-        for node_object in self.__composable_node_descriptions:
-            if node_object.condition() is None or node_object.condition().evaluate(context):
-                valid_composable_nodes.append(node_object)
         if (
-            valid_composable_nodes is not None and
-            len(valid_composable_nodes) > 0
+            self.__composable_node_descriptions is not None and
+            len(self.__composable_node_descriptions) > 0
         ):
             from .load_composable_nodes import LoadComposableNodes
             # Perform load action once the container has started.
             load_actions = [
                 LoadComposableNodes(
-                    composable_node_descriptions=valid_composable_nodes,
+                    composable_node_descriptions=self.__composable_node_descriptions,
                     target_container=self
                 )
             ]

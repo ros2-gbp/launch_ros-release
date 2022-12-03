@@ -2,44 +2,13 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.22.0 (2022-11-02)
+0.14.4 (2022-12-02)
 -------------------
 
-0.21.0 (2022-09-13)
+0.14.3 (2022-04-28)
 -------------------
-
-0.20.0 (2022-04-29)
--------------------
-
-0.19.2 (2022-04-08)
--------------------
-
-0.19.1 (2022-04-05)
--------------------
-
-0.19.0 (2022-03-24)
--------------------
-
-0.18.0 (2022-03-01)
--------------------
-
-0.17.0 (2021-12-14)
--------------------
-
-0.16.0 (2021-11-29)
--------------------
-* Update maintainers in setup.py (`#287 <https://github.com/ros2/launch_ros/issues/287>`_)
-* Use frontend group dependency & explicit dependencies in ros2launch (`#256 <https://github.com/ros2/launch_ros/issues/256>`_)
-* Update package maintainers (`#284 <https://github.com/ros2/launch_ros/issues/284>`_)
-* Contributors: Audrow Nash, Christophe Bedard, Michel Hidalgo
-
-0.15.0 (2021-10-07)
--------------------
-* Add regex filter for selective launch-prefix application (`#261 <https://github.com/ros2/launch_ros/issues/261>`_)
-* Resolves `#37 <https://github.com/ros2/launch_ros/issues/37>`_ - Added --launch-prefix argument for 'ros2 launch' command (`#254 <https://github.com/ros2/launch_ros/issues/254>`_)
-* Use sets of file extensions provided by parser extensions (`#252 <https://github.com/ros2/launch_ros/issues/252>`_)
-* Simplify logic to fix absolute paths (`#230 <https://github.com/ros2/launch_ros/issues/230>`_)
-* Contributors: Cameron Miller, Christophe Bedard, rob-clarke
+* Simplify logic to fix absolute paths (`#230 <https://github.com/ros2/launch_ros/issues/230>`_) (`#296 <https://github.com/ros2/launch_ros/issues/296>`_)
+* Contributors: Jacob Perron
 
 0.14.2 (2021-04-26)
 -------------------
@@ -147,7 +116,7 @@ Changelog for package ros2launch
 
 0.6.0 (2018-08-20)
 ------------------
-* add way to include other Python launch files (`launch #122 <https://github.com/ros2/launch/issues/122>`_)
+* add way to include other Python launch files (`#122 <https://github.com/ros2/launch/issues/122>`_)
   * Signed-off-by: William Woodall <william@osrfoundation.org>
 * Contributors: William Woodall
 

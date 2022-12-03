@@ -17,10 +17,6 @@
 from typing import List
 from typing import Optional
 
-from launch.condition import Condition
-from launch.conditions import IfCondition, UnlessCondition
-from launch.frontend import Entity
-from launch.frontend import Parser
 from launch.some_substitutions_type import SomeSubstitutionsType
 from launch.substitution import Substitution
 # from launch.utilities import ensure_argument_type
@@ -45,7 +41,6 @@ class ComposableNode:
         parameters: Optional[SomeParameters] = None,
         remappings: Optional[SomeRemapRules] = None,
         extra_arguments: Optional[SomeParameters] = None,
-        condition: Optional[Condition] = None,
     ) -> None:
         """
         Initialize a ComposableNode description.
@@ -57,7 +52,6 @@ class ComposableNode:
         :param parameters: list of either paths to yaml files or dictionaries of parameters
         :param remappings: list of from/to pairs for remapping names
         :param extra_arguments: container specific arguments to be passed to the loaded node
-        :param condition: action will be executed if the condition evaluates to true
         """
         self.__package = normalize_to_list_of_substitutions(package)
         self.__node_plugin = normalize_to_list_of_substitutions(plugin)
@@ -81,67 +75,6 @@ class ComposableNode:
         self.__extra_arguments = None  # type: Optional[Parameters]
         if extra_arguments:
             self.__extra_arguments = normalize_parameters(extra_arguments)
-
-        self.__condition = condition
-
-    @classmethod
-    def parse(cls, parser: Parser, entity: Entity):
-        """Parse composable_node."""
-        from launch_ros.actions import Node
-        kwargs = {}
-
-        kwargs['package'] = parser.parse_substitution(entity.get_attr('pkg'))
-        kwargs['plugin'] = parser.parse_substitution(entity.get_attr('plugin'))
-        kwargs['name'] = parser.parse_substitution(entity.get_attr('name'))
-
-        if_cond = entity.get_attr('if', optional=True)
-        unless_cond = entity.get_attr('unless', optional=True)
-        if if_cond is not None and unless_cond is not None:
-            raise RuntimeError("if and unless conditions can't be used simultaneously")
-        if if_cond is not None:
-            kwargs['condition'] = IfCondition(
-                predicate_expression=parser.parse_substitution(if_cond)
-            )
-        if unless_cond is not None:
-            kwargs['condition'] = UnlessCondition(
-                predicate_expression=parser.parse_substitution(unless_cond)
-            )
-
-        namespace = entity.get_attr('namespace', optional=True)
-        if namespace is not None:
-            kwargs['namespace'] = parser.parse_substitution(namespace)
-
-        parameters = entity.get_attr('param', data_type=List[Entity], optional=True)
-        if parameters is not None:
-            kwargs['parameters'] = Node.parse_nested_parameters(parameters, parser)
-
-        remappings = entity.get_attr('remap', data_type=List[Entity], optional=True)
-        if remappings is not None:
-            kwargs['remappings'] = [
-                (
-                    parser.parse_substitution(remap.get_attr('from')),
-                    parser.parse_substitution(remap.get_attr('to'))
-                ) for remap in remappings
-            ]
-
-            for remap in remappings:
-                remap.assert_entity_completely_parsed()
-
-        extra_arguments = entity.get_attr('extra_arg', data_type=List[Entity], optional=True)
-        if extra_arguments is not None:
-            kwargs['extra_arguments'] = [
-                {
-                    tuple(parser.parse_substitution(extra_arg.get_attr('name'))):
-                    parser.parse_substitution(extra_arg.get_attr('value'))
-                } for extra_arg in extra_arguments
-            ]
-
-            for extra_arg in extra_arguments:
-                extra_arg.assert_entity_completely_parsed()
-
-        entity.assert_entity_completely_parsed()
-
-        return cls, kwargs
 
     @property
     def package(self) -> List[Substitution]:
@@ -177,7 +110,3 @@ class ComposableNode:
     def extra_arguments(self) -> Optional[Parameters]:
         """Get container extra arguments YAML files or dicts with substitutions to be performed."""
         return self.__extra_arguments
-
-    def condition(self) -> Optional[Condition]:
-        """Getter for condition."""
-        return self.__condition
