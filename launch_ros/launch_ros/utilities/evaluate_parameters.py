@@ -17,7 +17,7 @@
 
 from collections.abc import Mapping
 from collections.abc import Sequence
-import pathlib  # noqa: F401
+import pathlib
 from typing import cast
 from typing import Dict
 from typing import List

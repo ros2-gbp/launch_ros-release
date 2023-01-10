@@ -2,20 +2,60 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.14.5 (2022-12-07)
+0.19.4 (2023-01-10)
 -------------------
-* Fix "imported but not used" linters (`#334 <https://github.com/ros2/launch_ros/issues/334>`_)
-* Contributors: Crola1702, Jorge Perez
+* fix: return text value to avoid exception (`#338 <https://github.com/ros2/launch_ros/issues/338>`_) (`#340 <https://github.com/ros2/launch_ros/issues/340>`_)
+* Contributors: Daisuke Nishimatsu
 
-0.14.4 (2022-12-02)
+0.19.3 (2022-05-17)
 -------------------
 
-0.14.3 (2022-04-28)
+0.19.2 (2022-04-08)
 -------------------
-* Handle empty strings when evaluating parameters (`#300 <https://github.com/ros2/launch_ros/issues/300>`_) (`#301 <https://github.com/ros2/launch_ros/issues/301>`_)
-* Fix TypeError accessing name and value of SetParameter (`#299 <https://github.com/ros2/launch_ros/issues/299>`_)
-* More Helpful Error Messages (`#275 <https://github.com/ros2/launch_ros/issues/275>`_) (`#290 <https://github.com/ros2/launch_ros/issues/290>`_)
-* Contributors: Jacob Perron, mergify[bot]
+* Fix importlib_metadata warning on Python 3.10. (`#307 <https://github.com/ros2/launch_ros/issues/307>`_)
+* Contributors: Chris Lalancette
+
+0.19.1 (2022-04-05)
+-------------------
+
+0.19.0 (2022-03-24)
+-------------------
+* Use correct namespace when evaluating parameter files for composable nodes (`#303 <https://github.com/ros2/launch_ros/issues/303>`_)
+* Handle empty strings when evaluating parameters (`#300 <https://github.com/ros2/launch_ros/issues/300>`_)
+* Contributors: Jacob Perron
+
+0.18.0 (2022-03-01)
+-------------------
+* Add parameter substitution (`#297 <https://github.com/ros2/launch_ros/issues/297>`_)
+* Contributors: Kenji Miyake
+
+0.17.0 (2021-12-14)
+-------------------
+
+0.16.0 (2021-11-29)
+-------------------
+* fix bug in warning when an entry point fails to load (`#243 <https://github.com/ros2/launch_ros/issues/243>`_)
+* More Helpful Error Messages (`#275 <https://github.com/ros2/launch_ros/issues/275>`_)
+* Update maintainers in setup.py (`#287 <https://github.com/ros2/launch_ros/issues/287>`_)
+* Set parameters from file for composable nodes (`#281 <https://github.com/ros2/launch_ros/issues/281>`_)
+* Update package maintainers (`#284 <https://github.com/ros2/launch_ros/issues/284>`_)
+* Update node name matcher (`#282 <https://github.com/ros2/launch_ros/issues/282>`_)
+* Support both parameter file configurations for composable nodes (`#259 <https://github.com/ros2/launch_ros/issues/259>`_)
+* Contributors: Aditya Pande, Audrow Nash, David V. Lu!!, Jacob Perron, Michel Hidalgo, Rebecca Butler, William Woodall
+
+0.15.0 (2021-10-07)
+-------------------
+* Handle substitutions in RosTimer (`#264 <https://github.com/ros2/launch_ros/issues/264>`_)
+* Add SetParametersFromFile action (`#260 <https://github.com/ros2/launch_ros/issues/260>`_)
+* Properly support ros_args attribute through launch frontends (`#253 <https://github.com/ros2/launch_ros/issues/253>`_)
+* Add 'push_ros_namespace' alias to 'push-ros-namespace' (`#250 <https://github.com/ros2/launch_ros/issues/250>`_)
+* Add ros_arguments option to Node action (`#249 <https://github.com/ros2/launch_ros/issues/249>`_)
+* Refactor RosTimer to extend TimerAction (`#248 <https://github.com/ros2/launch_ros/issues/248>`_)
+* ROS Timer Action (`#244 <https://github.com/ros2/launch_ros/issues/244>`_)
+* Support container in frontend (`#235 <https://github.com/ros2/launch_ros/issues/235>`_)
+* Fix a small typo in a comment (`#237 <https://github.com/ros2/launch_ros/issues/237>`_)
+* Better document parameter handling in Node (`#234 <https://github.com/ros2/launch_ros/issues/234>`_)
+* Contributors: Aditya Pande, Chris Lalancette, Christophe Bedard, Felix Divo, Jacob Perron, Kenji Miyake, Rebecca Butler
 
 0.14.2 (2021-04-26)
 -------------------
@@ -152,12 +192,12 @@ Changelog for package launch_ros
 
 0.8.0 (2019-04-14)
 ------------------
-* Make 'ros2 launch' work again. (`#201 <https://github.com/ros2/launch_ros/issues/201>`_)
-* Added LaunchLogger class (`#145 <https://github.com/ros2/launch/issues/145>`_)
-* Changed logger.warn (deprecated) to logger.warning. (`#199 <https://github.com/ros2/launch/issues/199>`_)
-* Added Plumb rclpy.init context to get_default_launch_description. (`#193 <https://github.com/ros2/launch/issues/193>`_)
-* Added normalize_parameters and evaluate_paramters. (`#192 <https://github.com/ros2/launch/issues/192>`_)
-* Added normalize_remap_rule and types. (`#173 <https://github.com/ros2/launch/issues/173>`_)
+* Make 'ros2 launch' work again. (`launch #201 <https://github.com/ros2/launch_ros/issues/201>`_)
+* Added LaunchLogger class (`launch #145 <https://github.com/ros2/launch/issues/145>`_)
+* Changed logger.warn (deprecated) to logger.warning. (`launch #199 <https://github.com/ros2/launch/issues/199>`_)
+* Added Plumb rclpy.init context to get_default_launch_description. (`launch #193 <https://github.com/ros2/launch/issues/193>`_)
+* Added normalize_parameters and evaluate_paramters. (`launch #192 <https://github.com/ros2/launch/issues/192>`_)
+* Added normalize_remap_rule and types. (`launch #173 <https://github.com/ros2/launch/issues/173>`_)
 * Contributors: Chris Lalancette, Dirk Thomas, Jacob Perron, Peter Baughman, Shane Loretz
 
 0.7.3 (2018-12-13)
@@ -173,13 +213,13 @@ Changelog for package launch_ros
 
 0.7.0 (2018-11-16)
 ------------------
-* Renamed transitions to match changes in ``lifecycle_msgs`` (`#153 <https://github.com/ros2/launch/issues/153>`_)
+* Renamed transitions to match changes in ``lifecycle_msgs`` (`launch #153 <https://github.com/ros2/launch/issues/153>`_)
   * TRANSITION_SHUTDOWN was deleted in ``lifecycle_msgs/msg/Transition.msg``
   * Align with the code changes from https://github.com/ros2/rcl_interfaces/commit/852a37ba3ae0f7e58f4314fa432a8ea7f0cbf639
   * Signed-off-by: Chris Ye <chris.ye@intel.com>
 * Added 'handle_once' property for unregistering an EventHandler after one event (`#141 <https://github.com/ros2/launch/issues/141>`_)
-* Added support for passing parameters as a dictionary to a Node (`#138 <https://github.com/ros2/launch/issues/138>`_)
-* Made various fixes and added tests for remappings passed to Node actions (`#137 <https://github.com/ros2/launch/issues/137>`_)
+* Added support for passing parameters as a dictionary to a Node (`launch #138 <https://github.com/ros2/launch/issues/138>`_)
+* Made various fixes and added tests for remappings passed to Node actions (`launch #137 <https://github.com/ros2/launch/issues/137>`_)
 * Added ability to pass parameter files to Node actions (`#135 <https://github.com/ros2/launch/issues/135>`_)
 * Added ability to define and pass launch arguments to launch files (`#123 <https://github.com/ros2/launch/issues/123>`_)
   * See changelog in ``launch`` for details.

@@ -14,7 +14,6 @@
 
 from launch_testing.pytest.hooks import LaunchTestItem
 from launch_testing.pytest.hooks import LaunchTestModule
-import pytest
 
 from ..test_runner import LaunchTestRunner
 
@@ -34,21 +33,3 @@ class LaunchROSTestModule(LaunchTestModule):
 
     def makeitem(self, *args, **kwargs):
         return LaunchROSTestItem.from_parent(*args, **kwargs)
-
-
-def pytest_launch_collect_makemodule(path, parent, entrypoint):
-    marks = getattr(entrypoint, 'pytestmark', [])
-    if marks and any(m.name == 'rostest' for m in marks):
-        module = LaunchROSTestModule.from_parent(parent=parent, fspath=path)
-        for mark in marks:
-            decorator = getattr(pytest.mark, mark.name)
-            decorator = decorator.with_args(*mark.args, **mark.kwargs)
-            module.add_marker(decorator)
-        return module
-
-
-def pytest_configure(config):
-    config.addinivalue_line(
-        'markers',
-        'rostest: mark a generate_test_description function as a ROS launch test entrypoint'
-    )

@@ -1,4 +1,4 @@
-# Copyright 2018 Open Source Robotics Foundation, Inc.
+# Copyright 2021 Open Source Robotics Foundation, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,12 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""events Module."""
+import rclpy
+from rclpy.node import Node
 
-from . import lifecycle
-from .matchers import matches_node_name
 
-__all__ = [
-    'lifecycle',
-    'matches_node_name',
-]
+class TestNode(Node):
+
+    def __init__(self):
+        super().__init__('parameter_blackboard')
+        self.declare_parameter('demo_parameter_1', False)
+
+
+def main(args=None):
+    rclpy.init(args=args)
+
+    node = TestNode()
+
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
