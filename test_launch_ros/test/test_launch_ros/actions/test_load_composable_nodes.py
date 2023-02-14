@@ -22,6 +22,7 @@ from composition_interfaces.srv import LoadNode
 from launch import LaunchDescription
 from launch import LaunchService
 from launch.actions import GroupAction
+from launch.conditions import IfCondition
 from launch_ros.actions import LoadComposableNodes
 from launch_ros.actions import PushROSNamespace
 from launch_ros.actions import SetRemap
@@ -99,6 +100,7 @@ def _load_composable_node(
     plugin,
     name,
     namespace='',
+    condition=None,
     parameters=None,
     remappings=None,
     target_container=f'/{TEST_CONTAINER_NAME}'
@@ -107,6 +109,7 @@ def _load_composable_node(
         target_container=target_container,
         composable_node_descriptions=[
             ComposableNode(
+                condition=condition,
                 package=package,
                 plugin=plugin,
                 name=name,
@@ -144,6 +147,41 @@ def test_load_node(mock_component_container):
     assert request.package_name == 'foo_package'
     assert request.plugin_name == 'bar_plugin'
     assert request.node_name == 'test_node_name'
+    assert request.node_namespace == '/test_node_namespace'
+    assert len(request.remap_rules) == 0
+    assert len(request.parameters) == 0
+    assert len(request.extra_arguments) == 0
+
+
+def test_load_node_with_conditions(mock_component_container):
+    """Test loading nodes with conditions scoped to a group."""
+    context = _assert_launch_no_errors([
+        _load_composable_node(
+            package='foo_package',
+            plugin='bar_plugin',
+            name='test_node_name_true',
+            namespace='test_node_namespace',
+            condition=IfCondition('True')
+        ),
+        _load_composable_node(
+            package='foo_package',
+            plugin='bar_plugin',
+            name='test_node_name_false',
+            namespace='test_node_namespace',
+            condition=IfCondition('False')
+        )
+    ])
+
+    # Check that launch is aware of loaded component
+    assert get_node_name_count(context, '/test_node_namespace/test_node_name_true') == 1
+    assert get_node_name_count(context, '/test_node_namespace/test_node_name_false') == 0
+
+    # Check that container recieved correct request
+    assert len(mock_component_container.requests) == 1
+    request = mock_component_container.requests[0]
+    assert request.package_name == 'foo_package'
+    assert request.plugin_name == 'bar_plugin'
+    assert request.node_name == 'test_node_name_true'
     assert request.node_namespace == '/test_node_namespace'
     assert len(request.remap_rules) == 0
     assert len(request.parameters) == 0
@@ -375,7 +413,53 @@ def test_load_node_with_param_file(mock_component_container):
     assert request.parameters[1].name == 'param_3'
     assert request.parameters[1].value.integer_value == 3
 
-    # Case 7: node name not found
+    # Case 7: multiple nodes in one namespace
+    context = _assert_launch_no_errors([
+        LoadComposableNodes(  # Load in same action so it happens sequentially
+            target_container=f'/{TEST_CONTAINER_NAME}',
+            composable_node_descriptions=[
+                ComposableNode(
+                    package='foo_package',
+                    plugin='bar_plugin',
+                    name='node_1',
+                    namespace='ns_1',
+                    parameters=[
+                        parameters_file_dir / 'example_parameters_multiple_nodes.yaml'
+                    ]
+                ),
+                ComposableNode(
+                    package='foo_package',
+                    plugin='bar_plugin',
+                    name='node_2',
+                    namespace='ns_1',
+                    parameters=[
+                        parameters_file_dir / 'example_parameters_multiple_nodes.yaml'
+                    ]
+                )
+            ]
+        )
+    ])
+    request = mock_component_container.requests[-2]
+    assert get_node_name_count(context, '/ns_1/node_1') == 1
+    assert request.node_name == 'node_1'
+    assert request.node_namespace == '/ns_1'
+    assert len(request.parameters) == 2
+    assert request.parameters[0].name == 'param_1'
+    assert request.parameters[0].value.integer_value == 11
+    assert request.parameters[1].name == 'param_2'
+    assert request.parameters[1].value.integer_value == 22
+
+    request = mock_component_container.requests[-1]
+    assert get_node_name_count(context, '/ns_1/node_2') == 1
+    assert request.node_name == 'node_2'
+    assert request.node_namespace == '/ns_1'
+    assert len(request.parameters) == 2
+    assert request.parameters[0].name == 'param_3'
+    assert request.parameters[0].value.integer_value == 33
+    assert request.parameters[1].name == 'param_4'
+    assert request.parameters[1].value.integer_value == 44
+
+    # Case 8: node name not found
     context = _assert_launch_no_errors([
         _load_composable_node(
             package='foo_package',
@@ -511,6 +595,47 @@ def test_load_node_with_namespace_in_group(mock_component_container):
     assert request.package_name == 'foo_package'
     assert request.plugin_name == 'bar_plugin'
     assert request.node_name == 'test_node_name'
+    assert request.node_namespace == '/foo/test_node_namespace'
+    assert len(request.remap_rules) == 0
+    assert len(request.parameters) == 0
+    assert len(request.extra_arguments) == 0
+
+
+def test_load_node_with_condition_in_group(mock_component_container):
+    """Test loading nodes with conditions scoped to a group."""
+    context = _assert_launch_no_errors([
+        GroupAction(
+            [
+                PushROSNamespace('foo'),
+                _load_composable_node(
+                    package='foo_package',
+                    plugin='bar_plugin',
+                    name='test_node_name_true',
+                    namespace='test_node_namespace',
+                    condition=IfCondition('True')
+                ),
+                _load_composable_node(
+                    package='foo_package',
+                    plugin='bar_plugin',
+                    name='test_node_name_false',
+                    namespace='test_node_namespace',
+                    condition=IfCondition('False')
+                ),
+            ],
+            scoped=True,
+        ),
+    ])
+
+    # Check that launch is aware of loaded component
+    assert get_node_name_count(context, '/foo/test_node_namespace/test_node_name_true') == 1
+    assert get_node_name_count(context, '/foo/test_node_namespace/test_node_name_false') == 0
+
+    # Check that container recieved correct request
+    assert len(mock_component_container.requests) == 1
+    request = mock_component_container.requests[0]
+    assert request.package_name == 'foo_package'
+    assert request.plugin_name == 'bar_plugin'
+    assert request.node_name == 'test_node_name_true'
     assert request.node_namespace == '/foo/test_node_namespace'
     assert len(request.remap_rules) == 0
     assert len(request.parameters) == 0
