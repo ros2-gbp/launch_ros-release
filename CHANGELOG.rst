@@ -2,6 +2,9 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.24.0 (2023-04-11)
+-------------------
+
 0.23.0 (2023-02-14)
 -------------------
 * [rolling] Update maintainers - 2022-11-07 (`#331 <https://github.com/ros2/launch_ros/issues/331>`_)
