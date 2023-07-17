@@ -80,12 +80,13 @@ class ComposableNodeContainer(Node):
         """
         load_actions = None  # type: Optional[List[Action]]
         valid_composable_nodes = []
-        if self.__composable_node_descriptions:
-            for node_object in self.__composable_node_descriptions:
-                if node_object.condition() is None or node_object.condition().evaluate(context):
-                    valid_composable_nodes.append(node_object)
-
-        if valid_composable_nodes:
+        for node_object in self.__composable_node_descriptions:
+            if node_object.condition() is None or node_object.condition().evaluate(context):
+                valid_composable_nodes.append(node_object)
+        if (
+            valid_composable_nodes is not None and
+            len(valid_composable_nodes) > 0
+        ):
             from .load_composable_nodes import LoadComposableNodes
             # Perform load action once the container has started.
             load_actions = [
