@@ -2,6 +2,9 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.26.1 (2023-08-21)
+-------------------
+
 0.26.0 (2023-07-11)
 -------------------
 * Fix an assert in the test_launch_ros tests. (`#367 <https://github.com/ros2/launch_ros/issues/367>`_)
