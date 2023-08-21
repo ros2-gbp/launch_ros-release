@@ -2,16 +2,40 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.19.5 (2023-07-17)
+0.26.1 (2023-08-21)
 -------------------
 
-0.19.4 (2023-01-10)
+0.26.0 (2023-07-11)
 -------------------
-* Inherit markers from generate_test_description (`#330 <https://github.com/ros2/launch_ros/issues/330>`_) (`#332 <https://github.com/ros2/launch_ros/issues/332>`_)
-* Contributors: mergify[bot]
+* `WaitForTopics`: get content of messages for each topic (`#353 <https://github.com/ros2/launch_ros/issues/353>`_)
+* Contributors: Giorgio Pintaudi
 
-0.19.3 (2022-05-17)
+0.25.0 (2023-04-27)
 -------------------
+
+0.24.0 (2023-04-11)
+-------------------
+* Increase the timeouts in wait_for_topic_launch_test. (`#360 <https://github.com/ros2/launch_ros/issues/360>`_)
+* Enable document generation using rosdoc2 (`#359 <https://github.com/ros2/launch_ros/issues/359>`_)
+* exit() methods should not reraise the passed-in exception (`#357 <https://github.com/ros2/launch_ros/issues/357>`_)
+* Contributors: Chris Lalancette, Giorgio Pintaudi, Yadu
+
+0.23.0 (2023-02-14)
+-------------------
+* Inherit markers from generate_test_description (`#330 <https://github.com/ros2/launch_ros/issues/330>`_)
+* [rolling] Update maintainers - 2022-11-07 (`#331 <https://github.com/ros2/launch_ros/issues/331>`_)
+* Contributors: Audrow Nash, Scott K Logan
+
+0.22.0 (2022-11-02)
+-------------------
+
+0.21.0 (2022-09-13)
+-------------------
+
+0.20.0 (2022-04-29)
+-------------------
+* Fix long wait during shutdown in WaitForTopics (`#314 <https://github.com/ros2/launch_ros/issues/314>`_)
+* Contributors: Keng12
 
 0.19.2 (2022-04-08)
 -------------------
