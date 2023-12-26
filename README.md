@@ -1,3 +1,32 @@
+## launch_ros (rolling) - 0.26.3-1
+
+The packages in the `launch_ros` repository were released into the `rolling` distro by running `/usr/bin/bloom-release --track rolling --rosdistro rolling launch_ros` on `Tue, 26 Dec 2023 17:28:25 -0000`
+
+These packages were released:
+- `launch_ros`
+- `launch_testing_ros`
+- `ros2launch`
+
+These packages were explicitly ignored:
+- `test_launch_ros`
+
+Version of package(s) in repository `launch_ros`:
+
+- upstream repository: https://github.com/ros2/launch_ros.git
+- release repository: https://github.com/ros2-gbp/launch_ros-release.git
+- rosdistro version: `0.26.2-1`
+- old version: `0.26.2-1`
+- new version: `0.26.3-1`
+
+Versions of tools used:
+
+- bloom version: `0.11.2`
+- catkin_pkg version: `1.0.0`
+- rosdep version: `0.22.2`
+- rosdistro version: `0.9.0`
+- vcstools version: `0.1.42`
+
+
 ## launch_ros (humble) - 0.19.6-1
 
 The packages in the `launch_ros` repository were released into the `humble` distro by running `/usr/bin/bloom-release -r humble -y launch_ros` on `Tue, 19 Sep 2023 14:02:18 -0000`
