@@ -5,7 +5,7 @@ package_name = 'test_launch_ros'
 
 setup(
     name=package_name,
-    version='0.19.6',
+    version='0.26.3',
     packages=find_packages(exclude=['test']),
     install_requires=[
         'setuptools',
@@ -21,8 +21,8 @@ setup(
     ],
     author='William Woodall',
     author_email='william@osrfoundation.org',
-    maintainer='Aditya Pande, Jacob Perron, Michel Hidalgo',
-    maintainer_email='aditya.pande@openrobotics.org, jacob@openrobotics.org, michel@ekumenlabs.com',  # noqa: E501
+    maintainer='Aditya Pande, Brandon Ong',
+    maintainer_email='aditya.pande@openrobotics.org, brandon@openrobotics.org',
     url='https://github.com/ros2/launch',
     download_url='https://github.com/ros2/launch/releases',
     keywords=['ROS'],

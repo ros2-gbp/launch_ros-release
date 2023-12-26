@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='launch_testing_ros',
-    version='0.19.6',
+    version='0.26.3',
     packages=find_packages(exclude=['test']),
     py_modules=['launch_testing_ros_pytest_entrypoint'],
     data_files=[
@@ -20,8 +20,8 @@ setup(
     zip_safe=True,
     author='Pete Baughman',
     author_email='pete.baughman@apex.ai',
-    maintainer='Aditya Pande, Jacob Perron, Michel Hidalgo',
-    maintainer_email='aditya.pande@openrobotics.org, jacob@openrobotics.org, michel@ekumenlabs.com',  # noqa: E501
+    maintainer='Aditya Pande, Brandon Ong',
+    maintainer_email='aditya.pande@openrobotics.org, brandon@openrobotics.org',
     url='https://github.com/ros2/launch_ros',
     download_url='https://github.com/ros2/launch_ros/releases',
     keywords=['ROS'],

@@ -5,13 +5,14 @@ package_name = 'launch_ros'
 
 setup(
     name=package_name,
-    version='0.19.6',
+    version='0.26.3',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/' + package_name, ['package.xml']),
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
     ],
+    package_data={'launch_ros': ['py.typed']},
     install_requires=[
         'setuptools',
         'ament_index_python',
@@ -22,8 +23,8 @@ setup(
     zip_safe=True,
     author='William Woodall',
     author_email='william@osrfoundation.org',
-    maintainer='Aditya Pande, Jacob Perron, Michel Hidalgo',
-    maintainer_email='aditya.pande@openrobotics.org, jacob@openrobotics.org, michel@ekumenlabs.com',  # noqa: E501
+    maintainer='Aditya Pande, Brandon Ong',
+    maintainer_email='aditya.pande@openrobotics.org, brandon@openrobotics.org',
     url='https://github.com/ros2/launch',
     download_url='https://github.com/ros2/launch/releases',
     keywords=['ROS'],
