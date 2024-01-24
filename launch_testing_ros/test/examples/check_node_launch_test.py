@@ -21,7 +21,6 @@ import launch
 import launch.actions
 import launch_ros.actions
 import launch_testing.actions
-from launch_testing.io_handler import ActiveIoHandler
 import launch_testing.markers
 import pytest
 import rclpy
@@ -50,7 +49,7 @@ def generate_test_description():
 
 class TestFixture(unittest.TestCase):
 
-    def test_node_start(self, proc_output: ActiveIoHandler):
+    def test_node_start(self, proc_output):
         rclpy.init()
         try:
             node = MakeTestNode('test_node')
@@ -61,10 +60,10 @@ class TestFixture(unittest.TestCase):
 
 class MakeTestNode(Node):
 
-    def __init__(self, name: str = 'test_node'):
+    def __init__(self, name='test_node'):
         super().__init__(name)
 
-    def wait_for_node(self, node_name: str, timeout: float = 8.0):
+    def wait_for_node(self, node_name, timeout=8.0):
         start = time.time()
         flag = False
         print('Waiting for node...')
