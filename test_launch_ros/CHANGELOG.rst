@@ -2,6 +2,9 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.24.1 (2024-02-07)
+-------------------
+
 0.24.0 (2023-04-11)
 -------------------
 * Enable document generation using rosdoc2 (`#359 <https://github.com/ros2/launch_ros/issues/359>`_)
