@@ -2,6 +2,9 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.24.1 (2024-02-07)
+-------------------
+
 0.24.0 (2023-04-11)
 -------------------
 * Use SomeEntitiesType for type checking. (`#358 <https://github.com/ros2/launch_ros/issues/358>`_)
