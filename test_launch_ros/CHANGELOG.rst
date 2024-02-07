@@ -2,27 +2,7 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.26.4 (2024-01-24)
--------------------
-* add "--log-file-name" command line argument for test. (`#387 <https://github.com/ros2/launch_ros/issues/387>`_)
-* Contributors: Tomoya Fujita
-
-0.26.3 (2023-12-26)
--------------------
-
-0.26.2 (2023-09-07)
--------------------
-
-0.26.1 (2023-08-21)
--------------------
-
-0.26.0 (2023-07-11)
--------------------
-* Fix an assert in the test_launch_ros tests. (`#367 <https://github.com/ros2/launch_ros/issues/367>`_)
-* Fix misspelled "receive". (`#362 <https://github.com/ros2/launch_ros/issues/362>`_)
-* Contributors: Chris Lalancette
-
-0.25.0 (2023-04-27)
+0.24.1 (2024-02-07)
 -------------------
 
 0.24.0 (2023-04-11)
