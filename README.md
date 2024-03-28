@@ -1,3 +1,32 @@
+## launch_ros (rolling) - 0.26.5-1
+
+The packages in the `launch_ros` repository were released into the `rolling` distro by running `/usr/bin/bloom-release launch_ros --rosdistro rolling` on `Thu, 28 Mar 2024 09:42:47 -0000`
+
+These packages were released:
+- `launch_ros`
+- `launch_testing_ros`
+- `ros2launch`
+
+These packages were explicitly ignored:
+- `test_launch_ros`
+
+Version of package(s) in repository `launch_ros`:
+
+- upstream repository: https://github.com/ros2/launch_ros.git
+- release repository: https://github.com/ros2-gbp/launch_ros-release.git
+- rosdistro version: `0.26.4-2`
+- old version: `0.26.4-2`
+- new version: `0.26.5-1`
+
+Versions of tools used:
+
+- bloom version: `0.11.2`
+- catkin_pkg version: `0.5.2`
+- rosdep version: `0.22.2`
+- rosdistro version: `0.9.0`
+- vcstools version: `0.1.42`
+
+
 ## launch_ros (iron) - 0.24.1-1
 
 The packages in the `launch_ros` repository were released into the `iron` distro by running `/usr/bin/bloom-release --rosdistro iron launch_ros` on `Wed, 07 Feb 2024 09:07:50 -0000`
