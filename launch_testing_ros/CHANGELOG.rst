@@ -2,6 +2,11 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.26.5 (2024-03-28)
+-------------------
+* Make launch_testing_ros examples more robust. (`#394 <https://github.com/ros2/launch_ros/issues/394>`_)
+* Contributors: Chris Lalancette
+
 0.26.4 (2024-01-24)
 -------------------
 
