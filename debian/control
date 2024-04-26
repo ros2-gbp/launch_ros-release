@@ -1,0 +1,12 @@
+Source: ros-rolling-launch-ros
+Section: misc
+Priority: optional
+Maintainer: Aditya Pande <aditya.pande@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), python3-ament-copyright <!nocheck>, python3-ament-flake8 <!nocheck>, python3-ament-index, python3-ament-pep257 <!nocheck>, python3-importlib-metadata, python3-osrf-pycommon, python3-pytest <!nocheck>, python3-yaml, ros-rolling-composition-interfaces, ros-rolling-launch, ros-rolling-lifecycle-msgs, ros-rolling-rclpy, ros-rolling-ros-workspace, python3-all, python3-setuptools, dh-python
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-rolling-launch-ros
+Architecture: any
+Depends: ${python3:Depends}, ${misc:Depends}, python3-ament-index, python3-importlib-metadata, python3-osrf-pycommon, python3-yaml, ros-rolling-composition-interfaces, ros-rolling-launch, ros-rolling-lifecycle-msgs, ros-rolling-rclpy, ros-rolling-ros-workspace
+Description: ROS specific extensions to the launch tool.
