@@ -2,6 +2,9 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.27.3 (2024-10-03)
+-------------------
+
 0.27.2 (2024-07-29)
 -------------------
 * Switch to use rclpy.init context manager. (`#402 <https://github.com/ros2/launch_ros/issues/402>`_)
