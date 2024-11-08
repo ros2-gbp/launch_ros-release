@@ -13,7 +13,6 @@
 # limitations under the License.
 
 import rclpy
-from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 
 from std_msgs.msg import String
@@ -27,17 +26,21 @@ class Listener(Node):
             String, 'chatter', self.callback, 10
         )
 
-    def callback(self, msg: String):
+    def callback(self, msg):
         self.get_logger().info('I heard: [%s]' % msg.data)
 
 
 def main(args=None):
+    rclpy.init(args=args)
+
+    node = Listener()
     try:
-        with rclpy.init(args=args):
-            node = Listener()
-            rclpy.spin(node)
-    except (KeyboardInterrupt, ExternalShutdownException):
+        rclpy.spin(node)
+    except KeyboardInterrupt:
         pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
 
 
 if __name__ == '__main__':

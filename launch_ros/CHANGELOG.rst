@@ -2,49 +2,13 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.27.3 (2024-10-03)
+0.24.2 (2024-11-09)
 -------------------
-* Fix url in setup.py (`#413 <https://github.com/ros2/launch_ros/issues/413>`_)
-* Contributors: Wei HU
+* cache lookup of importlib metadata in Node action (`#411 <https://github.com/ros2/launch_ros/issues/411>`_)
+* Fix url in setup.py (`#416 <https://github.com/ros2/launch_ros/issues/416>`_)
+* Contributors: roscan-tech, Wei HU
 
-0.27.2 (2024-07-29)
--------------------
-
-0.27.1 (2024-06-17)
--------------------
-
-0.27.0 (2024-04-26)
--------------------
-
-0.26.5 (2024-03-28)
--------------------
-* Fix: typing. Iterable doesn't have __getitem_\_ (`#393 <https://github.com/ros2/launch_ros/issues/393>`_)
-* Cleanup some type annotations. (`#392 <https://github.com/ros2/launch_ros/issues/392>`_)
-* Contributors: Chris Lalancette, Matthijs van der Burgh
-
-0.26.4 (2024-01-24)
--------------------
-
-0.26.3 (2023-12-26)
--------------------
-
-0.26.2 (2023-09-07)
--------------------
-* Create py.typed to mark this library as typed (`#379 <https://github.com/ros2/launch_ros/issues/379>`_)
-* Contributors: Jonas Otto
-
-0.26.1 (2023-08-21)
--------------------
-* Remove create_future implementation. (`#372 <https://github.com/ros2/launch_ros/issues/372>`_)
-* Contributors: Chris Lalancette
-
-0.26.0 (2023-07-11)
--------------------
-* cache lookup of importlib metadata in Node action (`#365 <https://github.com/ros2/launch_ros/issues/365>`_)
-* Get rid of unnecessary checks in composable_node_container. (`#364 <https://github.com/ros2/launch_ros/issues/364>`_)
-* Contributors: Chris Lalancette, William Woodall
-
-0.25.0 (2023-04-27)
+0.24.1 (2024-02-07)
 -------------------
 
 0.24.0 (2023-04-11)

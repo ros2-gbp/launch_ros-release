@@ -31,6 +31,7 @@ from launch.launch_context import LaunchContext
 from launch.launch_description_entity import LaunchDescriptionEntity
 from launch.some_substitutions_type import SomeSubstitutionsType
 from launch.some_substitutions_type import SomeSubstitutionsType_types_tuple
+from launch.utilities import create_future
 from launch.utilities import ensure_argument_type
 from launch.utilities import type_utils
 
@@ -105,5 +106,5 @@ class ROSTimer(TimerAction):
         return 'ROSTimer(period={}, actions=<actions>)'.format(self.__period)
 
     def execute(self, context: LaunchContext):
-        self.__timer_future = context.asyncio_loop.create_future()
+        self.__timer_future = create_future(context.asyncio_loop)
         return super().execute(context)
