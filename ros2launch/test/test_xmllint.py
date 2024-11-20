@@ -1,4 +1,4 @@
-# Copyright 2021 Open Source Robotics Foundation, Inc.
+# Copyright 2019 Open Source Robotics Foundation, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,26 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import rclpy
-from rclpy.executors import ExternalShutdownException
-from rclpy.node import Node
+from ament_xmllint.main import main
+import pytest
 
 
-class TestNode(Node):
-
-    def __init__(self):
-        super().__init__('parameter_blackboard')
-        self.declare_parameter('demo_parameter_1', False)
-
-
-def main(args=None):
-    try:
-        with rclpy.init(args=args):
-            node = TestNode()
-            rclpy.spin(node)
-    except (KeyboardInterrupt, ExternalShutdownException):
-        pass
-
-
-if __name__ == '__main__':
-    main()
+@pytest.mark.linter
+@pytest.mark.xmllint
+def test_xmllint():
+    rc = main(argv=[])
+    assert rc == 0, 'Found errors'

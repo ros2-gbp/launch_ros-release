@@ -2,12 +2,46 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.24.2 (2024-11-09)
+0.28.0 (2024-11-20)
 -------------------
-* Fix url in setup.py (`#416 <https://github.com/ros2/launch_ros/issues/416>`_)
+* Add ament_xmllint to the ament_python packages. (`#423 <https://github.com/ros2/launch_ros/issues/423>`_)
+* Contributors: Chris Lalancette
+
+0.27.3 (2024-10-03)
+-------------------
+* Fix url in setup.py (`#413 <https://github.com/ros2/launch_ros/issues/413>`_)
 * Contributors: Wei HU
 
-0.24.1 (2024-02-07)
+0.27.2 (2024-07-29)
+-------------------
+
+0.27.1 (2024-06-17)
+-------------------
+* Add mechanism to disable workaround for dependency groups (`#397 <https://github.com/ros2/launch_ros/issues/397>`_)
+* Contributors: Scott K Logan
+
+0.27.0 (2024-04-26)
+-------------------
+
+0.26.5 (2024-03-28)
+-------------------
+
+0.26.4 (2024-01-24)
+-------------------
+
+0.26.3 (2023-12-26)
+-------------------
+
+0.26.2 (2023-09-07)
+-------------------
+
+0.26.1 (2023-08-21)
+-------------------
+
+0.26.0 (2023-07-11)
+-------------------
+
+0.25.0 (2023-04-27)
 -------------------
 
 0.24.0 (2023-04-11)
