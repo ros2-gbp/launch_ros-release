@@ -5,7 +5,7 @@ package_name = 'ros2launch'
 
 setup(
     name=package_name,
-    version='0.19.7',
+    version='0.19.8',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/' + package_name, ['package.xml']),
@@ -18,8 +18,8 @@ setup(
     author_email='william@osrfoundation.org',
     maintainer='Aditya Pande, Jacob Perron, Michel Hidalgo',
     maintainer_email='aditya.pande@openrobotics.org, jacob@openrobotics.org, michel@ekumenlabs.com',  # noqa: E501
-    url='https://github.com/ros2/launch/tree/master/ros2launch',
-    download_url='https://github.com/ros2/launch/releases',
+    url='https://github.com/ros2/launch_ros/tree/master/ros2launch',
+    download_url='https://github.com/ros2/launch_ros/releases',
     keywords=[],
     classifiers=[
         'Environment :: Console',
