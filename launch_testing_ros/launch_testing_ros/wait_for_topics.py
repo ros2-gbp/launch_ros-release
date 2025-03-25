@@ -28,28 +28,30 @@ class WaitForTopics:
     Wait to receive messages on supplied topics.
 
     Example usage:
+    --------------
 
     from std_msgs.msg import String
 
-    .. code-block:: python
-
-        # Method 1, using the 'with' keyword
-        def method_1():
-            topic_list = [('topic_1', String), ('topic_2', String)]
-            with WaitForTopics(topic_list, timeout=5.0):
-                # 'topic_1' and 'topic_2' received at least one message each
-                print('Given topics are receiving messages !')
-
-        # Method 2, calling wait() and shutdown() manually
-        def method_2():
-            topic_list = [('topic_1', String), ('topic_2', String)]
-            wait_for_topics = WaitForTopics(topic_list, timeout=5.0)
-            assert wait_for_topics.wait()
+    # Method 1, using the 'with' keyword
+    def method_1():
+        topic_list = [('topic_1', String), ('topic_2', String)]
+        with WaitForTopics(topic_list, timeout=5.0):
+            # 'topic_1' and 'topic_2' received at least one message each
             print('Given topics are receiving messages !')
             print(wait_for_topics.topics_not_received()) # Should be an empty set
             print(wait_for_topics.topics_received()) # Should be {'topic_1', 'topic_2'}
             print(wait_for_topics.messages_received('topic_1')) # Should be [message_1, ...]
             wait_for_topics.shutdown()
+
+    # Method 2, calling wait() and shutdown() manually
+    def method_2():
+        topic_list = [('topic_1', String), ('topic_2', String)]
+        wait_for_topics = WaitForTopics(topic_list, timeout=5.0)
+        assert wait_for_topics.wait()
+        print('Given topics are receiving messages !')
+        print(wait_for_topics.topics_not_received()) # Should be an empty set
+        print(wait_for_topics.topics_received()) # Should be {'topic_1', 'topic_2'}
+        wait_for_topics.shutdown()
     """
 
     def __init__(self, topic_tuples, timeout=5.0, messages_received_buffer_length=10):
@@ -63,14 +65,9 @@ class WaitForTopics:
         self._prepare_ros_node()
 
         # Start spinning
-        self.__ros_spin_thread = Thread(target=self._spin_handle_external_shutdown)
+        self.__running = True
+        self.__ros_spin_thread = Thread(target=self._spin_function)
         self.__ros_spin_thread.start()
-
-    def _spin_handle_external_shutdown(self):
-        try:
-            self.__ros_executor.spin()
-        except rclpy.executors.ExternalShutdownException:
-            pass
 
     def _prepare_ros_node(self):
         node_name = '_test_node_' + ''.join(
@@ -83,15 +80,19 @@ class WaitForTopics:
         )
         self.__ros_executor.add_node(self.__ros_node)
 
+    def _spin_function(self):
+        while self.__running:
+            self.__ros_executor.spin_once(1.0)
+
     def wait(self):
         self.__ros_node.start_subscribers(self.topic_tuples)
         return self.__ros_node.msg_event_object.wait(self.timeout)
 
     def shutdown(self):
-        # Shutdown context before joining thread
-        self.__ros_context.try_shutdown()
+        self.__running = False
         self.__ros_spin_thread.join()
         self.__ros_node.destroy_node()
+        rclpy.shutdown(context=self.__ros_context)
 
     def topics_received(self):
         """Topics that received at least one message."""
@@ -114,6 +115,8 @@ class WaitForTopics:
         return self
 
     def __exit__(self, exep_type, exep_value, trace):
+        if exep_type is not None:
+            raise Exception('Exception occured, value: ', exep_value)
         self.shutdown()
 
 
