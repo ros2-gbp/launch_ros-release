@@ -2,35 +2,78 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.19.9 (2025-03-25)
+0.26.7 (2025-04-02)
 -------------------
-
-0.19.8 (2024-11-25)
--------------------
-* Fix url in setup.py (backport `#413 <https://github.com/ros2/launch_ros/issues/413>`_) (`#415 <https://github.com/ros2/launch_ros/issues/415>`_)
+* Autostarting lifecycle nodes and example launch file demo (`#430 <https://github.com/ros2/launch_ros/issues/430>`_) (`#438 <https://github.com/ros2/launch_ros/issues/438>`_)
+  (cherry picked from commit 3569f0d76c68884ca8796c0134bad29e8732d868)
+  Co-authored-by: Steve Macenski <stevenmacenski@gmail.com>
 * Contributors: mergify[bot]
 
-0.19.7 (2024-01-24)
+0.26.6 (2024-12-18)
 -------------------
-
-0.19.6 (2023-09-19)
--------------------
-* Implement None check for ComposableNodeContainer (`#341 <https://github.com/ros2/launch_ros/issues/341>`_) (`#371 <https://github.com/ros2/launch_ros/issues/371>`_)
+* Fix url in setup.py (`#413 <https://github.com/ros2/launch_ros/issues/413>`_) (`#414 <https://github.com/ros2/launch_ros/issues/414>`_)
+  (cherry picked from commit edb63764c39993645fd6bc7e0fc31ed7316f0b45)
+  Co-authored-by: Wei HU <37072526+huweiATgithub@users.noreply.github.com>
 * Contributors: mergify[bot]
 
-0.19.5 (2023-07-17)
+0.26.5 (2024-03-28)
 -------------------
-* Run condition for composable nodes (`#311 <https://github.com/ros2/launch_ros/issues/311>`_) (`#363 <https://github.com/ros2/launch_ros/issues/363>`_)
-* Fix normalize_parameters_dict for multiple nodes in the same namespace (backport `#347 <https://github.com/ros2/launch_ros/issues/347>`_) (`#350 <https://github.com/ros2/launch_ros/issues/350>`_)
-* Contributors: mergify[bot]
+* Small fixes for modern flake8. (`#395 <https://github.com/ros2/launch_ros/issues/395>`_)
+* Contributors: Chris Lalancette
 
-0.19.4 (2023-01-10)
+0.26.4 (2024-01-24)
+-------------------
+* add "--log-file-name" command line argument for test. (`#387 <https://github.com/ros2/launch_ros/issues/387>`_)
+* Contributors: Tomoya Fujita
+
+0.26.3 (2023-12-26)
 -------------------
 
-0.19.3 (2022-05-17)
+0.26.2 (2023-09-07)
 -------------------
-* Load composable nodes in sequence (`#315 <https://github.com/ros2/launch_ros/issues/315>`_) (`#316 <https://github.com/ros2/launch_ros/issues/316>`_)
-* Contributors: mergify[bot]
+
+0.26.1 (2023-08-21)
+-------------------
+
+0.26.0 (2023-07-11)
+-------------------
+* Fix an assert in the test_launch_ros tests. (`#367 <https://github.com/ros2/launch_ros/issues/367>`_)
+* Fix misspelled "receive". (`#362 <https://github.com/ros2/launch_ros/issues/362>`_)
+* Contributors: Chris Lalancette
+
+0.25.0 (2023-04-27)
+-------------------
+
+0.24.0 (2023-04-11)
+-------------------
+* Enable document generation using rosdoc2 (`#359 <https://github.com/ros2/launch_ros/issues/359>`_)
+* Contributors: Yadu
+
+0.23.0 (2023-02-14)
+-------------------
+* Fix normalize_parameters_dict for multiple nodes in the same namespace (`#347 <https://github.com/ros2/launch_ros/issues/347>`_)
+* Implement None check for ComposableNodeContainer (`#341 <https://github.com/ros2/launch_ros/issues/341>`_)
+* Add LifecyleTransition action (`#317 <https://github.com/ros2/launch_ros/issues/317>`_)
+* Ensure load_composable_nodes respects condition (`#339 <https://github.com/ros2/launch_ros/issues/339>`_)
+* [rolling] Update maintainers - 2022-11-07 (`#331 <https://github.com/ros2/launch_ros/issues/331>`_)
+* Contributors: Alexey Merzlyakov, Audrow Nash, Christoph Hellmann Santos, methylDragon
+
+0.22.0 (2022-11-02)
+-------------------
+* RosTimer -> ROSTimer and PushRosNamespace -> PushROSNamespace, to follow PEP8 (`#326 <https://github.com/ros2/launch_ros/issues/326>`_)
+* add SetROSLogDir action (`#325 <https://github.com/ros2/launch_ros/issues/325>`_)
+* Contributors: William Woodall
+
+0.21.0 (2022-09-13)
+-------------------
+* Support default values in parameter substitution (`#313 <https://github.com/ros2/launch_ros/issues/313>`_)
+* Contributors: Kenji Miyake
+
+0.20.0 (2022-04-29)
+-------------------
+* Run condition for composable nodes (`#311 <https://github.com/ros2/launch_ros/issues/311>`_)
+* Load composable nodes in sequence (`#315 <https://github.com/ros2/launch_ros/issues/315>`_)
+* Contributors: Aditya Pande, Shane Loretz
 
 0.19.2 (2022-04-08)
 -------------------

@@ -4,14 +4,18 @@
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>test_launch_ros</name>
-  <version>0.19.9</version>
+  <version>0.26.7</version>
   <description>Tests for ROS specific extensions to the launch tool.</description>
-  <maintainer email="aditya.pande@osrfoundation.org">Aditya Pande</maintainer>
-  <maintainer email="jacob@openrobotics.org">Jacob Perron</maintainer>
-  <maintainer email="michel@ekumenlabs.com">Michel Hidalgo</maintainer>
+
+  <maintainer email="aditya.pande@openrobotics.org">Aditya Pande</maintainer>
+  <maintainer email="brandon@openrobotics.org">Brandon Ong</maintainer>
+
   <license>Apache License 2.0</license>
-  <author email="william@osrfoundation.org">William Woodall</author>
+
+  <author email="jacob@openrobotics.org">Jacob Perron</author>
   <author email="michael.jeronimo@openrobotics.org">Michael Jeronimo</author>
+  <author email="michel@ekumenlabs.com">Michel Hidalgo</author>
+  <author email="william@osrfoundation.org">William Woodall</author>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
