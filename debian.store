@@ -1,1 +1,1 @@
-{"base": "82d64ff92e0d", "parent": "debian/rolling/launch_testing_ros", "previous": "22a565948d42", "trim": "", "trimbase": ""}
+{"base": "6162cedf1a1f", "parent": "debian/kilted/launch_testing_ros", "previous": "524a9d307bcd", "trim": "", "trimbase": ""}
