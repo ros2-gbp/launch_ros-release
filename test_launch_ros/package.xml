@@ -4,7 +4,7 @@
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>test_launch_ros</name>
-  <version>0.28.2</version>
+  <version>0.26.8</version>
   <description>Tests for ROS specific extensions to the launch tool.</description>
 
   <maintainer email="aditya.pande@openrobotics.org">Aditya Pande</maintainer>
@@ -20,7 +20,6 @@
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>
-  <test_depend>ament_xmllint</test_depend>
   <test_depend>builtin_interfaces</test_depend>
   <test_depend>composition</test_depend>
   <test_depend>demo_nodes_py</test_depend>
@@ -30,7 +29,6 @@
   <test_depend>lifecycle</test_depend>
   <test_depend>osrf_pycommon</test_depend>
   <test_depend>python3-pytest</test_depend>
-  <test_depend>python3-pytest-timeout</test_depend>
   <test_depend>python3-yaml</test_depend>
   <test_depend>rclcpp_components</test_depend>
   <test_depend>rclpy</test_depend>

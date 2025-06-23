@@ -2,33 +2,19 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.28.2 (2025-06-23)
+0.26.8 (2025-06-23)
 -------------------
 
-0.28.1 (2025-04-18)
+0.26.7 (2025-04-02)
 -------------------
-* `WaitForTopics`: let the user inject a trigger function to be executed after starting the subscribers (`#356 <https://github.com/ros2/launch_ros/issues/356>`_)
-* Add EnableRmwIsolation action for starting rmw_test_fixture (`#459 <https://github.com/ros2/launch_ros/issues/459>`_)
+* Merge pull request `#447 <https://github.com/ros2/launch_ros/issues/447>`_ from ros2/mergify/bp/jazzy/pr-446
+  Fix function params indentation (backport `#446 <https://github.com/ros2/launch_ros/issues/446>`_)
 * Fix function params indentation (`#446 <https://github.com/ros2/launch_ros/issues/446>`_)
-* Contributors: Christophe Bedard, Giorgio Pintaudi, Scott K Logan
+  And add return type.
+  (cherry picked from commit aeff3ca28cfe51c522b04592ec3c7e7077bf2531)
+* Contributors: Alejandro Hernández Cordero, Christophe Bedard
 
-0.28.0 (2024-11-20)
--------------------
-* Add ament_xmllint to the ament_python packages. (`#423 <https://github.com/ros2/launch_ros/issues/423>`_)
-* Contributors: Chris Lalancette
-
-0.27.3 (2024-10-03)
--------------------
-
-0.27.2 (2024-07-29)
--------------------
-* Switch to use rclpy.init context manager. (`#402 <https://github.com/ros2/launch_ros/issues/402>`_)
-* Contributors: Chris Lalancette
-
-0.27.1 (2024-06-17)
--------------------
-
-0.27.0 (2024-04-26)
+0.26.6 (2024-12-18)
 -------------------
 
 0.26.5 (2024-03-28)
