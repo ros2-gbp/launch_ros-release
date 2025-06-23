@@ -21,7 +21,6 @@ import launch
 import launch.actions
 import launch_ros.actions
 import launch_testing.actions
-from launch_testing.io_handler import ActiveIoHandler
 import launch_testing.markers
 import pytest
 import rclpy
@@ -57,7 +56,7 @@ class TestFixture(unittest.TestCase):
         self.node.destroy_node()
         rclpy.shutdown()
 
-    def test_node_start(self, proc_output: ActiveIoHandler):
+    def test_node_start(self, proc_output):
         found = False
         print('Waiting for node...')
         # demo_node_1 won't start for at least 5 seconds after this test
