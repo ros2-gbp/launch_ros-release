@@ -29,7 +29,7 @@ import pytest
 from std_msgs.msg import String
 
 
-def generate_node(i):
+def generate_node(i: int):
     """Return node and remap the topic based on the index provided."""
     path_to_test = os.path.dirname(__file__)
     return launch_ros.actions.Node(
@@ -56,7 +56,7 @@ def generate_test_description():
 if os.name != 'nt':
     class TestFixture(unittest.TestCase):
 
-        def test_topics_successful(self, count):
+        def test_topics_successful(self, count: int):
             """All the supplied topics should be read successfully."""
             topic_list = [('chatter_' + str(i), String) for i in range(count)]
             expected_topics = {'chatter_' + str(i) for i in range(count)}
@@ -86,7 +86,7 @@ if os.name != 'nt':
                 assert message_pattern.match(message)
             wait_for_node_object_2.shutdown()
 
-        def test_topics_unsuccessful(self, count):
+        def test_topics_unsuccessful(self, count: int):
             """All topics should be read except for the 'invalid_topic'."""
             topic_list = [('chatter_' + str(i), String) for i in range(count)]
             # Add a topic that will never have anything published on it
@@ -104,3 +104,22 @@ if os.name != 'nt':
             assert wait_for_node_object.topics_received() == expected_topics
             assert wait_for_node_object.topics_not_received() == {'invalid_topic'}
             wait_for_node_object.shutdown()
+
+        def test_trigger_function(self, count):
+            topic_list = [('chatter_' + str(i), String) for i in range(count)]
+            expected_topics = {'chatter_' + str(i) for i in range(count)}
+
+            # Method 3 : Using a trigger function
+
+            # Using a list to store the trigger function's argument as it is mutable
+            is_trigger_called = [False]
+
+            def trigger_function(node, arg):
+                node.get_logger().info(f'Trigger function called with argument: {arg[0]}')
+                arg[0] = True
+
+            wait_for_node_object = WaitForTopics(topic_list, timeout=2.0, trigger=trigger_function)
+            assert wait_for_node_object.wait(is_trigger_called)
+            assert wait_for_node_object.topics_received() == expected_topics
+            assert wait_for_node_object.topics_not_received() == set()
+            assert is_trigger_called[0]

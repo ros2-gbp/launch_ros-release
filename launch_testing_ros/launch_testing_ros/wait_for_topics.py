@@ -19,6 +19,8 @@ from threading import Event
 from threading import Thread
 
 import rclpy
+from rclpy.event_handler import QoSSubscriptionMatchedInfo
+from rclpy.event_handler import SubscriptionEventCallbacks
 from rclpy.executors import SingleThreadedExecutor
 from rclpy.node import Node
 
@@ -28,36 +30,54 @@ class WaitForTopics:
     Wait to receive messages on supplied topics.
 
     Example usage:
-    --------------
 
     from std_msgs.msg import String
 
-    # Method 1, using the 'with' keyword
-    def method_1():
-        topic_list = [('topic_1', String), ('topic_2', String)]
-        with WaitForTopics(topic_list, timeout=5.0):
-            # 'topic_1' and 'topic_2' received at least one message each
+    .. code-block:: python
+
+        # Method 1, using the 'with' keyword
+        def method_1():
+            topic_list = [('topic_1', String), ('topic_2', String)]
+            with WaitForTopics(topic_list, timeout=5.0):
+                # 'topic_1' and 'topic_2' received at least one message each
+                print('Given topics are receiving messages !')
+
+        # Method 2, calling wait() and shutdown() manually
+        def method_2():
+            topic_list = [('topic_1', String), ('topic_2', String)]
+            wait_for_topics = WaitForTopics(topic_list, timeout=5.0)
+            assert wait_for_topics.wait()
             print('Given topics are receiving messages !')
             print(wait_for_topics.topics_not_received()) # Should be an empty set
             print(wait_for_topics.topics_received()) # Should be {'topic_1', 'topic_2'}
             print(wait_for_topics.messages_received('topic_1')) # Should be [message_1, ...]
             wait_for_topics.shutdown()
 
-    # Method 2, calling wait() and shutdown() manually
-    def method_2():
-        topic_list = [('topic_1', String), ('topic_2', String)]
-        wait_for_topics = WaitForTopics(topic_list, timeout=5.0)
-        assert wait_for_topics.wait()
-        print('Given topics are receiving messages !')
-        print(wait_for_topics.topics_not_received()) # Should be an empty set
-        print(wait_for_topics.topics_received()) # Should be {'topic_1', 'topic_2'}
-        wait_for_topics.shutdown()
+        # Method3, calling a trigger function before the wait. The trigger function takes
+        # the WaitForTopics node object as the first argument. Any additional arguments have
+        # to be passed to the wait(*args, **kwargs) method directly.
+        def trigger_function(node, arg=""):
+            node.get_logger().info('Trigger function called with argument: ' + arg)
+
+        def method_3():
+            topic_list = [('topic_1', String), ('topic_2', String)]
+            wait_for_topics = WaitForTopics(topic_list, timeout=5.0, trigger=trigger_function)
+            # The trigger function will be called inside the wait() method after the
+            # subscribers are created and the publishers are connected.
+            assert wait_for_topics.wait("Hello World!")
+            print('Given topics are receiving messages !')
+            wait_for_topics.shutdown()
     """
 
-    def __init__(self, topic_tuples, timeout=5.0, messages_received_buffer_length=10):
+    def __init__(self, topic_tuples, timeout=5.0, messages_received_buffer_length=10,
+                 trigger=None, node_namespace=None) -> None:
         self.topic_tuples = topic_tuples
         self.timeout = timeout
         self.messages_received_buffer_length = messages_received_buffer_length
+        self.trigger = trigger
+        self.node_namespace = node_namespace
+        if self.trigger is not None and not callable(self.trigger):
+            raise TypeError('The passed trigger is not callable')
         self.__ros_context = rclpy.Context()
         rclpy.init(context=self.__ros_context)
         self.__ros_executor = SingleThreadedExecutor(context=self.__ros_context)
@@ -65,9 +85,14 @@ class WaitForTopics:
         self._prepare_ros_node()
 
         # Start spinning
-        self.__running = True
-        self.__ros_spin_thread = Thread(target=self._spin_function)
+        self.__ros_spin_thread = Thread(target=self._spin_handle_external_shutdown)
         self.__ros_spin_thread.start()
+
+    def _spin_handle_external_shutdown(self):
+        try:
+            self.__ros_executor.spin()
+        except rclpy.executors.ExternalShutdownException:
+            pass
 
     def _prepare_ros_node(self):
         node_name = '_test_node_' + ''.join(
@@ -77,22 +102,22 @@ class WaitForTopics:
             name=node_name,
             node_context=self.__ros_context,
             messages_received_buffer_length=self.messages_received_buffer_length,
+            node_namespace=self.node_namespace
         )
         self.__ros_executor.add_node(self.__ros_node)
 
-    def _spin_function(self):
-        while self.__running:
-            self.__ros_executor.spin_once(1.0)
-
-    def wait(self):
+    def wait(self, *args, **kwargs):
         self.__ros_node.start_subscribers(self.topic_tuples)
+        self.__ros_node.any_publisher_connected.wait(self.timeout)
+        if self.trigger:
+            self.trigger(self.__ros_node, *args, **kwargs)
         return self.__ros_node.msg_event_object.wait(self.timeout)
 
     def shutdown(self):
-        self.__running = False
+        # Shutdown context before joining thread
+        self.__ros_context.try_shutdown()
         self.__ros_spin_thread.join()
         self.__ros_node.destroy_node()
-        rclpy.shutdown(context=self.__ros_context)
 
     def topics_received(self):
         """Topics that received at least one message."""
@@ -115,8 +140,6 @@ class WaitForTopics:
         return self
 
     def __exit__(self, exep_type, exep_value, trace):
-        if exep_type is not None:
-            raise Exception('Exception occured, value: ', exep_value)
         self.shutdown()
 
 
@@ -124,9 +147,12 @@ class _WaitForTopicsNode(Node):
     """Internal node used for subscribing to a set of topics."""
 
     def __init__(
-            self, name='test_node', node_context=None, messages_received_buffer_length=None
-    ):
-        super().__init__(node_name=name, context=node_context)  # type: ignore
+        self, name='test_node',
+        node_context=None,
+        messages_received_buffer_length=None,
+        node_namespace=None
+    ) -> None:
+        super().__init__(node_name=name, context=node_context, namespace=node_namespace)
         self.msg_event_object = Event()
         self.messages_received_buffer_length = messages_received_buffer_length
         self.subscriber_list = []
@@ -134,6 +160,13 @@ class _WaitForTopicsNode(Node):
         self.expected_topics = set()
         self.received_topics = set()
         self.received_messages_buffer = {}
+        self.any_publisher_connected = Event()
+
+    def _sub_matched_event_callback(self, info: QoSSubscriptionMatchedInfo):
+        if info.current_count != 0:
+            self.any_publisher_connected.set()
+        else:
+            self.any_publisher_connected.clear()
 
     def _reset(self):
         self.msg_event_object.clear()
@@ -152,12 +185,16 @@ class _WaitForTopicsNode(Node):
                     maxlen=self.messages_received_buffer_length
                 )
                 # Create a subscriber
+                sub_event_callback = SubscriptionEventCallbacks(
+                    matched=self._sub_matched_event_callback
+                )
                 self.subscriber_list.append(
                     self.create_subscription(
                         topic_type,
                         topic_name,
                         self.callback_template(topic_name),
-                        10
+                        10,
+                        event_callbacks=sub_event_callback,
                     )
                 )
 
