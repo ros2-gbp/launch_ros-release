@@ -2,80 +2,35 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.29.2 (2025-07-29)
--------------------
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_)
-* Contributors: mosfet80
+0.19.11 (2025-09-11)
+--------------------
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#486 <https://github.com/ros2/launch_ros/issues/486>`_)
+* Contributors: mergify[bot]
 
-0.29.1 (2025-06-19)
--------------------
-* user control of log file base names, in ros2 launch (`#461 <https://github.com/ros2/launch_ros/issues/461>`_)
-  Co-authored-by: Katherine Scott <katherineAScott@gmail.com>
-* Contributors: Tanishq Chaudhary
+0.19.10 (2025-06-23)
+--------------------
 
-0.29.0 (2025-04-25)
+0.19.9 (2025-03-25)
 -------------------
 
-0.28.1 (2025-04-18)
+0.19.8 (2024-11-25)
+-------------------
+* Fix url in setup.py (backport `#413 <https://github.com/ros2/launch_ros/issues/413>`_) (`#415 <https://github.com/ros2/launch_ros/issues/415>`_)
+* Contributors: mergify[bot]
+
+0.19.7 (2024-01-24)
 -------------------
 
-0.28.0 (2024-11-20)
--------------------
-* Add ament_xmllint to the ament_python packages. (`#423 <https://github.com/ros2/launch_ros/issues/423>`_)
-* Contributors: Chris Lalancette
-
-0.27.3 (2024-10-03)
--------------------
-* Fix url in setup.py (`#413 <https://github.com/ros2/launch_ros/issues/413>`_)
-* Contributors: Wei HU
-
-0.27.2 (2024-07-29)
+0.19.6 (2023-09-19)
 -------------------
 
-0.27.1 (2024-06-17)
--------------------
-* Add mechanism to disable workaround for dependency groups (`#397 <https://github.com/ros2/launch_ros/issues/397>`_)
-* Contributors: Scott K Logan
-
-0.27.0 (2024-04-26)
+0.19.5 (2023-07-17)
 -------------------
 
-0.26.5 (2024-03-28)
+0.19.4 (2023-01-10)
 -------------------
 
-0.26.4 (2024-01-24)
--------------------
-
-0.26.3 (2023-12-26)
--------------------
-
-0.26.2 (2023-09-07)
--------------------
-
-0.26.1 (2023-08-21)
--------------------
-
-0.26.0 (2023-07-11)
--------------------
-
-0.25.0 (2023-04-27)
--------------------
-
-0.24.0 (2023-04-11)
--------------------
-
-0.23.0 (2023-02-14)
--------------------
-* [rolling] Update maintainers - 2022-11-07 (`#331 <https://github.com/ros2/launch_ros/issues/331>`_)
-* Contributors: Audrow Nash
-
-0.22.0 (2022-11-02)
--------------------
-
-0.21.0 (2022-09-13)
--------------------
-
-0.20.0 (2022-04-29)
+0.19.3 (2022-05-17)
 -------------------
 
 0.19.2 (2022-04-08)

@@ -2,111 +2,51 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.29.2 (2025-07-29)
--------------------
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_)
-* Contributors: mosfet80
+0.19.11 (2025-09-11)
+--------------------
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#486 <https://github.com/ros2/launch_ros/issues/486>`_)
+* Add LifecyleTransition action (`#317 <https://github.com/ros2/launch_ros/issues/317>`_) (`#477 <https://github.com/ros2/launch_ros/issues/477>`_)
+* Contributors: mergify[bot]
 
-0.29.1 (2025-06-19)
--------------------
-* improve type readability in errors (`#469 <https://github.com/ros2/launch_ros/issues/469>`_)
-* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_)
-* Contributors: Emre Kuru, Kenji Brameld
+0.19.10 (2025-06-23)
+--------------------
+* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_) (`#468 <https://github.com/ros2/launch_ros/issues/468>`_)
+* Contributors: mergify[bot]
 
-0.29.0 (2025-04-25)
+0.19.9 (2025-03-25)
 -------------------
+* Change docstring markdown code blocks to RST (`#450 <https://github.com/ros2/launch_ros/issues/450>`_) (`#452 <https://github.com/ros2/launch_ros/issues/452>`_)
+* mock launch components causing rosdoc2 to fail Python API (`#425 <https://github.com/ros2/launch_ros/issues/425>`_) (`#440 <https://github.com/ros2/launch_ros/issues/440>`_)
+* Contributors: mergify[bot]
 
-0.28.1 (2025-04-18)
+0.19.8 (2024-11-25)
 -------------------
-* Remove the slash stripping since leading slash matters (`#456 <https://github.com/ros2/launch_ros/issues/456>`_)
-* Fixing lifecycle node autostart issue `#445 <https://github.com/ros2/launch_ros/issues/445>`_ (`#449 <https://github.com/ros2/launch_ros/issues/449>`_)
-* Change docstring markdown code blocks to RST (`#450 <https://github.com/ros2/launch_ros/issues/450>`_)
-* Autostarting lifecycle nodes and example launch file demo (`#430 <https://github.com/ros2/launch_ros/issues/430>`_)
-* Add YAML dumper representator for str type to keep quotes always. (`#436 <https://github.com/ros2/launch_ros/issues/436>`_)
-* Mock launch components causing rosdoc2 to fail Python API (`#425 <https://github.com/ros2/launch_ros/issues/425>`_)
-* Contributors: Christophe Bedard, Olivia/F.F., R Kent James, Steve Macenski, Tomoya Fujita
+* Fix url in setup.py (backport `#413 <https://github.com/ros2/launch_ros/issues/413>`_) (`#415 <https://github.com/ros2/launch_ros/issues/415>`_)
+* [backport] cache lookup of importlib metadata in Node action (`#365 <https://github.com/ros2/launch_ros/issues/365>`_) (`#406 <https://github.com/ros2/launch_ros/issues/406>`_)
+* Contributors: mergify[bot], xueying
 
-0.28.0 (2024-11-20)
--------------------
-* Add ament_xmllint to the ament_python packages. (`#423 <https://github.com/ros2/launch_ros/issues/423>`_)
-* Contributors: Chris Lalancette
-
-0.27.3 (2024-10-03)
--------------------
-* Fix url in setup.py (`#413 <https://github.com/ros2/launch_ros/issues/413>`_)
-* Contributors: Wei HU
-
-0.27.2 (2024-07-29)
+0.19.7 (2024-01-24)
 -------------------
 
-0.27.1 (2024-06-17)
+0.19.6 (2023-09-19)
 -------------------
+* Implement None check for ComposableNodeContainer (`#341 <https://github.com/ros2/launch_ros/issues/341>`_) (`#371 <https://github.com/ros2/launch_ros/issues/371>`_)
+* Contributors: mergify[bot]
 
-0.27.0 (2024-04-26)
+0.19.5 (2023-07-17)
 -------------------
+* Run condition for composable nodes (`#311 <https://github.com/ros2/launch_ros/issues/311>`_) (`#363 <https://github.com/ros2/launch_ros/issues/363>`_)
+* Fix normalize_parameters_dict for multiple nodes in the same namespace (backport `#347 <https://github.com/ros2/launch_ros/issues/347>`_) (`#350 <https://github.com/ros2/launch_ros/issues/350>`_)
+  Co-authored-by: Alexey Merzlyakov <60094858+AlexeyMerzlyakov@users.noreply.github.com>
+* Contributors: mergify[bot]
 
-0.26.5 (2024-03-28)
+0.19.4 (2023-01-10)
 -------------------
-* Fix: typing. Iterable doesn't have __getitem_\_ (`#393 <https://github.com/ros2/launch_ros/issues/393>`_)
-* Cleanup some type annotations. (`#392 <https://github.com/ros2/launch_ros/issues/392>`_)
-* Contributors: Chris Lalancette, Matthijs van der Burgh
+* fix: return text value to avoid exception (`#338 <https://github.com/ros2/launch_ros/issues/338>`_) (`#340 <https://github.com/ros2/launch_ros/issues/340>`_)
+* Contributors: Daisuke Nishimatsu
 
-0.26.4 (2024-01-24)
+0.19.3 (2022-05-17)
 -------------------
-
-0.26.3 (2023-12-26)
--------------------
-
-0.26.2 (2023-09-07)
--------------------
-* Create py.typed to mark this library as typed (`#379 <https://github.com/ros2/launch_ros/issues/379>`_)
-* Contributors: Jonas Otto
-
-0.26.1 (2023-08-21)
--------------------
-* Remove create_future implementation. (`#372 <https://github.com/ros2/launch_ros/issues/372>`_)
-* Contributors: Chris Lalancette
-
-0.26.0 (2023-07-11)
--------------------
-* cache lookup of importlib metadata in Node action (`#365 <https://github.com/ros2/launch_ros/issues/365>`_)
-* Get rid of unnecessary checks in composable_node_container. (`#364 <https://github.com/ros2/launch_ros/issues/364>`_)
-* Contributors: Chris Lalancette, William Woodall
-
-0.25.0 (2023-04-27)
--------------------
-
-0.24.0 (2023-04-11)
--------------------
-* Use SomeEntitiesType for type checking. (`#358 <https://github.com/ros2/launch_ros/issues/358>`_)
-* Contributors: Chris Lalancette
-
-0.23.0 (2023-02-14)
--------------------
-* Fix normalize_parameters_dict for multiple nodes in the same namespace (`#347 <https://github.com/ros2/launch_ros/issues/347>`_)
-* Implement None check for ComposableNodeContainer (`#341 <https://github.com/ros2/launch_ros/issues/341>`_)
-* Add LifecyleTransition action (`#317 <https://github.com/ros2/launch_ros/issues/317>`_)
-* Improve evaluate_paramenter_dict exceptions error message (`#320 <https://github.com/ros2/launch_ros/issues/320>`_)
-* Ensure load_composable_nodes respects condition (`#339 <https://github.com/ros2/launch_ros/issues/339>`_)
-* fix: return text value to avoid exception (`#338 <https://github.com/ros2/launch_ros/issues/338>`_)
-* [rolling] Update maintainers - 2022-11-07 (`#331 <https://github.com/ros2/launch_ros/issues/331>`_)
-* Contributors: Alexey Merzlyakov, Audrow Nash, Christoph Hellmann Santos, Daisuke Nishimatsu, Felipe Gomes de Melo, methylDragon
-
-0.22.0 (2022-11-02)
--------------------
-* RosTimer -> ROSTimer and PushRosNamespace -> PushROSNamespace, to follow PEP8 (`#326 <https://github.com/ros2/launch_ros/issues/326>`_)
-* add SetROSLogDir action (`#325 <https://github.com/ros2/launch_ros/issues/325>`_)
-* Contributors: William Woodall
-
-0.21.0 (2022-09-13)
--------------------
-* Support default values in parameter substitution (`#313 <https://github.com/ros2/launch_ros/issues/313>`_)
-* Contributors: Kenji Miyake
-
-0.20.0 (2022-04-29)
--------------------
-* Run condition for composable nodes (`#311 <https://github.com/ros2/launch_ros/issues/311>`_)
-* Contributors: Aditya Pande
 
 0.19.2 (2022-04-08)
 -------------------
