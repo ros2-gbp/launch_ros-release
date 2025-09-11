@@ -5,7 +5,7 @@ package_name = 'launch_ros'
 
 setup(
     name=package_name,
-    version='0.19.10',
+    version='0.19.11',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/' + package_name, ['package.xml']),
@@ -29,7 +29,6 @@ setup(
     keywords=['ROS'],
     classifiers=[
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python',
         'Topic :: Software Development',
     ],
@@ -38,7 +37,11 @@ setup(
         'This package provides ROS specific extensions to the launch package.'
     ),
     license='Apache License, Version 2.0',
-    tests_require=['pytest'],
+    extras_require={
+        'test': [
+            'pytest',
+        ],
+    },
     entry_points={
         'launch.frontend.launch_extension': [
             'launch_ros = launch_ros',
