@@ -1,3 +1,32 @@
+## launch_ros (kilted) - 0.28.3-1
+
+The packages in the `launch_ros` repository were released into the `kilted` distro by running `/usr/bin/bloom-release --rosdistro kilted launch_ros` on `Mon, 15 Sep 2025 18:26:19 -0000`
+
+These packages were released:
+- `launch_ros`
+- `launch_testing_ros`
+- `ros2launch`
+
+These packages were explicitly ignored:
+- `test_launch_ros`
+
+Version of package(s) in repository `launch_ros`:
+
+- upstream repository: https://github.com/ros2/launch_ros.git
+- release repository: https://github.com/ros2-gbp/launch_ros-release.git
+- rosdistro version: `0.28.2-1`
+- old version: `0.28.2-1`
+- new version: `0.28.3-1`
+
+Versions of tools used:
+
+- bloom version: `0.13.0`
+- catkin_pkg version: `1.0.0`
+- rosdep version: `0.26.0`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## launch_ros (jazzy) - 0.26.9-1
 
 The packages in the `launch_ros` repository were released into the `jazzy` distro by running `/usr/bin/bloom-release --rosdistro jazzy launch_ros` on `Mon, 15 Sep 2025 18:21:37 -0000`
