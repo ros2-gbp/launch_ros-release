@@ -2,40 +2,46 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.26.9 (2025-09-15)
+0.28.3 (2025-09-15)
 -------------------
-* Fix SetUseSimTime for launch frontends (`#488 <https://github.com/ros2/launch_ros/issues/488>`_) (`#490 <https://github.com/ros2/launch_ros/issues/490>`_)
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#485 <https://github.com/ros2/launch_ros/issues/485>`_)
+* Fix SetUseSimTime for launch frontends (`#488 <https://github.com/ros2/launch_ros/issues/488>`_) (`#489 <https://github.com/ros2/launch_ros/issues/489>`_)
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#484 <https://github.com/ros2/launch_ros/issues/484>`_)
 * Contributors: mergify[bot]
 
-0.26.8 (2025-06-23)
+0.28.2 (2025-06-23)
 -------------------
-* improve type readability in errors (`#469 <https://github.com/ros2/launch_ros/issues/469>`_) (`#472 <https://github.com/ros2/launch_ros/issues/472>`_)
-* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_) (`#467 <https://github.com/ros2/launch_ros/issues/467>`_)
+* improve type readability in errors (`#469 <https://github.com/ros2/launch_ros/issues/469>`_) (`#471 <https://github.com/ros2/launch_ros/issues/471>`_)
+* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_) (`#466 <https://github.com/ros2/launch_ros/issues/466>`_)
 * Contributors: mergify[bot]
 
-0.26.7 (2025-04-02)
+0.28.1 (2025-04-18)
 -------------------
-* Fixing lifecycle node autostart issue `#445 <https://github.com/ros2/launch_ros/issues/445>`_ (`#449 <https://github.com/ros2/launch_ros/issues/449>`_) (`#453 <https://github.com/ros2/launch_ros/issues/453>`_)
-  (cherry picked from commit 98952b58d570cde78d8cfec8c8d697f331b8c982)
-  Co-authored-by: Steve Macenski <stevenmacenski@gmail.com>
-* Autostarting lifecycle nodes and example launch file demo (`#430 <https://github.com/ros2/launch_ros/issues/430>`_) (`#438 <https://github.com/ros2/launch_ros/issues/438>`_)
-  (cherry picked from commit 3569f0d76c68884ca8796c0134bad29e8732d868)
-  Co-authored-by: Steve Macenski <stevenmacenski@gmail.com>
-* Change docstring markdown code blocks to RST (`#450 <https://github.com/ros2/launch_ros/issues/450>`_) (`#451 <https://github.com/ros2/launch_ros/issues/451>`_)
-  (cherry picked from commit 9abb3be6c9b482bb9945d9204a0427c7b3c0f450)
-  Co-authored-by: Christophe Bedard <bedard.christophe@gmail.com>
-* mock launch components causing rosdoc2 to fail Python API (`#425 <https://github.com/ros2/launch_ros/issues/425>`_) (`#439 <https://github.com/ros2/launch_ros/issues/439>`_)
-  (cherry picked from commit 2e737c8cb0ad7afc436938c30b5e14b4282ff2f7)
-  Co-authored-by: R Kent James <kent@caspia.com>
-* Contributors: mergify[bot]
+* Remove the slash stripping since leading slash matters (`#456 <https://github.com/ros2/launch_ros/issues/456>`_)
+* Fixing lifecycle node autostart issue `#445 <https://github.com/ros2/launch_ros/issues/445>`_ (`#449 <https://github.com/ros2/launch_ros/issues/449>`_)
+* Change docstring markdown code blocks to RST (`#450 <https://github.com/ros2/launch_ros/issues/450>`_)
+* Autostarting lifecycle nodes and example launch file demo (`#430 <https://github.com/ros2/launch_ros/issues/430>`_)
+* Add YAML dumper representator for str type to keep quotes always. (`#436 <https://github.com/ros2/launch_ros/issues/436>`_)
+* Mock launch components causing rosdoc2 to fail Python API (`#425 <https://github.com/ros2/launch_ros/issues/425>`_)
+* Contributors: Christophe Bedard, Olivia/F.F., R Kent James, Steve Macenski, Tomoya Fujita
 
-0.26.6 (2024-12-18)
+0.28.0 (2024-11-20)
 -------------------
-* Fix url in setup.py (`#413 <https://github.com/ros2/launch_ros/issues/413>`_) (`#414 <https://github.com/ros2/launch_ros/issues/414>`_)
-  (cherry picked from commit edb63764c39993645fd6bc7e0fc31ed7316f0b45)
-  Co-authored-by: Wei HU <37072526+huweiATgithub@users.noreply.github.com>
-* Contributors: mergify[bot]
+* Add ament_xmllint to the ament_python packages. (`#423 <https://github.com/ros2/launch_ros/issues/423>`_)
+* Contributors: Chris Lalancette
+
+0.27.3 (2024-10-03)
+-------------------
+* Fix url in setup.py (`#413 <https://github.com/ros2/launch_ros/issues/413>`_)
+* Contributors: Wei HU
+
+0.27.2 (2024-07-29)
+-------------------
+
+0.27.1 (2024-06-17)
+-------------------
+
+0.27.0 (2024-04-26)
+-------------------
 
 0.26.5 (2024-03-28)
 -------------------
