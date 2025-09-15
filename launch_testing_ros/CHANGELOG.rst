@@ -2,43 +2,79 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.19.12 (2025-09-15)
---------------------
-
-0.19.11 (2025-09-11)
---------------------
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#486 <https://github.com/ros2/launch_ros/issues/486>`_)
+0.26.9 (2025-09-15)
+-------------------
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#485 <https://github.com/ros2/launch_ros/issues/485>`_)
 * Contributors: mergify[bot]
 
-0.19.10 (2025-06-23)
---------------------
-
-0.19.9 (2025-03-25)
+0.26.8 (2025-06-23)
 -------------------
 
-0.19.8 (2024-11-25)
+0.26.7 (2025-04-02)
 -------------------
-* [Backport] Make launch_testing_ros examples more robust. (`#394 <https://github.com/ros2/launch_ros/issues/394>`_) (backport `#420 <https://github.com/ros2/launch_ros/issues/420>`_) (`#421 <https://github.com/ros2/launch_ros/issues/421>`_)
-* Contributors: mergify[bot]
+* Merge pull request `#447 <https://github.com/ros2/launch_ros/issues/447>`_ from ros2/mergify/bp/jazzy/pr-446
+  Fix function params indentation (backport `#446 <https://github.com/ros2/launch_ros/issues/446>`_)
+* Fix function params indentation (`#446 <https://github.com/ros2/launch_ros/issues/446>`_)
+  And add return type.
+  (cherry picked from commit aeff3ca28cfe51c522b04592ec3c7e7077bf2531)
+* Contributors: Alejandro Hernández Cordero, Christophe Bedard
 
-0.19.7 (2024-01-24)
--------------------
-* `WaitForTopics`: get content of messages for each topic (backport `#353 <https://github.com/ros2/launch_ros/issues/353>`_) (`#389 <https://github.com/ros2/launch_ros/issues/389>`_)
-* Contributors: mergify[bot]
-
-0.19.6 (2023-09-19)
--------------------
-
-0.19.5 (2023-07-17)
+0.26.6 (2024-12-18)
 -------------------
 
-0.19.4 (2023-01-10)
+0.26.5 (2024-03-28)
 -------------------
-* Inherit markers from generate_test_description (`#330 <https://github.com/ros2/launch_ros/issues/330>`_) (`#332 <https://github.com/ros2/launch_ros/issues/332>`_)
-* Contributors: mergify[bot]
+* Make launch_testing_ros examples more robust. (`#394 <https://github.com/ros2/launch_ros/issues/394>`_)
+* Contributors: Chris Lalancette
 
-0.19.3 (2022-05-17)
+0.26.4 (2024-01-24)
 -------------------
+
+0.26.3 (2023-12-26)
+-------------------
+* added type hinting to launch_testing_ros/test/examples (`#386 <https://github.com/ros2/launch_ros/issues/386>`_)
+* Contributors: Yaswanth
+
+0.26.2 (2023-09-07)
+-------------------
+* Handle spin() ExternalShutdownException. (`#378 <https://github.com/ros2/launch_ros/issues/378>`_)
+* Increase the timeout in wait_for_topic_launch_test. (`#377 <https://github.com/ros2/launch_ros/issues/377>`_)
+* Contributors: Chris Lalancette
+
+0.26.1 (2023-08-21)
+-------------------
+
+0.26.0 (2023-07-11)
+-------------------
+* `WaitForTopics`: get content of messages for each topic (`#353 <https://github.com/ros2/launch_ros/issues/353>`_)
+* Contributors: Giorgio Pintaudi
+
+0.25.0 (2023-04-27)
+-------------------
+
+0.24.0 (2023-04-11)
+-------------------
+* Increase the timeouts in wait_for_topic_launch_test. (`#360 <https://github.com/ros2/launch_ros/issues/360>`_)
+* Enable document generation using rosdoc2 (`#359 <https://github.com/ros2/launch_ros/issues/359>`_)
+* exit() methods should not reraise the passed-in exception (`#357 <https://github.com/ros2/launch_ros/issues/357>`_)
+* Contributors: Chris Lalancette, Giorgio Pintaudi, Yadu
+
+0.23.0 (2023-02-14)
+-------------------
+* Inherit markers from generate_test_description (`#330 <https://github.com/ros2/launch_ros/issues/330>`_)
+* [rolling] Update maintainers - 2022-11-07 (`#331 <https://github.com/ros2/launch_ros/issues/331>`_)
+* Contributors: Audrow Nash, Scott K Logan
+
+0.22.0 (2022-11-02)
+-------------------
+
+0.21.0 (2022-09-13)
+-------------------
+
+0.20.0 (2022-04-29)
+-------------------
+* Fix long wait during shutdown in WaitForTopics (`#314 <https://github.com/ros2/launch_ros/issues/314>`_)
+* Contributors: Keng12
 
 0.19.2 (2022-04-08)
 -------------------

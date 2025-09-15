@@ -23,6 +23,7 @@ import launch
 import launch.actions
 import launch_ros.actions
 import launch_testing.actions
+from launch_testing.io_handler import ActiveIoHandler
 import launch_testing.markers
 import pytest
 import rclpy
@@ -81,6 +82,6 @@ class TestFixture(unittest.TestCase):
         self.node.destroy_node()
         rclpy.shutdown()
 
-    def test_check_if_msgs_published(self, proc_output):
+    def test_check_if_msgs_published(self, proc_output: ActiveIoHandler):
         msgs_received_flag = self.msg_event_object.wait(timeout=15.0)
         assert msgs_received_flag, 'Did not receive msgs !'

@@ -2,38 +2,60 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.19.12 (2025-09-15)
---------------------
-
-0.19.11 (2025-09-11)
---------------------
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#486 <https://github.com/ros2/launch_ros/issues/486>`_)
+0.26.9 (2025-09-15)
+-------------------
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#485 <https://github.com/ros2/launch_ros/issues/485>`_)
 * Contributors: mergify[bot]
 
-0.19.10 (2025-06-23)
---------------------
-
-0.19.9 (2025-03-25)
+0.26.8 (2025-06-23)
 -------------------
 
-0.19.8 (2024-11-25)
+0.26.7 (2025-04-02)
 -------------------
-* Fix url in setup.py (backport `#413 <https://github.com/ros2/launch_ros/issues/413>`_) (`#415 <https://github.com/ros2/launch_ros/issues/415>`_)
+
+0.26.6 (2024-12-18)
+-------------------
+* Fix url in setup.py (`#413 <https://github.com/ros2/launch_ros/issues/413>`_) (`#414 <https://github.com/ros2/launch_ros/issues/414>`_)
+  (cherry picked from commit edb63764c39993645fd6bc7e0fc31ed7316f0b45)
+  Co-authored-by: Wei HU <37072526+huweiATgithub@users.noreply.github.com>
 * Contributors: mergify[bot]
 
-0.19.7 (2024-01-24)
+0.26.5 (2024-03-28)
 -------------------
 
-0.19.6 (2023-09-19)
+0.26.4 (2024-01-24)
 -------------------
 
-0.19.5 (2023-07-17)
+0.26.3 (2023-12-26)
 -------------------
 
-0.19.4 (2023-01-10)
+0.26.2 (2023-09-07)
 -------------------
 
-0.19.3 (2022-05-17)
+0.26.1 (2023-08-21)
+-------------------
+
+0.26.0 (2023-07-11)
+-------------------
+
+0.25.0 (2023-04-27)
+-------------------
+
+0.24.0 (2023-04-11)
+-------------------
+
+0.23.0 (2023-02-14)
+-------------------
+* [rolling] Update maintainers - 2022-11-07 (`#331 <https://github.com/ros2/launch_ros/issues/331>`_)
+* Contributors: Audrow Nash
+
+0.22.0 (2022-11-02)
+-------------------
+
+0.21.0 (2022-09-13)
+-------------------
+
+0.20.0 (2022-04-29)
 -------------------
 
 0.19.2 (2022-04-08)

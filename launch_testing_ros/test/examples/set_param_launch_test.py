@@ -20,6 +20,7 @@ import launch
 import launch.actions
 import launch_ros.actions
 import launch_testing.actions
+from launch_testing.io_handler import ActiveIoHandler
 import launch_testing.markers
 import pytest
 from rcl_interfaces.srv import SetParameters
@@ -52,7 +53,7 @@ class TestFixture(unittest.TestCase):
         self.node.destroy_node()
         rclpy.shutdown()
 
-    def test_set_parameter(self, proc_output):
+    def test_set_parameter(self, proc_output: ActiveIoHandler):
         parameters = [rclpy.Parameter('demo_parameter_1', value=True).to_parameter_msg()]
 
         client = self.node.create_client(SetParameters, 'demo_node_1/set_parameters')
