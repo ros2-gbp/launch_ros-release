@@ -2,6 +2,9 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.19.12 (2025-09-15)
+--------------------
+
 0.19.11 (2025-09-11)
 --------------------
 * fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#486 <https://github.com/ros2/launch_ros/issues/486>`_)
