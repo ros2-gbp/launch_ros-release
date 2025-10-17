@@ -2,17 +2,26 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.28.3 (2025-09-15)
+0.29.3 (2025-10-17)
 -------------------
-* Fix SetUseSimTime for launch frontends (`#488 <https://github.com/ros2/launch_ros/issues/488>`_) (`#489 <https://github.com/ros2/launch_ros/issues/489>`_)
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#484 <https://github.com/ros2/launch_ros/issues/484>`_)
-* Contributors: mergify[bot]
+* Expose composable_lifecycle_node in front-end (`#480 <https://github.com/ros2/launch_ros/issues/480>`_)
+* Switch osrf_pycommon dependency to system package (`#431 <https://github.com/ros2/launch_ros/issues/431>`_)
+* Fix SetUseSimTime for launch frontends (`#488 <https://github.com/ros2/launch_ros/issues/488>`_)
+* Contributors: Christophe Bedard, Jasper van Brakel, Scott K Logan
 
-0.28.2 (2025-06-23)
+0.29.2 (2025-07-29)
 -------------------
-* improve type readability in errors (`#469 <https://github.com/ros2/launch_ros/issues/469>`_) (`#471 <https://github.com/ros2/launch_ros/issues/471>`_)
-* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_) (`#466 <https://github.com/ros2/launch_ros/issues/466>`_)
-* Contributors: mergify[bot]
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_)
+* Contributors: mosfet80
+
+0.29.1 (2025-06-19)
+-------------------
+* improve type readability in errors (`#469 <https://github.com/ros2/launch_ros/issues/469>`_)
+* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_)
+* Contributors: Emre Kuru, Kenji Brameld
+
+0.29.0 (2025-04-25)
+-------------------
 
 0.28.1 (2025-04-18)
 -------------------
