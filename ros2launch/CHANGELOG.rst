@@ -2,24 +2,15 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.29.4 (2025-11-07)
+0.28.4 (2025-11-07)
 -------------------
 
-0.29.3 (2025-10-17)
+0.28.3 (2025-09-15)
 -------------------
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#484 <https://github.com/ros2/launch_ros/issues/484>`_)
+* Contributors: mergify[bot]
 
-0.29.2 (2025-07-29)
--------------------
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_)
-* Contributors: mosfet80
-
-0.29.1 (2025-06-19)
--------------------
-* user control of log file base names, in ros2 launch (`#461 <https://github.com/ros2/launch_ros/issues/461>`_)
-  Co-authored-by: Katherine Scott <katherineAScott@gmail.com>
-* Contributors: Tanishq Chaudhary
-
-0.29.0 (2025-04-25)
+0.28.2 (2025-06-23)
 -------------------
 
 0.28.1 (2025-04-18)

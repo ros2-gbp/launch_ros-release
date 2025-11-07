@@ -16,16 +16,11 @@
 
 from typing import List
 from typing import Optional
-from typing import Union
 
 import launch
 from launch import SomeSubstitutionsType
 from launch.action import Action
-from launch.frontend import Entity
-from launch.frontend import expose_action
-from launch.frontend import Parser
 import launch.logging
-from launch.utilities import type_utils
 
 import lifecycle_msgs.msg
 import lifecycle_msgs.srv
@@ -36,7 +31,6 @@ from .node import Node
 from ..utilities import LifecycleEventManager
 
 
-@expose_action('lifecycle_node')
 class LifecycleNode(Node):
     """Action that executes a ROS lifecycle node."""
 
@@ -45,7 +39,7 @@ class LifecycleNode(Node):
         *,
         name: SomeSubstitutionsType,
         namespace: SomeSubstitutionsType,
-        autostart: Union[bool, SomeSubstitutionsType] = False,
+        autostart: bool = False,
         **kwargs
     ) -> None:
         """
@@ -79,24 +73,13 @@ class LifecycleNode(Node):
         """
         super().__init__(name=name, namespace=namespace, **kwargs)
         self.__logger = launch.logging.get_logger(__name__)
-        self.__autostart = type_utils.normalize_typed_substitution(autostart, bool)
+        self.__autostart = autostart
         self.__lifecycle_event_manager = None
 
     @property
-    def node_autostart(self) -> Union[bool, SomeSubstitutionsType]:
+    def node_autostart(self):
         """Getter for autostart."""
         return self.__autostart
-
-    @classmethod
-    def parse(cls, entity: Entity, parser: Parser):
-        """Return `LifecycleNode` action and kwargs for constructing it."""
-        _, kwargs = super().parse(entity, parser)
-
-        autostart = entity.get_attr('autostart', data_type=bool, optional=True, can_be_str=True)
-        if autostart is not None:
-            kwargs['autostart'] = parser.parse_if_substitutions(autostart)
-
-        return cls, kwargs
 
     @property
     def is_lifecycle_node(self):
@@ -120,7 +103,7 @@ class LifecycleNode(Node):
 
         # If autostart is enabled, transition to the 'active' state.
         autostart_actions = None
-        if type_utils.perform_typed_substitution(context, self.node_autostart, bool):
+        if self.node_autostart:
             autostart_actions = [
                 LifecycleTransition(
                     lifecycle_node_names=[self.node_name],
