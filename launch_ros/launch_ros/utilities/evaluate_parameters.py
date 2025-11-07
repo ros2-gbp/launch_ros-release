@@ -93,20 +93,16 @@ def evaluate_parameter_dict(
                     if not check_sequence_type_is_allowed(yaml_evaluated_value):
                         raise TypeError(
                             'Expected a non-empty sequence, with items of uniform type. '
-                            'Allowed sequence item types are bool, int, float, str. '
-                            'Got inconsistent input for "{}"'.format(evaluated_name)
+                            'Allowed sequence item types are bool, int, float, str.'
                         )
                     evaluated_value = tuple(yaml_evaluated_value)
                 else:
                     raise TypeError(
                         'Allowed value types are bytes, bool, int, float, str, Sequence[bool]'
-                        ', Sequence[int], Sequence[float], Sequence[str]. Got {} for "{}". '
+                        ', Sequence[int], Sequence[float], Sequence[str]. Got {}.'
                         'If the parameter is meant to be a string, try wrapping it in '
                         'launch_ros.parameter_descriptions.ParameterValue'
-                        '(value, value_type=str)'.format(
-                            type(yaml_evaluated_value).__name__,
-                            evaluated_name
-                        )
+                        '(value, value_type=str)'.format(type(yaml_evaluated_value))
                     )
             elif isinstance(value[0], Sequence):
                 # Value is an array of a list of substitutions
@@ -123,8 +119,7 @@ def evaluate_parameter_dict(
                 if not check_sequence_type_is_allowed(yaml_evaluated_value):
                     raise TypeError(
                         'Expected a non-empty sequence, with items of uniform type. '
-                        'Allowed sequence item types are bool, int, float, str. '
-                        'Got inconsistent input for "{}"'.format(evaluated_name)
+                        'Allowed sequence item types are bool, int, float, str.'
                     )
                 evaluated_value = tuple(yaml_evaluated_value)
             else:
@@ -157,7 +152,7 @@ def evaluate_parameters(context: LaunchContext, parameters: Parameters) -> Evalu
     :param parameters: normalized parameters
     :returns: values after evaluating lists of substitutions
     """
-    output_params: List[Union[pathlib.Path, Dict[str, EvaluatedParameterValue]]] = []
+    output_params = []  # type: List[Union[pathlib.Path, Dict[str, EvaluatedParameterValue]]]
     for param in parameters:
         if isinstance(param, ParameterFile):
             # Evaluate a list of Substitution to a file path

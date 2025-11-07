@@ -26,7 +26,7 @@ class Listener(Node):
             String, 'chatter', self.callback, 10
         )
 
-    def callback(self, msg: String):
+    def callback(self, msg):
         self.get_logger().info('I heard: [%s]' % msg.data)
 
 
