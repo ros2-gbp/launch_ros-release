@@ -23,6 +23,7 @@ import launch_testing.actions
 import launch_testing.markers
 from launch_testing_ros import WaitForTopics
 import pytest
+from rclpy import qos
 from std_msgs.msg import String
 
 
@@ -39,7 +40,10 @@ def generate_node():
 
 def trigger_function(node):
     if not hasattr(node, 'my_publisher'):
-        node.my_publisher = node.create_publisher(String, 'input', 10)
+        node.my_publisher = node.create_publisher(
+            String, 'input',
+            qos.QoSProfile(depth=10)
+        )
     while node.my_publisher.get_subscription_count() == 0:
         time.sleep(0.1)
     msg = String()
@@ -53,14 +57,6 @@ def trigger_function(node):
 def generate_test_description():
     description = [generate_node(), launch_testing.actions.ReadyToTest()]
     return launch.LaunchDescription(description)
-
-
-# TODO: Test cases fail on Windows debug builds
-# https://github.com/ros2/launch_ros/issues/292
-if sys.platform.startswith('win'):
-    pytest.skip(
-            'CLI tests can block for a pathological amount of time on Windows.',
-            allow_module_level=True)
 
 
 class TestFixture(unittest.TestCase):
