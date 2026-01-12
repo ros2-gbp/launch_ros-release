@@ -53,7 +53,7 @@ class WaitForTopics:
             print(wait_for_topics.messages_received('topic_1')) # Should be [message_1, ...]
             wait_for_topics.shutdown()
 
-        # Method3, calling a trigger function before the wait. The trigger function takes
+        # Method 3, calling a trigger function before the wait. The trigger function takes
         # the WaitForTopics node object as the first argument. Any additional arguments have
         # to be passed to the wait(*args, **kwargs) method directly.
         def trigger_function(node, arg=""):
@@ -70,12 +70,13 @@ class WaitForTopics:
     """
 
     def __init__(self, topic_tuples, timeout=5.0, messages_received_buffer_length=10,
-                 trigger=None, node_namespace=None) -> None:
+                 trigger=None, node_namespace=None, qos_profile=10) -> None:
         self.topic_tuples = topic_tuples
         self.timeout = timeout
         self.messages_received_buffer_length = messages_received_buffer_length
         self.trigger = trigger
         self.node_namespace = node_namespace
+        self.qos_profile = qos_profile
         if self.trigger is not None and not callable(self.trigger):
             raise TypeError('The passed trigger is not callable')
         self.__ros_context = rclpy.Context()
@@ -85,7 +86,7 @@ class WaitForTopics:
         self._prepare_ros_node()
 
         # Start spinning
-        self.__ros_spin_thread = Thread(target=self._spin_handle_external_shutdown)
+        self.__ros_spin_thread = Thread(target=self._spin_handle_external_shutdown, daemon=False)
         self.__ros_spin_thread.start()
 
     def _spin_handle_external_shutdown(self):
@@ -93,6 +94,8 @@ class WaitForTopics:
             self.__ros_executor.spin()
         except rclpy.executors.ExternalShutdownException:
             pass
+        finally:
+            self.__ros_executor.shutdown()
 
     def _prepare_ros_node(self):
         node_name = '_test_node_' + ''.join(
@@ -102,7 +105,8 @@ class WaitForTopics:
             name=node_name,
             node_context=self.__ros_context,
             messages_received_buffer_length=self.messages_received_buffer_length,
-            node_namespace=self.node_namespace
+            node_namespace=self.node_namespace,
+            qos_profile=self.qos_profile
         )
         self.__ros_executor.add_node(self.__ros_node)
 
@@ -135,6 +139,7 @@ class WaitForTopics:
 
     def __enter__(self):
         if not self.wait():
+            self.shutdown()
             raise RuntimeError('Did not receive messages on these topics: ',
                                self.topics_not_received())
         return self
@@ -150,7 +155,8 @@ class _WaitForTopicsNode(Node):
         self, name='test_node',
         node_context=None,
         messages_received_buffer_length=None,
-        node_namespace=None
+        node_namespace=None,
+        qos_profile=10
     ) -> None:
         super().__init__(node_name=name, context=node_context, namespace=node_namespace)
         self.msg_event_object = Event()
@@ -161,6 +167,7 @@ class _WaitForTopicsNode(Node):
         self.received_topics = set()
         self.received_messages_buffer = {}
         self.any_publisher_connected = Event()
+        self.qos_profile = qos_profile
 
     def _sub_matched_event_callback(self, info: QoSSubscriptionMatchedInfo):
         if info.current_count != 0:
@@ -193,7 +200,7 @@ class _WaitForTopicsNode(Node):
                         topic_type,
                         topic_name,
                         self.callback_template(topic_name),
-                        10,
+                        self.qos_profile,
                         event_callbacks=sub_event_callback,
                     )
                 )
