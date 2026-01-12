@@ -2,28 +2,21 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.29.5 (2026-01-12)
+0.28.5 (2026-01-12)
 -------------------
-* Fix launch_ros_testing shutdown race in WaitForTopics (`#511 <https://github.com/ros2/launch_ros/issues/511>`_)
 * Give the option to inject a quality of service profile (`#493 <https://github.com/ros2/launch_ros/issues/493>`_)
-* Contributors: Giorgio Pintaudi, Michael Carroll
-
-0.29.4 (2025-11-07)
--------------------
-
-0.29.3 (2025-10-17)
--------------------
-
-0.29.2 (2025-07-29)
--------------------
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_)
 * `WaitForTopics`: wait for publisher-subscriber connection to be established (`#474 <https://github.com/ros2/launch_ros/issues/474>`_)
-* Contributors: Giorgio Pintaudi, mosfet80
+* Contributors: Giorgio Pintaudi
 
-0.29.1 (2025-06-19)
+0.28.4 (2025-11-07)
 -------------------
 
-0.29.0 (2025-04-25)
+0.28.3 (2025-09-15)
+-------------------
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#484 <https://github.com/ros2/launch_ros/issues/484>`_)
+* Contributors: mergify[bot]
+
+0.28.2 (2025-06-23)
 -------------------
 
 0.28.1 (2025-04-18)

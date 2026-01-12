@@ -2,33 +2,24 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.29.5 (2026-01-12)
+0.28.5 (2026-01-12)
 -------------------
 
-0.29.4 (2025-11-07)
+0.28.4 (2025-11-07)
 -------------------
-* Make FindPackage substitutions a Path to get operator / (`#494 <https://github.com/ros2/launch_ros/issues/494>`_)
-* Expose lifecycle_node (`#327 <https://github.com/ros2/launch_ros/issues/327>`_) (with test) (`#482 <https://github.com/ros2/launch_ros/issues/482>`_)
-* Contributors: Emerson Knapp, Jasper van Brakel
+* Make FindPackage substitutions a Path to get operator / (`#494 <https://github.com/ros2/launch_ros/issues/494>`_) (`#498 <https://github.com/ros2/launch_ros/issues/498>`_)
+* Contributors: mergify[bot]
 
-0.29.3 (2025-10-17)
+0.28.3 (2025-09-15)
 -------------------
-* Switch osrf_pycommon dependency to system package (`#431 <https://github.com/ros2/launch_ros/issues/431>`_)
-* Fix SetUseSimTime for launch frontends (`#488 <https://github.com/ros2/launch_ros/issues/488>`_)
-* Contributors: Christophe Bedard, Scott K Logan
+* Fix SetUseSimTime for launch frontends (`#488 <https://github.com/ros2/launch_ros/issues/488>`_) (`#489 <https://github.com/ros2/launch_ros/issues/489>`_)
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#484 <https://github.com/ros2/launch_ros/issues/484>`_)
+* Contributors: mergify[bot]
 
-0.29.2 (2025-07-29)
+0.28.2 (2025-06-23)
 -------------------
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_)
-* Contributors: mosfet80
-
-0.29.1 (2025-06-19)
--------------------
-* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_)
-* Contributors: Emre Kuru
-
-0.29.0 (2025-04-25)
--------------------
+* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_) (`#466 <https://github.com/ros2/launch_ros/issues/466>`_)
+* Contributors: mergify[bot]
 
 0.28.1 (2025-04-18)
 -------------------
