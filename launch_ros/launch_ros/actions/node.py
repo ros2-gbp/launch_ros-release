@@ -14,8 +14,10 @@
 
 """Module for the Node action."""
 
+from importlib import metadata
 import os
 import pathlib
+import sys
 from tempfile import NamedTemporaryFile
 from typing import Dict
 from typing import Iterable
@@ -24,11 +26,6 @@ from typing import Optional
 from typing import Text  # noqa: F401
 from typing import Tuple  # noqa: F401
 from typing import Union
-
-try:
-    import importlib.metadata as importlib_metadata
-except ModuleNotFoundError:
-    import importlib_metadata
 
 from launch.action import Action
 from launch.actions import ExecuteProcess
@@ -373,6 +370,10 @@ class Node(ExecuteProcess):
                 self.node_name if self.is_node_name_fully_specified() else '/**':
                 {'ros__parameters': params}
             }
+
+            def quoted_representor(dumper, data):
+                return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='"')
+            yaml.add_representer(str, quoted_representor)
             yaml.dump(param_dict, h, default_flow_style=False)
             return param_file_path
 
@@ -392,7 +393,6 @@ class Node(ExecuteProcess):
                 self.__expanded_node_name = perform_substitutions(
                     context, normalize_to_list_of_substitutions(self.__node_name))
                 validate_node_name(self.__expanded_node_name)
-            self.__expanded_node_name.lstrip('/')
             expanded_node_namespace: Optional[Text] = None
             if self.__node_namespace is not None:
                 expanded_node_namespace = perform_substitutions(
@@ -566,9 +566,9 @@ def get_extensions(logger):
     global g_entry_points_impl
     group_name = 'launch_ros.node_action'
     if g_entry_points_impl is None:
-        g_entry_points_impl = importlib_metadata.entry_points()
+        g_entry_points_impl = metadata.entry_points()
     entry_points_impl = g_entry_points_impl
-    if hasattr(entry_points_impl, 'select'):
+    if sys.version_info >= (3, 12):
         groups = entry_points_impl.select(group=group_name)
     else:
         groups = entry_points_impl.get(group_name, [])

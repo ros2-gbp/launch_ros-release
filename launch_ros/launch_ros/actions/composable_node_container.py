@@ -26,6 +26,7 @@ from launch.some_substitutions_type import SomeSubstitutionsType
 
 from .node import Node
 
+from ..descriptions import ComposableLifecycleNode
 from ..descriptions import ComposableNode
 
 
@@ -62,12 +63,26 @@ class ComposableNodeContainer(Node):
 
         composable_nodes = entity.get_attr(
             'composable_node', data_type=List[Entity], optional=True)
-        if composable_nodes is not None:
+        composable_lifecycle_nodes = entity.get_attr(
+            'composable_lifecycle_node', data_type=List[Entity], optional=True)
+
+        if composable_lifecycle_nodes is not None or composable_nodes is not None:
             kwargs['composable_node_descriptions'] = []
+
+        if composable_nodes is not None:
             for entity in composable_nodes:
                 composable_node_cls, composable_node_kwargs = ComposableNode.parse(parser, entity)
                 kwargs['composable_node_descriptions'].append(
                     composable_node_cls(**composable_node_kwargs))
+                entity.assert_entity_completely_parsed()
+
+        if composable_lifecycle_nodes is not None:
+            for entity in composable_lifecycle_nodes:
+                composable_node_cls, composable_node_kwargs = ComposableLifecycleNode.parse(
+                    parser, entity)
+                kwargs['composable_node_descriptions'].append(
+                    composable_node_cls(**composable_node_kwargs))
+                entity.assert_entity_completely_parsed()
 
         return cls, kwargs
 
@@ -85,10 +100,7 @@ class ComposableNodeContainer(Node):
                 if node_object.condition() is None or node_object.condition().evaluate(context):
                     valid_composable_nodes.append(node_object)
 
-        if (
-            valid_composable_nodes is not None and
-            len(valid_composable_nodes) > 0
-        ):
+        if valid_composable_nodes:
             from .load_composable_nodes import LoadComposableNodes
             # Perform load action once the container has started.
             load_actions = [

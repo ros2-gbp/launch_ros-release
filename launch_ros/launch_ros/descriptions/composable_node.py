@@ -23,7 +23,6 @@ from launch.frontend import Entity
 from launch.frontend import Parser
 from launch.some_substitutions_type import SomeSubstitutionsType
 from launch.substitution import Substitution
-# from launch.utilities import ensure_argument_type
 from launch.utilities import normalize_to_list_of_substitutions
 from launch_ros.parameters_type import Parameters
 from launch_ros.parameters_type import SomeParameters
@@ -138,8 +137,6 @@ class ComposableNode:
 
             for extra_arg in extra_arguments:
                 extra_arg.assert_entity_completely_parsed()
-
-        entity.assert_entity_completely_parsed()
 
         return cls, kwargs
 

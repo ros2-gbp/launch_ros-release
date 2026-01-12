@@ -1,4 +1,4 @@
-# Copyright 2019 Open Source Robotics Foundation, Inc.
+# Copyright 2025 Open Source Robotics Foundation, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,31 +13,39 @@
 # limitations under the License.
 
 import rclpy
-from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 
 from std_msgs.msg import String
 
 
-class Listener(Node):
+class Repeater(Node):
 
     def __init__(self):
-        super().__init__('listener')
+        super().__init__('repeater')
         self.subscription = self.create_subscription(
-            String, 'chatter', self.callback, 10
+            String, 'input', self.callback, 10
         )
+        self.publisher = self.create_publisher(String, 'output', 10)
 
-    def callback(self, msg: String):
-        self.get_logger().info('I heard: [%s]' % msg.data)
+    def callback(self, input_msg):
+        self.get_logger().info(f'I heard: [{input_msg.data}]')
+        output_msg_data = input_msg.data
+        self.get_logger().info(f'Publishing: "{output_msg_data}"')
+        self.publisher.publish(String(data=output_msg_data))
 
 
 def main(args=None):
+    rclpy.init(args=args)
+
+    node = Repeater()
+
     try:
-        with rclpy.init(args=args):
-            node = Listener()
-            rclpy.spin(node)
-    except (KeyboardInterrupt, ExternalShutdownException):
+        rclpy.spin(node)
+    except KeyboardInterrupt:
         pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
 
 
 if __name__ == '__main__':
