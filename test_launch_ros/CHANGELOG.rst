@@ -2,38 +2,65 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.26.11 (2026-01-12)
---------------------
-
-0.26.10 (2025-11-07)
---------------------
-* Make FindPackage substitutions a Path to get operator / (`#494 <https://github.com/ros2/launch_ros/issues/494>`_) (`#497 <https://github.com/ros2/launch_ros/issues/497>`_)
-* Contributors: mergify[bot]
-
-0.26.9 (2025-09-15)
+0.29.6 (2026-02-09)
 -------------------
-* Fix SetUseSimTime for launch frontends (`#488 <https://github.com/ros2/launch_ros/issues/488>`_) (`#490 <https://github.com/ros2/launch_ros/issues/490>`_)
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#485 <https://github.com/ros2/launch_ros/issues/485>`_)
-* Contributors: mergify[bot]
 
-0.26.8 (2025-06-23)
+0.29.5 (2026-01-12)
 -------------------
-* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_) (`#467 <https://github.com/ros2/launch_ros/issues/467>`_)
-* Contributors: mergify[bot]
 
-0.26.7 (2025-04-02)
+0.29.4 (2025-11-07)
 -------------------
-* Autostarting lifecycle nodes and example launch file demo (`#430 <https://github.com/ros2/launch_ros/issues/430>`_) (`#438 <https://github.com/ros2/launch_ros/issues/438>`_)
-  (cherry picked from commit 3569f0d76c68884ca8796c0134bad29e8732d868)
-  Co-authored-by: Steve Macenski <stevenmacenski@gmail.com>
-* Contributors: mergify[bot]
+* Make FindPackage substitutions a Path to get operator / (`#494 <https://github.com/ros2/launch_ros/issues/494>`_)
+* Expose lifecycle_node (`#327 <https://github.com/ros2/launch_ros/issues/327>`_) (with test) (`#482 <https://github.com/ros2/launch_ros/issues/482>`_)
+* Contributors: Emerson Knapp, Jasper van Brakel
 
-0.26.6 (2024-12-18)
+0.29.3 (2025-10-17)
 -------------------
-* Fix url in setup.py (`#413 <https://github.com/ros2/launch_ros/issues/413>`_) (`#414 <https://github.com/ros2/launch_ros/issues/414>`_)
-  (cherry picked from commit edb63764c39993645fd6bc7e0fc31ed7316f0b45)
-  Co-authored-by: Wei HU <37072526+huweiATgithub@users.noreply.github.com>
-* Contributors: mergify[bot]
+* Switch osrf_pycommon dependency to system package (`#431 <https://github.com/ros2/launch_ros/issues/431>`_)
+* Fix SetUseSimTime for launch frontends (`#488 <https://github.com/ros2/launch_ros/issues/488>`_)
+* Contributors: Christophe Bedard, Scott K Logan
+
+0.29.2 (2025-07-29)
+-------------------
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_)
+* Contributors: mosfet80
+
+0.29.1 (2025-06-19)
+-------------------
+* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_)
+* Contributors: Emre Kuru
+
+0.29.0 (2025-04-25)
+-------------------
+
+0.28.1 (2025-04-18)
+-------------------
+* Add python3-pytest-timeout to test_launch_ros. (`#454 <https://github.com/ros2/launch_ros/issues/454>`_)
+* Autostarting lifecycle nodes and example launch file demo (`#430 <https://github.com/ros2/launch_ros/issues/430>`_)
+* Contributors: Steve Macenski, Tomoya Fujita
+
+0.28.0 (2024-11-20)
+-------------------
+* Add ament_xmllint to the ament_python packages. (`#423 <https://github.com/ros2/launch_ros/issues/423>`_)
+* Contributors: Chris Lalancette
+
+0.27.3 (2024-10-03)
+-------------------
+* Add in a timeout for test_launch_ros. (`#417 <https://github.com/ros2/launch_ros/issues/417>`_)
+* Fix url in setup.py (`#413 <https://github.com/ros2/launch_ros/issues/413>`_)
+* Contributors: Chris Lalancette, Wei HU
+
+0.27.2 (2024-07-29)
+-------------------
+* Revamp the test_load_composable_nodes test. (`#403 <https://github.com/ros2/launch_ros/issues/403>`_)
+* Switch to use rclpy.init context manager. (`#402 <https://github.com/ros2/launch_ros/issues/402>`_)
+* Contributors: Chris Lalancette
+
+0.27.1 (2024-06-17)
+-------------------
+
+0.27.0 (2024-04-26)
+-------------------
 
 0.26.5 (2024-03-28)
 -------------------

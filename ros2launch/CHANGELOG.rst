@@ -2,29 +2,55 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.26.11 (2026-01-12)
---------------------
-
-0.26.10 (2025-11-07)
---------------------
-
-0.26.9 (2025-09-15)
--------------------
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#485 <https://github.com/ros2/launch_ros/issues/485>`_)
-* Contributors: mergify[bot]
-
-0.26.8 (2025-06-23)
+0.29.6 (2026-02-09)
 -------------------
 
-0.26.7 (2025-04-02)
+0.29.5 (2026-01-12)
 -------------------
 
-0.26.6 (2024-12-18)
+0.29.4 (2025-11-07)
 -------------------
-* Fix url in setup.py (`#413 <https://github.com/ros2/launch_ros/issues/413>`_) (`#414 <https://github.com/ros2/launch_ros/issues/414>`_)
-  (cherry picked from commit edb63764c39993645fd6bc7e0fc31ed7316f0b45)
-  Co-authored-by: Wei HU <37072526+huweiATgithub@users.noreply.github.com>
-* Contributors: mergify[bot]
+
+0.29.3 (2025-10-17)
+-------------------
+
+0.29.2 (2025-07-29)
+-------------------
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_)
+* Contributors: mosfet80
+
+0.29.1 (2025-06-19)
+-------------------
+* user control of log file base names, in ros2 launch (`#461 <https://github.com/ros2/launch_ros/issues/461>`_)
+  Co-authored-by: Katherine Scott <katherineAScott@gmail.com>
+* Contributors: Tanishq Chaudhary
+
+0.29.0 (2025-04-25)
+-------------------
+
+0.28.1 (2025-04-18)
+-------------------
+
+0.28.0 (2024-11-20)
+-------------------
+* Add ament_xmllint to the ament_python packages. (`#423 <https://github.com/ros2/launch_ros/issues/423>`_)
+* Contributors: Chris Lalancette
+
+0.27.3 (2024-10-03)
+-------------------
+* Fix url in setup.py (`#413 <https://github.com/ros2/launch_ros/issues/413>`_)
+* Contributors: Wei HU
+
+0.27.2 (2024-07-29)
+-------------------
+
+0.27.1 (2024-06-17)
+-------------------
+* Add mechanism to disable workaround for dependency groups (`#397 <https://github.com/ros2/launch_ros/issues/397>`_)
+* Contributors: Scott K Logan
+
+0.27.0 (2024-04-26)
+-------------------
 
 0.26.5 (2024-03-28)
 -------------------
