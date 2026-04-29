@@ -1,1 +1,1 @@
-{"base": "5c0146d384d2", "parent": "debian/rolling/launch_ros", "previous": "707e63aa592b", "trim": "", "trimbase": ""}
+{"base": "5c45a77d", "parent": "debian/lyrical/launch_ros", "previous": "52a67556", "trim": "", "trimbase": ""}
