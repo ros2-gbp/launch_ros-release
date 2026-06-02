@@ -14,20 +14,12 @@
 
 """Module for a description of a ComposableLifecycleNode."""
 
-from typing import cast
 from typing import List
 from typing import Optional
-from typing import Union
 
 import launch
-from launch.frontend import Entity
-from launch.frontend import Parser
-from launch.some_substitutions_type import SomeSubstitutionsType
-from launch.some_substitutions_type import SomeSubstitutionsType_types_tuple
 from launch.substitution import Substitution
-from launch.utilities import ensure_argument_type
 from launch.utilities import perform_substitutions
-from launch.utilities import type_utils
 from launch_ros.parameters_type import Parameters
 from launch_ros.remap_rule_type import RemapRules
 from launch_ros.utilities import LifecycleEventManager
@@ -40,7 +32,7 @@ class ComposableLifecycleNode(ComposableNode):
 
     def __init__(
         self, *,
-        autostart: Union[bool, SomeSubstitutionsType] = False,
+        autostart: bool = False,
         **kwargs
     ) -> None:
         """
@@ -50,29 +42,9 @@ class ComposableLifecycleNode(ComposableNode):
         """
         super().__init__(**kwargs)
 
-        ensure_argument_type(
-            autostart,
-            list(SomeSubstitutionsType_types_tuple) + [bool],
-            'autostart',
-            'ComposableLifecycleNode'
-        )
-        self.__autostart = cast(
-            Union[bool, List[Substitution]],
-            type_utils.normalize_typed_substitution(autostart, bool)
-        )
-        self.__lifecycle_event_manager = None  # type: Optional[LifecycleEventManager]
+        self.__autostart = autostart
+        self.__lifecycle_event_manager = None
         self.__node_name = super().node_name
-
-    @classmethod
-    def parse(cls, parser: Parser, entity: Entity):
-        """Parse composable_lifecycle_node."""
-        _, kwargs = super().parse(parser, entity)
-
-        autostart = entity.get_attr('autostart', data_type=bool, optional=True, can_be_str=True)
-        if autostart is not None:
-            kwargs['autostart'] = parser.parse_if_substitutions(autostart)
-
-        return cls, kwargs
 
     def init_lifecycle_event_manager(self, context: launch.LaunchContext) -> None:
         # LifecycleEventManager needs a pre-substitution node name
@@ -101,7 +73,7 @@ class ComposableLifecycleNode(ComposableNode):
         return super().node_namespace
 
     @property
-    def node_autostart(self) -> Union[bool, List[Substitution]]:
+    def node_autostart(self):
         """Getter for autostart."""
         return self.__autostart
 

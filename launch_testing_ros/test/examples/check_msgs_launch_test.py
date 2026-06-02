@@ -25,7 +25,6 @@ import launch_ros.actions
 import launch_testing.actions
 from launch_testing.io_handler import ActiveIoHandler
 import launch_testing.markers
-from launch_testing_ros.actions import EnableRmwIsolation
 import pytest
 import rclpy
 from std_msgs.msg import String
@@ -37,7 +36,6 @@ def generate_test_description():
     path_to_test = os.path.dirname(__file__)
 
     return launch.LaunchDescription([
-        EnableRmwIsolation(),
         launch_ros.actions.Node(
             executable=sys.executable,
             arguments=[os.path.join(path_to_test, 'talker.py')],
@@ -55,8 +53,11 @@ class TestFixture(unittest.TestCase):
         self.msg_event_object.set()
 
     def spin(self):
-        while rclpy.ok() and not self.spinning.is_set():
-            rclpy.spin_once(self.node, timeout_sec=0.1)
+        try:
+            while rclpy.ok() and not self.spinning.is_set():
+                rclpy.spin_once(self.node, timeout_sec=0.1)
+        finally:
+            return
 
     def setUp(self):
         rclpy.init()

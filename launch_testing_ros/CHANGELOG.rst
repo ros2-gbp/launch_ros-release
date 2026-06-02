@@ -2,70 +2,39 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.30.0 (2026-05-07)
--------------------
-* Fix launch_testing_ros so it works with pytest 7. (`#543 <https://github.com/ros2/launch_ros/issues/543>`_)
-* Fix Pytest 8/9 compatibility in launch_testing_ros hooks (`#540 <https://github.com/ros2/launch_ros/issues/540>`_)
-* Contributors: Chris Lalancette, Michael Carroll
+0.26.12 (2026-06-02)
+--------------------
+* Correct typos (backport `#524 <https://github.com/ros2/launch_ros/issues/524>`_) (`#526 <https://github.com/ros2/launch_ros/issues/526>`_)
+  Co-authored-by: Auguste Lalande <auguste.lalande@gmail.com>
+  Co-authored-by: Alejandro Hernandez Cordero <ahcorde@gmail.com>
+* Contributors: mergify[bot]
 
-0.29.7 (2026-04-09)
--------------------
-* Add tests isolation in launch_testing_ros (`#528 <https://github.com/ros2/launch_ros//issues/528>`_)
-* Surpressing multi-threaded process warning from flake8. (`#520 <https://github.com/ros2/launch_ros//issues/520>`_)
-* correct typos (`#524 <https://github.com/ros2/launch_ros//issues/524>`_)
-* Contributors: Auguste Lalande, Julien Enoch, Tomoya Fujita
+0.26.11 (2026-01-12)
+--------------------
+* `WaitForTopics`: let the user inject a callaback to be executed after starting the subscribers (backport `#356 <https://github.com/ros2/launch_ros/issues/356>`_) (`#504 <https://github.com/ros2/launch_ros/issues/504>`_)
+* Contributors: mergify[bot]
 
-0.29.6 (2026-02-09)
--------------------
+0.26.10 (2025-11-07)
+--------------------
 
-0.29.5 (2026-01-12)
+0.26.9 (2025-09-15)
 -------------------
-* Fix launch_ros_testing shutdown race in WaitForTopics (`#511 <https://github.com/ros2/launch_ros/issues/511>`_)
-* Give the option to inject a quality of service profile (`#493 <https://github.com/ros2/launch_ros/issues/493>`_)
-* Contributors: Giorgio Pintaudi, Michael Carroll
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#485 <https://github.com/ros2/launch_ros/issues/485>`_)
+* Contributors: mergify[bot]
 
-0.29.4 (2025-11-07)
+0.26.8 (2025-06-23)
 -------------------
 
-0.29.3 (2025-10-17)
+0.26.7 (2025-04-02)
 -------------------
-
-0.29.2 (2025-07-29)
--------------------
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_)
-* `WaitForTopics`: wait for publisher-subscriber connection to be established (`#474 <https://github.com/ros2/launch_ros/issues/474>`_)
-* Contributors: Giorgio Pintaudi, mosfet80
-
-0.29.1 (2025-06-19)
--------------------
-
-0.29.0 (2025-04-25)
--------------------
-
-0.28.1 (2025-04-18)
--------------------
-* `WaitForTopics`: let the user inject a trigger function to be executed after starting the subscribers (`#356 <https://github.com/ros2/launch_ros/issues/356>`_)
-* Add EnableRmwIsolation action for starting rmw_test_fixture (`#459 <https://github.com/ros2/launch_ros/issues/459>`_)
+* Merge pull request `#447 <https://github.com/ros2/launch_ros/issues/447>`_ from ros2/mergify/bp/jazzy/pr-446
+  Fix function params indentation (backport `#446 <https://github.com/ros2/launch_ros/issues/446>`_)
 * Fix function params indentation (`#446 <https://github.com/ros2/launch_ros/issues/446>`_)
-* Contributors: Christophe Bedard, Giorgio Pintaudi, Scott K Logan
+  And add return type.
+  (cherry picked from commit aeff3ca28cfe51c522b04592ec3c7e7077bf2531)
+* Contributors: Alejandro Hernández Cordero, Christophe Bedard
 
-0.28.0 (2024-11-20)
--------------------
-* Add ament_xmllint to the ament_python packages. (`#423 <https://github.com/ros2/launch_ros/issues/423>`_)
-* Contributors: Chris Lalancette
-
-0.27.3 (2024-10-03)
--------------------
-
-0.27.2 (2024-07-29)
--------------------
-* Switch to use rclpy.init context manager. (`#402 <https://github.com/ros2/launch_ros/issues/402>`_)
-* Contributors: Chris Lalancette
-
-0.27.1 (2024-06-17)
--------------------
-
-0.27.0 (2024-04-26)
+0.26.6 (2024-12-18)
 -------------------
 
 0.26.5 (2024-03-28)
