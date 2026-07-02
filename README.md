@@ -1,3 +1,32 @@
+## launch_ros (lyrical) - 0.29.9-1
+
+The packages in the `launch_ros` repository were released into the `lyrical` distro by running `/usr/bin/bloom-release --rosdistro lyrical --track lyrical launch_ros` on `Thu, 02 Jul 2026 15:09:43 -0000`
+
+These packages were released:
+- `launch_ros`
+- `launch_testing_ros`
+- `ros2launch`
+
+These packages were explicitly ignored:
+- `test_launch_ros`
+
+Version of package(s) in repository `launch_ros`:
+
+- upstream repository: https://github.com/ros2/launch_ros.git
+- release repository: https://github.com/ros2-gbp/launch_ros-release.git
+- rosdistro version: `0.29.8-1`
+- old version: `0.29.8-1`
+- new version: `0.29.9-1`
+
+Versions of tools used:
+
+- bloom version: `0.14.3`
+- catkin_pkg version: `1.1.0`
+- rosdep version: `0.26.0`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## launch_ros (rolling) - 0.30.1-1
 
 The packages in the `launch_ros` repository were released into the `rolling` distro by running `/usr/bin/bloom-release --rosdistro rolling --track rolling launch_ros` on `Thu, 02 Jul 2026 15:06:59 -0000`
