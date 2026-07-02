@@ -5,7 +5,7 @@ package_name = 'test_launch_ros'
 
 setup(
     name=package_name,
-    version='0.30.1',
+    version='0.29.9',
     packages=find_packages(exclude=['test']),
     install_requires=[
         'setuptools',
