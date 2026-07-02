@@ -2,58 +2,34 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.29.9 (2026-07-02)
+0.28.6 (2026-07-02)
 -------------------
-* fix: reject deprecated node-name frontend key (`#538 <https://github.com/ros2/launch_ros/issues/538>`_) (`#545 <https://github.com/ros2/launch_ros/issues/545>`_)
+* fix: reject deprecated node-name frontend key (`#538 <https://github.com/ros2/launch_ros/issues/538>`_) (`#546 <https://github.com/ros2/launch_ros/issues/546>`_)
+* Expose lifecycle_node (`#327 <https://github.com/ros2/launch_ros/issues/327>`_) (with test) (`#482 <https://github.com/ros2/launch_ros/issues/482>`_) (`#532 <https://github.com/ros2/launch_ros/issues/532>`_)
+* Correct typos (backport `#524 <https://github.com/ros2/launch_ros/issues/524>`_) (`#525 <https://github.com/ros2/launch_ros/issues/525>`_)
 * Contributors: mergify[bot]
 
-0.29.8 (2026-04-30)
+0.28.5 (2026-01-12)
 -------------------
+* Remove importlib (backport `#508 <https://github.com/ros2/launch_ros/issues/508>`_) (`#509 <https://github.com/ros2/launch_ros/issues/509>`_)
+* Contributors: mergify[bot]
 
-0.29.7 (2026-04-09)
+0.28.4 (2025-11-07)
 -------------------
-* Fix flake8 (`#529 <https://github.com/ros2/launch_ros//issues/529>`_)
-* correct typos (`#524 <https://github.com/ros2/launch_ros//issues/524>`_)
-* Fix regression (`#521 <https://github.com/ros2/launch_ros//issues/521>`_)
-* Fix rhel10 flake8 error (`#515 <https://github.com/ros2/launch_ros//issues/515>`_)
-* Contributors: Auguste Lalande, Michael Carlstrom
+* Make FindPackage substitutions a Path to get operator / (`#494 <https://github.com/ros2/launch_ros/issues/494>`_) (`#498 <https://github.com/ros2/launch_ros/issues/498>`_)
+* Contributors: mergify[bot]
 
-0.29.6 (2026-02-09)
+0.28.3 (2025-09-15)
 -------------------
-* Compatiblity with 'Populate Transitions' `ros2/rcl#1269 <https://github.com/ros2/rcl/issues/1269>`_ (`#495 <https://github.com/ros2/launch_ros/issues/495>`_)
-* Contributors: Jasper van Brakel
+* Fix SetUseSimTime for launch frontends (`#488 <https://github.com/ros2/launch_ros/issues/488>`_) (`#489 <https://github.com/ros2/launch_ros/issues/489>`_)
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#484 <https://github.com/ros2/launch_ros/issues/484>`_)
+* Contributors: mergify[bot]
 
-0.29.5 (2026-01-12)
+0.28.2 (2025-06-23)
 -------------------
-* remove importlib (`#508 <https://github.com/ros2/launch_ros/issues/508>`_)
-* Contributors: Michael Carlstrom
-
-0.29.4 (2025-11-07)
--------------------
-* Make FindPackage substitutions a Path to get operator / (`#494 <https://github.com/ros2/launch_ros/issues/494>`_)
-* Expose lifecycle_node (`#327 <https://github.com/ros2/launch_ros/issues/327>`_) (with test) (`#482 <https://github.com/ros2/launch_ros/issues/482>`_)
-* Contributors: Emerson Knapp, Jasper van Brakel
-
-0.29.3 (2025-10-17)
--------------------
-* Expose composable_lifecycle_node in front-end (`#480 <https://github.com/ros2/launch_ros/issues/480>`_)
-* Switch osrf_pycommon dependency to system package (`#431 <https://github.com/ros2/launch_ros/issues/431>`_)
-* Fix SetUseSimTime for launch frontends (`#488 <https://github.com/ros2/launch_ros/issues/488>`_)
-* Contributors: Christophe Bedard, Jasper van Brakel, Scott K Logan
-
-0.29.2 (2025-07-29)
--------------------
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_)
-* Contributors: mosfet80
-
-0.29.1 (2025-06-19)
--------------------
-* improve type readability in errors (`#469 <https://github.com/ros2/launch_ros/issues/469>`_)
-* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_)
-* Contributors: Emre Kuru, Kenji Brameld
-
-0.29.0 (2025-04-25)
--------------------
+* improve type readability in errors (`#469 <https://github.com/ros2/launch_ros/issues/469>`_) (`#471 <https://github.com/ros2/launch_ros/issues/471>`_)
+* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_) (`#466 <https://github.com/ros2/launch_ros/issues/466>`_)
+* Contributors: mergify[bot]
 
 0.28.1 (2025-04-18)
 -------------------

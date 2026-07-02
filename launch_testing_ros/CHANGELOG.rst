@@ -2,46 +2,26 @@
 Changelog for package launch_testing_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.29.9 (2026-07-02)
+0.28.6 (2026-07-02)
 -------------------
-* Fix Pytest 8/9 compatibility in launch_testing_ros hooks (backport `#540 <https://github.com/ros2/launch_ros/issues/540>`_) (`#541 <https://github.com/ros2/launch_ros/issues/541>`_)
+* Correct typos (backport `#524 <https://github.com/ros2/launch_ros/issues/524>`_) (`#525 <https://github.com/ros2/launch_ros/issues/525>`_)
 * Contributors: mergify[bot]
 
-0.29.8 (2026-04-30)
+0.28.5 (2026-01-12)
 -------------------
-
-0.29.7 (2026-04-09)
--------------------
-* Add tests isolation in launch_testing_ros (`#528 <https://github.com/ros2/launch_ros//issues/528>`_)
-* Surpressing multi-threaded process warning from flake8. (`#520 <https://github.com/ros2/launch_ros//issues/520>`_)
-* correct typos (`#524 <https://github.com/ros2/launch_ros//issues/524>`_)
-* Contributors: Auguste Lalande, Julien Enoch, Tomoya Fujita
-
-0.29.6 (2026-02-09)
--------------------
-
-0.29.5 (2026-01-12)
--------------------
-* Fix launch_ros_testing shutdown race in WaitForTopics (`#511 <https://github.com/ros2/launch_ros/issues/511>`_)
 * Give the option to inject a quality of service profile (`#493 <https://github.com/ros2/launch_ros/issues/493>`_)
-* Contributors: Giorgio Pintaudi, Michael Carroll
-
-0.29.4 (2025-11-07)
--------------------
-
-0.29.3 (2025-10-17)
--------------------
-
-0.29.2 (2025-07-29)
--------------------
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_)
 * `WaitForTopics`: wait for publisher-subscriber connection to be established (`#474 <https://github.com/ros2/launch_ros/issues/474>`_)
-* Contributors: Giorgio Pintaudi, mosfet80
+* Contributors: Giorgio Pintaudi
 
-0.29.1 (2025-06-19)
+0.28.4 (2025-11-07)
 -------------------
 
-0.29.0 (2025-04-25)
+0.28.3 (2025-09-15)
+-------------------
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#484 <https://github.com/ros2/launch_ros/issues/484>`_)
+* Contributors: mergify[bot]
+
+0.28.2 (2025-06-23)
 -------------------
 
 0.28.1 (2025-04-18)

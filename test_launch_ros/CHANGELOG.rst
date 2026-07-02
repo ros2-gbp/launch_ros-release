@@ -2,51 +2,30 @@
 Changelog for package test_launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.29.9 (2026-07-02)
+0.28.6 (2026-07-02)
+-------------------
+* Expose lifecycle_node (`#327 <https://github.com/ros2/launch_ros/issues/327>`_) (with test) (`#482 <https://github.com/ros2/launch_ros/issues/482>`_) (`#532 <https://github.com/ros2/launch_ros/issues/532>`_)
+* Correct typos (backport `#524 <https://github.com/ros2/launch_ros/issues/524>`_) (`#525 <https://github.com/ros2/launch_ros/issues/525>`_)
+* Contributors: mergify[bot]
+
+0.28.5 (2026-01-12)
 -------------------
 
-0.29.8 (2026-04-30)
+0.28.4 (2025-11-07)
 -------------------
-* Add tests for new component container refactor (`#536 <https://github.com/ros2/launch_ros/issues/536>`_)
-* Contributors: Skyler Medeiros
+* Make FindPackage substitutions a Path to get operator / (`#494 <https://github.com/ros2/launch_ros/issues/494>`_) (`#498 <https://github.com/ros2/launch_ros/issues/498>`_)
+* Contributors: mergify[bot]
 
-0.29.7 (2026-04-09)
+0.28.3 (2025-09-15)
 -------------------
-* Surpressing multi-threaded process warning from flake8. (`#520 <https://github.com/ros2/launch_ros//issues/520>`_)
-* correct typos (`#524 <https://github.com/ros2/launch_ros//issues/524>`_)
-* set PYTHONUNBUFFERED to 1 to avoid hangs due to lost buffers (`#519 <https://github.com/ros2/launch_ros//issues/519>`_)
-* Contributors: Auguste Lalande, Clara Berendsen, Tomoya Fujita
+* Fix SetUseSimTime for launch frontends (`#488 <https://github.com/ros2/launch_ros/issues/488>`_) (`#489 <https://github.com/ros2/launch_ros/issues/489>`_)
+* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_) (`#484 <https://github.com/ros2/launch_ros/issues/484>`_)
+* Contributors: mergify[bot]
 
-0.29.6 (2026-02-09)
+0.28.2 (2025-06-23)
 -------------------
-
-0.29.5 (2026-01-12)
--------------------
-
-0.29.4 (2025-11-07)
--------------------
-* Make FindPackage substitutions a Path to get operator / (`#494 <https://github.com/ros2/launch_ros/issues/494>`_)
-* Expose lifecycle_node (`#327 <https://github.com/ros2/launch_ros/issues/327>`_) (with test) (`#482 <https://github.com/ros2/launch_ros/issues/482>`_)
-* Contributors: Emerson Knapp, Jasper van Brakel
-
-0.29.3 (2025-10-17)
--------------------
-* Switch osrf_pycommon dependency to system package (`#431 <https://github.com/ros2/launch_ros/issues/431>`_)
-* Fix SetUseSimTime for launch frontends (`#488 <https://github.com/ros2/launch_ros/issues/488>`_)
-* Contributors: Christophe Bedard, Scott K Logan
-
-0.29.2 (2025-07-29)
--------------------
-* fix setuptools deprecations (`#475 <https://github.com/ros2/launch_ros/issues/475>`_)
-* Contributors: mosfet80
-
-0.29.1 (2025-06-19)
--------------------
-* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_)
-* Contributors: Emre Kuru
-
-0.29.0 (2025-04-25)
--------------------
+* Fix: LoadComposableNodes fails to parse wildcard param files correctly (`#460 <https://github.com/ros2/launch_ros/issues/460>`_) (`#465 <https://github.com/ros2/launch_ros/issues/465>`_) (`#466 <https://github.com/ros2/launch_ros/issues/466>`_)
+* Contributors: mergify[bot]
 
 0.28.1 (2025-04-18)
 -------------------
