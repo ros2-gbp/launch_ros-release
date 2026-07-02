@@ -83,7 +83,7 @@ class ParameterValue:
     def __str__(self) -> Text:
         return (
             'launch_ros.description.ParameterValue'
-            f'(value={self.value}, value_type={self.value_type.__name__})'
+            f'(value={self.value}, value_type={self.value_type})'
         )
 
     def evaluate(self, context: LaunchContext) -> 'EvaluatedParameterValue':
@@ -148,7 +148,7 @@ class Parameter:
     def __str__(self) -> Text:
         return (
             'launch_ros.description.Parameter'
-            f'(name={self.name}, value={self.value}, value_type={self.value_type.__name__})'
+            f'(name={self.name}, value={self.value}, value_type={self.value_type})'
         )
 
     def evaluate(self, context: LaunchContext) -> Tuple[Text, 'EvaluatedParameterValue']:

@@ -19,7 +19,6 @@ Descriptions are not executable and are immutable so they can be reused by launc
 """
 
 from .evaluate_parameters import evaluate_parameters
-from .lifecycle_event_manager import LifecycleEventManager
 from .namespace_utils import is_namespace_absolute
 from .namespace_utils import is_root_namespace
 from .namespace_utils import make_namespace_absolute
@@ -38,7 +37,6 @@ __all__ = [
     'get_node_name_count',
     'is_namespace_absolute',
     'is_root_namespace',
-    'LifecycleEventManager',
     'make_namespace_absolute',
     'normalize_parameters',
     'normalize_parameters_dict',
