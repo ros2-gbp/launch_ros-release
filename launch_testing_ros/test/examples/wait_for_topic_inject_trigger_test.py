@@ -22,6 +22,7 @@ import launch_ros.actions
 import launch_testing.actions
 import launch_testing.markers
 from launch_testing_ros import WaitForTopics
+from launch_testing_ros.actions import EnableRmwIsolation
 import pytest
 from rclpy import qos
 from std_msgs.msg import String
@@ -55,16 +56,8 @@ def trigger_function(node):
 @pytest.mark.launch_test
 @launch_testing.markers.keep_alive
 def generate_test_description():
-    description = [generate_node(), launch_testing.actions.ReadyToTest()]
+    description = [EnableRmwIsolation(), generate_node(), launch_testing.actions.ReadyToTest()]
     return launch.LaunchDescription(description)
-
-
-# TODO: Test cases fail on Windows debug builds
-# https://github.com/ros2/launch_ros/issues/292
-if sys.platform.startswith('win'):
-    pytest.skip(
-            'CLI tests can block for a pathological amount of time on Windows.',
-            allow_module_level=True)
 
 
 class TestFixture(unittest.TestCase):

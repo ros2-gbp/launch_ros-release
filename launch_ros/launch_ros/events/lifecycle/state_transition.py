@@ -15,14 +15,16 @@
 """Module for StateTransition event."""
 
 from typing import Text
+from typing import TYPE_CHECKING
 
 from launch.event import Event
 
 import lifecycle_msgs.msg
 
-if False:
-    # imports here would cause loops, but are only used as forward-references for type-checking
-    from ...actions import LifecycleNode  # noqa: F401
+if TYPE_CHECKING:
+    import builtin_interfaces.msg
+
+    from ...actions import LifecycleNode
 
 
 class StateTransition(Event):
@@ -45,7 +47,7 @@ class StateTransition(Event):
         super().__init__()
         self.__action = action
         self.__msg = msg
-        self.__timestamp = msg.timestamp
+        self.__stamp = msg.stamp
         self.__transition = msg.transition.label
         self.__start_state = msg.start_state.label
         self.__goal_state = msg.goal_state.label
@@ -61,9 +63,9 @@ class StateTransition(Event):
         return self.__msg
 
     @property
-    def timestamp(self) -> int:
-        """Getter for timestamp."""
-        return self.__timestamp
+    def stamp(self) -> 'builtin_interfaces.msg.Time':
+        """Getter for stamp."""
+        return self.__stamp
 
     @property
     def transition(self) -> Text:
