@@ -23,7 +23,6 @@ import launch_ros.actions
 import launch_testing.actions
 import launch_testing.markers
 from launch_testing_ros import WaitForTopics
-from launch_testing_ros.actions import EnableRmwIsolation
 
 import pytest
 
@@ -48,11 +47,7 @@ def generate_node(i: int):
 def generate_test_description():
     # 'n' changes the number of nodes and topics generated for this test
     n = 5
-    description = (
-        [EnableRmwIsolation()] +
-        [generate_node(i) for i in range(n)] +
-        [launch_testing.actions.ReadyToTest()]
-    )
+    description = [generate_node(i) for i in range(n)] + [launch_testing.actions.ReadyToTest()]
     return launch.LaunchDescription(description), {'count': n}
 
 
