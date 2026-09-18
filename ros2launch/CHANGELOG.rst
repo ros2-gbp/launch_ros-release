@@ -2,6 +2,9 @@
 Changelog for package ros2launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.26.13 (2026-09-18)
+--------------------
+
 0.26.12 (2026-06-02)
 --------------------
 * Correct typos (backport `#524 <https://github.com/ros2/launch_ros/issues/524>`_) (`#526 <https://github.com/ros2/launch_ros/issues/526>`_)
