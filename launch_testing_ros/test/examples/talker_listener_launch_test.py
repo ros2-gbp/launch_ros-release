@@ -19,16 +19,22 @@ import unittest
 import uuid
 
 import launch
+from launch.launch_service import LaunchService
 import launch_ros
 import launch_ros.actions
+
 import launch_testing.actions
+from launch_testing.io_handler import ActiveIoHandler
 import launch_testing_ros
+from launch_testing_ros.actions import EnableRmwIsolation
 
 import pytest
 
 import rclpy
+from rclpy.node import Node
 
 import std_msgs.msg
+from std_msgs.msg import String
 
 
 @pytest.mark.rostest
@@ -55,6 +61,7 @@ def generate_test_description():
 
     return (
         launch.LaunchDescription([
+            EnableRmwIsolation(),
             talker_node,
             listener_node,
             # Start tests right away - no need to wait for anything
@@ -86,7 +93,10 @@ class TestTalkerListenerLink(unittest.TestCase):
     def tearDown(self):
         self.node.destroy_node()
 
-    def test_talker_transmits(self, launch_service, talker, proc_output):
+    def test_talker_transmits(self,
+                              launch_service: LaunchService,
+                              talker: Node,
+                              proc_output: ActiveIoHandler):
         # Expect the talker to publish strings on '/talker_chatter' and also write to stdout
         msgs_rx = []
 
@@ -114,7 +124,10 @@ class TestTalkerListenerLink(unittest.TestCase):
         finally:
             self.node.destroy_subscription(sub)
 
-    def test_listener_receives(self, launch_service, listener, proc_output):
+    def test_listener_receives(self,
+                               launch_service: LaunchService,
+                               listener: Node,
+                               proc_output: ActiveIoHandler):
         pub = self.node.create_publisher(
             std_msgs.msg.String,
             'listener_chatter',
@@ -138,10 +151,13 @@ class TestTalkerListenerLink(unittest.TestCase):
         finally:
             self.node.destroy_publisher(pub)
 
-    def test_fuzzy_data(self, launch_service, listener, proc_output):
+    def test_fuzzy_data(self,
+                        launch_service: LaunchService,
+                        listener: Node,
+                        proc_output: ActiveIoHandler):
         # This test shows how to insert a node in between the talker and the listener to
         # change the data.  Here we're going to change 'Hello World' to 'Aloha World'
-        def data_mangler(msg):
+        def data_mangler(msg: String):
             msg.data = msg.data.replace('Hello', 'Aloha')
             return msg
 

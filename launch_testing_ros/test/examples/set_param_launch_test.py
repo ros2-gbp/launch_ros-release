@@ -20,7 +20,9 @@ import launch
 import launch.actions
 import launch_ros.actions
 import launch_testing.actions
+from launch_testing.io_handler import ActiveIoHandler
 import launch_testing.markers
+from launch_testing_ros.actions import EnableRmwIsolation
 import pytest
 from rcl_interfaces.srv import SetParameters
 import rclpy
@@ -32,6 +34,7 @@ def generate_test_description():
     path_to_test = os.path.dirname(__file__)
 
     return launch.LaunchDescription([
+        EnableRmwIsolation(),
         launch_ros.actions.Node(
             executable=sys.executable,
             arguments=[os.path.join(path_to_test, 'parameter_blackboard.py')],
@@ -52,7 +55,7 @@ class TestFixture(unittest.TestCase):
         self.node.destroy_node()
         rclpy.shutdown()
 
-    def test_set_parameter(self, proc_output):
+    def test_set_parameter(self, proc_output: ActiveIoHandler):
         parameters = [rclpy.Parameter('demo_parameter_1', value=True).to_parameter_msg()]
 
         client = self.node.create_client(SetParameters, 'demo_node_1/set_parameters')
