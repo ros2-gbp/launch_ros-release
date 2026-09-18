@@ -2,6 +2,9 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.26.13 (2026-09-18)
+--------------------
+
 0.26.12 (2026-06-02)
 --------------------
 * fix: reject deprecated node-name frontend key (`#538 <https://github.com/ros2/launch_ros/issues/538>`_) (`#547 <https://github.com/ros2/launch_ros/issues/547>`_)
