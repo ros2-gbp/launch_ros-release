@@ -24,9 +24,9 @@ class TestNode(Node):
         self.declare_parameter('demo_parameter_1', False)
 
 
-def main():
+def main(args=None):
     try:
-        with rclpy.init():
+        with rclpy.init(args=args):
             node = TestNode()
             rclpy.spin(node)
     except (KeyboardInterrupt, ExternalShutdownException):
