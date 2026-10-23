@@ -2,17 +2,22 @@
 Changelog for package launch_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.29.10 (2026-10-23)
---------------------
-* Add ament-index resource substitution (`#522 <https://github.com/ros2/launch_ros//issues/522>`_) (`#576 <https://github.com/ros2/launch_ros//issues/576>`_)
-* Contributors: mergify[bot]
-
-0.29.9 (2026-07-02)
+0.30.3 (2026-10-23)
 -------------------
-* fix: reject deprecated node-name frontend key (`#538 <https://github.com/ros2/launch_ros/issues/538>`_) (`#545 <https://github.com/ros2/launch_ros/issues/545>`_)
-* Contributors: mergify[bot]
 
-0.29.8 (2026-04-30)
+0.30.2 (2026-10-06)
+-------------------
+* Use the SPDX identifier Apache-2.0 in license declarations (`#578 <https://github.com/ros2/launch_ros/issues/578>`_)
+* Release ROS adapter resources during shutdown (`#566 <https://github.com/ros2/launch_ros/issues/566>`_)
+* Add ament-index resource substitution (`#522 <https://github.com/ros2/launch_ros/issues/522>`_)
+* Contributors: Michael Carroll, Nathan Wiebe Neufeldt, ktyang
+
+0.30.1 (2026-07-02)
+-------------------
+* fix: reject deprecated node-name frontend key (`#538 <https://github.com/ros2/launch_ros/issues/538>`_)
+* Contributors: Lidang Jiang
+
+0.30.0 (2026-05-07)
 -------------------
 
 0.29.7 (2026-04-09)
